@@ -1,0 +1,45 @@
+<!-- ABOUT US -->
+<div class="about-icon-section">
+  {% for block in section.blocks %}
+  <div class="about-icon-part"> <em><img class="lazyload" src="{{ block.settings.about_content_icon | img_url:'master' }}" alt="{{ block.settings.about_content_title }}"></em>
+    <div class="about-icon">
+      <h3>{{ block.settings.about_content_title }}</h3>
+      {{ block.settings.about_content_text }}
+    </div>
+  </div>
+  {% endfor %}	
+</div>
+      
+{% schema %}
+  {
+    "name": "About",
+    "settings": [],
+    "blocks": [
+      {
+        "type": "About",
+        "name": "About content",
+        "settings": [          
+          {
+            "type": "image_picker",
+            "id": "about_content_icon",
+            "label": "Icon",
+			"info":"Please use 35x35 size image"
+          },
+ 		  {
+            "type": "text",
+            "id": "about_content_title",
+            "label": "Title",
+            "default": "Connect with us on social media!"
+          }, 	
+          {
+            "type": "richtext",
+            "id": "about_content_text",
+            "label": "Content text",
+			"default": "<p>We ship from our partnered warehouses & factories located in US & China.</p>"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+

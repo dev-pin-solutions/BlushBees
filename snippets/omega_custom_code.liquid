@@ -1,0 +1,100 @@
+<script>
+  document.addEventListener('click',function(event){
+    if(event.target.matches('button[name="add"] em')){
+        $.ajax({
+        type: 'GET',
+        url: '/cart.js',
+        dataType: 'json',
+    }).done((cart) => {
+        if (cart.items.length > 0) {
+        let lastItem = cart.items[0];
+        let event_id = generateEventID(36);
+        arrayFBPixelTrack.forEach(function (element, index) {
+            otfbq(
+                `${element}`,
+                'AddToCart',
+                {
+                    content_ids: lastItem['variant_id'],
+                    content_type: 'product',
+                    value: parseInt(cart.total_price) / 100,
+                    content_name: lastItem['product_title'],
+                    currency: Shopify.currency.active,
+                },
+                event_id
+            );
+        });
+            trackEventFBConversionAPI($, {
+                action: 'AddToCart',
+                event_id: event_id,
+                event_source_url: fb_pageURL,
+                content_ids: lastItem['variant_id'],
+                content_type: 'product',
+                value: parseInt(cart.total_price) / 100,
+                content_name: lastItem['product_title'],
+                currency: Shopify.currency.active,
+                pixels: arrayFBPixelTrack,
+                shop: Shopify.shop,
+                obj_fbp_fbc: otGetAttributeFBCAndFBP(),
+            });
+    } else {
+        if (typeof meta.product != 'undefined') {
+            let variant_id = ot_getUrlParam('variant');
+            let event_id = generateEventID(36);
+            arrayFBPixelTrack.forEach(function (element, index) {
+                otfbq(
+                    `${element}`,
+                    'AddToCart',
+                    {
+                        content_ids:
+                            variant_id !== null
+                                ? variant_id
+                                : meta.product.variants[0].id,
+                        content_type: 'product',
+                        value:
+                            parseInt(meta.product.variants[0]['price']) / 100,
+                        content_name: meta.product.variants[0]['name'],
+                        currency: Shopify.currency.active,
+                    },
+                    event_id
+                );
+            });
+                trackEventFBConversionAPI($, {
+                    action: 'AddToCart',
+                    event_id: event_id,
+                    event_source_url: fb_pageURL,
+                    content_ids:
+                        variant_id !== null
+                            ? variant_id
+                            : meta.product.variants[0].id,
+                    content_type: 'product',
+                    value: parseInt(meta.product.variants[0]['price']) / 100,
+                    content_name: meta.product.variants[0]['name'],
+                    currency: Shopify.currency.active,
+                    pixels: arrayFBPixelTrack,
+                    shop: Shopify.shop,
+                    obj_fbp_fbc: otGetAttributeFBCAndFBP(),
+                });
+        } else {
+            let event_id = generateEventID(36);
+            arrayFBPixelTrack.forEach(function (element, index) {
+                otfbq(`${element}`, 'AddToCart', {}, event_id);
+            });
+        }
+    }
+    });
+    }
+})
+  
+  function generateEventID(length) {
+    var a =
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'.split(
+            ''
+        );
+    var b = [];
+    for (var i = 0; i < length; i++) {
+        var j = (Math.random() * (a.length - 1)).toFixed(0);
+        b[i] = a[j];
+    }
+    return b.join('');
+}
+</script>

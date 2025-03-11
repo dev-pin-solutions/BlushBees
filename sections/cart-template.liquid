@@ -1,0 +1,376 @@
+<div data-section-id="{{ section.id }}" data-section-type="cart-template">
+
+  {% if cart.item_count > 0 %}
+  
+  <form action="{{ routes.cart_url }}" method="post" novalidate class="cart">
+      
+      <!-- CART -->
+      <section class="cart-section small-container">
+        <div class="container">
+          <div class="title-desc">
+            <div class="row">
+              <div class="cart-title col-md-7 col-xs-12">
+                <h2>Shopping cart</h2>
+              </div>
+              {% if section.settings.enable_top_checkout_button %}
+              <div class="cart-checkout-btn-part col-md-5 col-xs-12">
+                <button type="submit" name="checkout" class="checkout-btn">Continue to Checkout &raquo;</button>
+              </div>
+              {% endif %}
+            </div>
+            <hr/>
+          </div>
+          
+          <div class="cart">
+            <ul class="shopCart">
+              {% for item in cart.items %}
+              <li>
+                <div class="tt-img">
+                  <figure><a href="{{ item.url }}"><img class="lazyload" src="{{ item | img_url: 'medium', scale: 2 }}" alt="{{ item.title | escape }}"></a></figure>
+                </div>
+                <div class="tt-name" data-label="Product">
+                  <a href="{{ item.url }}">{{ item.product.title }}</a>
+                  {% unless item.variant.title contains 'Default' %}
+                  <div class="cart__meta-text">
+                    {% for option in item.product.options %}
+                    {{ option }}: {{ item.variant.options[forloop.index0] }}<br/>
+                    {% endfor %}
+                  </div>
+                  {% endunless %}
+                  {% comment %}
+                  <br/>
+                  <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&amp;quantity=0" class="btn btn--small cart__remove">{{ 'cart.general.remove' | t }}</a>
+                  {% endcomment %}
+                </div>
+                <div class="tt-quantity" data-label="Quantity">
+                  <ul class="QuantityBox">
+                    <li class="minus-box"> <a href="javascript:void(0)" class="minus cart_qty"> <em class="fa fa-minus"></em> </a> </li>
+                    <li class="input-box">
+                      <input type="text" name="updates[]" id="updates_{{ item.key }}" value="{{ item.quantity }}" pattern="[0-9]*" class="QuantityInput" readonly>
+                    </li>
+                    <li class="plus-box"> <a href="javascript:void(0)" class="plus cart_qty"> <em class="fa fa-plus"></em> </a> </li>
+                  </ul>
+                  <span class="show_mobile">{{ item.line_price | money }}</span>
+                </div>
+                <div class="tt-price" data-label="Total"> <span>{{ item.line_price | money }}</span> </div>
+              </li>
+              {% endfor %}
+            </ul>
+            <div class="row">
+              <div class="col-md-6 col-xs-12">
+                <div class="cart-discount">                 
+                  {% if section.settings.enable_discount_box %}
+                  <h3>{{ section.settings.discount_text_title }}</h3>
+                  <input type="text" name="discount" placeholder="Enter Your Discount Code">
+                  <p>{{ section.settings.discount_text }}</p>
+                  <br/>
+                  {% endif %}                  
+                  {% if section.settings.enable_cart_notes %}              
+                  <label for="CartSpecialInstructions">{{ 'cart.general.note' | t }}</label>
+                  <textarea name="note" class="input-full" id="CartSpecialInstructions">{{ cart.note }}</textarea>               
+                  {% endif %}                
+                </div>
+              </div>
+              <div class="col-md-6 col-xs-12">
+                <div class="cart-total">
+                  <h4>Subtotal: <span>{{ cart.total_price | money }}</span></h4>                  
+                  {% if section.settings.enable_cart_timer %}
+                  <p class="cart_counter"></p>
+                  
+                  <script>
+                    var timer_text = '{{ section.settings.cart_timer_text }}';
+                    var expiry_text = '{{ section.settings.cart_expiry_text }}';
+                    var timer_in_seconds = '{{ section.settings.cart_timer_in_seconds }}';
+                    var timer_in_minute = timer_in_seconds/60;   
+
+                    function createCookie(a, b, c) {
+                      if (c) {
+                        var d = new Date;
+                        d.setTime(d.getTime() + c * 60 * 1e3);
+                        var e = "; expires=" + d.toUTCString()
+                        } else var e = "";
+                      document.cookie = a + "=" + b + e + "; path=/"
+                    }
+
+                    function readCookie(a) {
+                      for (var b = a + "=", c = document.cookie.split(";"), d = 0; d < c.length; d++) {
+                        for (var e = c[d];
+                             " " == e.charAt(0);) e = e.substring(1, e.length);
+                        if (0 == e.indexOf(b)) return e.substring(b.length, e.length)
+                          }
+                      return null
+                    }
+
+                    function eraseCookie(a) {
+                      createCookie(a, "", -1)
+                    }
+
+                    function crtmedir(a) {
+                      var b = document.createDocumentFragment(),
+                          c = document.createElement("div");
+                      for (c.innerHTML = a; c.firstChild;) b.appendChild(c.firstChild);
+                      return b
+                    }
+
+                    function startTimer(start, duration, display) {
+                      var diff, minutes, seconds;
+
+                      function timer() {
+                        diff = duration - (((Date.now() - start) / 1000) | 0);
+                        minutes = (diff / 60) | 0;
+                        seconds = (diff % 60) | 0;
+                        minutes = minutes < 10 ? "0" + minutes : minutes;
+                        seconds = seconds < 10 ? "0" + seconds : seconds;
+                        display.textContent = minutes + ":" + seconds;
+                        if (diff <= 0) {
+                          clearInterval(inti);
+                          document.getElementById("countdownhere").innerHTML = expiry_text;
+                          start = Date.now() + 1000;
+                        }
+                      };
+                      timer();
+                      var inti = setInterval(timer, 1000);                    
+
+                    }                  
+
+                    var pdm = crtmedir('<div class="countdownholder"><div id="countdownhere">'+ timer_text +' <span id="time"></span></div></div>');
+                    if (window.location.href.indexOf('cart') > -1) {
+                      window.onload = function() {
+                        document.getElementsByClassName('cart_counter')[0].appendChild(pdm);
+                        var dolzina = timer_in_minute;
+                        var ten = 60 * dolzina;
+                        var starttime = Date.now();
+                        var xcnt = readCookie('prtcntdwn');
+                        if (xcnt) {
+                          if (starttime < xcnt) {
+                            ten = (xcnt - starttime) / 1000;
+                          } else {
+                            eraseCookie('ptcntdwn');
+                            createCookie('prtcntdwn', Date.now() + (ten * 1000), ten + 1);
+                          }
+                        } else {
+                          createCookie('prtcntdwn', Date.now() + (ten * 1000), ten + 1);
+                        }
+                        display = document.querySelector('#time');
+                        startTimer(starttime, ten, display);                       
+                      };
+                    }
+                  </script>
+                  {% endif %}                                 
+                  <button type="submit" name="update" class="checkout-btn update-btn hide">Update</button>                 
+                  <button type="submit" name="checkout" class="checkout-btn">Continue to Checkout &raquo;</button>
+                  
+                  {% if section.settings.enable_benefit_points %}
+                  <div class="cart-checkbox">
+                  {{ section.settings.benefit_points }}
+                  </div>
+                  {% endif %}
+                  
+                </div>
+              </div>
+            </div>
+            
+            {% if section.settings.enable_cart_blurb %} 
+            <hr>
+            <div class="cart-discount-code-part">  
+              <div class="row">
+                {% if section.settings.blurb_image %}
+                <figure class="col-md-4 col-xs-12">
+                  <img src="{% if section.settings.blurb_image.size > 0 %}{{ section.settings.blurb_image | img_url: 'master' }}{% else %}{{ 'cart_happy.png' | asset_url }}{% endif %}" alt="{{ section.settings.blurb_image.alt }}">
+                </figure>
+                {% endif %}
+                <div class="col-md-8 col-xs-12">
+                  <h5>{{ section.settings.blurb_title }}</h5>
+                  {{ section.settings.blurb_content }}
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            <div class="row">
+              <div class="col-md-6 col-xs-12">
+                <div class="we-gladly">
+                  <h3>{{ section.settings.payment_badge_title }}</h3>
+                  <img src="{% if section.settings.payment_badge_image.size > 0 %}{{ section.settings.payment_badge_image | img_url: 'master' }}{% else %}{{ 'cart_cards.png' | asset_url }}{% endif %}" alt="{{ section.settings.payment_badge_image.alt }}">
+                </div>
+              </div>
+              <div class="col-md-6 col-xs-12">
+                <div class="we-gladly">
+                  <h3>{{ section.settings.trust_badge_title }}</h3>
+                  <img src="{% if section.settings.trust_badge_image.size > 0 %}{{ section.settings.trust_badge_image | img_url: 'master' }}{% else %}{{ 'cart_trust.png' | asset_url }}{% endif %}" alt="{{ section.settings.trust_badge_image.alt }}">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>      
+    </form>
+  
+  {% else %}
+    <div class="empty-page-content text-center">
+      <h1>{{ 'cart.general.title' | t }}</h1>
+      <p class="cart--empty-message">{{ 'cart.general.empty' | t }}</p>
+      <div class="cookie-message">
+        <p>{{ 'cart.general.cookies_required' | t }}</p>
+      </div>
+      <a href="{{ routes.root_url }}" class="btn btn--has-icon-after cart__continue-btn">{{ 'general.404.link' | t }}{% include 'icon-arrow-right' %}</a>
+    </div>
+  {% endif %}
+</div>
+
+<script>  
+  $('.plus-box, .minus-box').on('click', function(event){    
+    $('.update-btn').trigger('click');
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Cart page",
+    "settings": [
+	   {
+        "type": "header",
+        "content": "Checkout Button"
+       },
+       {
+        "type": "checkbox",
+        "id": "enable_top_checkout_button",
+        "label": "Enable Top Checkout Button",
+        "default": true
+      },
+	  {
+        "type": "header",
+        "content": "Discount"
+      },
+	  {
+        "type": "checkbox",
+        "id": "enable_discount_box",
+        "label": "Enable Discount Box",
+        "default": true
+      },
+	  {
+        "type": "text",
+        "id": "discount_text_title",
+        "label": "Discount Title",
+        "default": "Discount code"
+      },
+	  {
+        "type": "text",
+        "id": "discount_text",
+        "label": "Discount text",
+		"default":"Discount code will work on checkout page"
+      },
+	  {
+        "type": "header",
+        "content": "Cart Notes"
+      },
+	  {
+        "type": "checkbox",
+        "id": "enable_cart_notes",
+        "label": "Enable Cart Notes",
+        "default": true
+      },
+	  {
+        "type": "header",
+        "content": "Cart Timer"
+      },
+	  {
+        "type": "checkbox",
+        "id": "enable_cart_timer",
+        "label": "Enable Cart Timer",
+        "default": true
+      },
+	  {
+        "type": "text",
+        "id": "cart_timer_in_seconds",
+        "label": "Cart Timer In Seconds",
+        "default": "600",
+		"info":"Example: 600 second left = 10 minutes left"
+      },
+	  {
+        "type": "text",
+        "id": "cart_timer_text",
+        "label": "Cart Timer Text",
+        "default": "Due To HIGH Demand, Cart Expires In:"
+      },
+	  {
+        "type": "text",
+        "id": "cart_expiry_text",
+        "label": "Cart Expiry Text",
+        "default": "Order reservation ended."
+      },
+	  {
+        "type": "header",
+        "content": "Benefit Points"
+      },
+	  {
+        "type": "checkbox",
+        "id": "enable_benefit_points",
+        "label": "Enable Benefit Points",
+        "default": true
+      },
+	  {
+        "type": "textarea",
+        "id": "benefit_points",
+        "label": "Benefit Points",
+        "default": "Congratulations! You Have Secured The BEST DEAL Today"
+      },
+	  {
+        "type": "header",
+        "content": "Cart Blurb"
+      },
+	  {
+        "type": "checkbox",
+        "id": "enable_cart_blurb",
+        "label": "Enable Cart Blurb",
+        "default": true
+      },
+	  {
+        "type": "image_picker",
+        "id": "blurb_image",
+        "label": "Blurb Image"
+      },
+	  {
+        "type": "text",
+        "id": "blurb_title",
+        "label": "Blurb Title",
+        "default": "Discount code"
+      },
+	  {
+        "type": "textarea",
+        "id": "blurb_content",
+        "label": "Blurb Content",
+        "default": "FREE shipping on select items"
+      },
+	  {
+        "type": "header",
+        "content": "Payment Badge"
+      },
+	  {
+        "type": "text",
+        "id": "payment_badge_title",
+        "label": "Payment Badge Title",
+        "default": "We Gladly Accept"
+      },
+	  {
+        "type": "image_picker",
+        "id": "payment_badge_image",
+        "label": "Payment Badge Image"
+      },
+	  {
+        "type": "header",
+        "content": "Trust Badge"
+      },
+	  {
+        "type": "text",
+        "id": "trust_badge_title",
+        "label": "Trust Badge Title",
+        "default": "We Gladly Accept"
+      },
+	  {
+        "type": "image_picker",
+        "id": "trust_badge_image",
+        "label": "Trust Badge Image"
+      }
+    ]
+  }
+{% endschema %}

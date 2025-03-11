@@ -1,0 +1,117 @@
+<div class="collection-sort-wrap">
+  {% if section.settings.sort_enable %}
+  <p>Sort By</p>
+  <select name="sortBy" id="sortBy">
+    <option value="manual">Featured</option>
+    <option value="best-selling">Best Selling</option>
+    <option value="title-ascending">Alphabetically, A-Z</option>
+    <option value="title-descending">Alphabetically, Z-A</option>
+    <option value="price-ascending">Price, low to high</option>
+    <option value="price-descending">Price, high to low</option>
+    <option value="created-descending">Date, new to old</option>
+    <option value="created-ascending">Date, old to new</option>
+  </select>
+  <script type="text/javascript">
+    Shopify.queryParams = {};
+    if (location.search.length) {
+      for (var aKeyValue, i = 0, aCouples = location.search.substr(1).split('&'); i < aCouples.length; i++) {
+        aKeyValue = aCouples[i].split('=');
+        if (aKeyValue.length > 1) {
+          Shopify.queryParams[decodeURIComponent(aKeyValue[0])] = decodeURIComponent(aKeyValue[1]);
+        }
+      }
+    }
+    jQuery(function() {
+      jQuery('#sortBy')
+      // select the current sort order
+      .val('{{ collection.sort_by | default: collection.default_sort_by | escape }}')
+           .bind('change', function() {
+        Shopify.queryParams.sort_by = jQuery(this).val();
+        location.search = jQuery.param(Shopify.queryParams).replace(/\+/g, '%20');
+      }
+      );
+    });
+  </script> 
+  {% endif %}
+
+  {% if section.settings.enable_price_slider %}
+
+  <div class="wc_show_price_converter">
+    <p>Price</p>
+    {% assign low_price = collection.products | sort: 'price'  -%}
+    {% assign min_price = low_price[0].price_min | divided_by: 100 -%}
+    {% assign high_price = collection.products | sort: 'price'  -%}
+    {% assign max_price = high_price[-1].price_max | divided_by: 100 -%}
+    <div class="product-price">
+
+      <input type="range" class="rangePrice" id="prod-price">
+      <h6 id="prod-results">Price:</h6>
+
+      <div class="filter-1 hide" id="lowest_price">{{ products[0].price_min | divided_by: 100 }}</div>
+      <div class="filter-2 hide" id="highest_price">{{ products[last_product].price | divided_by: 100 }}</div>
+
+      <script type="text/javascript">
+
+        function change_rangSlider(){
+
+          var high_price = '{{ max_price }}';
+          var lowest_price = '{{ min_price }}';
+
+          var $range_prod = $("#prod-price"),
+              $result_prod = $("#prod-results");
+
+          var track_prod = function(){
+            var $this = $(this), from = $this.data("from"), to = $this.data("to");
+            $result_prod.html("<span class='money'>" + "$" + from + "</span>" + "<em>" + " - " + "</em>" + "<span class='money'>" + "$" + to + "</span>");
+          };
+
+          $range_prod.ionRangeSlider({
+            type: "double",
+            min: lowest_price,
+            max: high_price,
+            from: lowest_price,
+            to: high_price,
+            hide_min_max: true,
+            hide_from_to: true,
+            onFinish: function(num) {
+              $('.collection-wrap .product_grid').hide().filter(function() {
+                var price = parseInt($(this).data("price"), 10);
+                return price >= num.from && price <= num.to;
+              }).show();
+
+              var max = -1;
+              $(".product-grid-desc").css('min-height', 'auto'); 	
+              $('.product-grid-desc').each(function() {
+                var minHeight = $(this).innerHeight();
+                max = minHeight > max ? minHeight : max;              
+              });  
+              $(".product-grid-desc").css('min-height',max) 
+            }
+          });
+
+          $range_prod.on("change", track_prod);
+          $result_prod.html("<span class='money'>" + "$" + lowest_price*100 + "</span>" + "<em>" + " - " + "</em>" + "<span class='money'>" + "$" + high_price*100 + "</span>");
+        }
+        $(function(){
+          change_rangSlider();
+          var wc_shop_currency = '{{ shop.currency }}';
+          if($.cookie("currency") == 'USD' && wc_shop_currency == 'USD'){
+            $('.wc_show_price_converter').addClass('show_price_filter');
+          } else{
+            $('.wc_show_price_converter').removeClass('show_price_filter');
+          }
+        });
+
+        $(document).on('shopify:section:load', change_rangSlider)
+        .on('shopify:section:unload', change_rangSlider)
+        .on('shopify:section:select', change_rangSlider)
+        .on('shopify:section:deselect', change_rangSlider)
+        .on('shopify:block:select', change_rangSlider)
+        .on('shopify:block:deselect', change_rangSlider);
+      </script>
+
+    </div>
+  </div>
+
+  {% endif %}
+</div>

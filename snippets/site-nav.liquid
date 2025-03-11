@@ -1,0 +1,67 @@
+<nav class="topbar-nav WFwrap">
+  <ul class="metismenu">
+    {%- for link in linklists[section.settings.main_linklist].links -%}
+      {%- assign link_handle = link.title | handleize -%}
+      {%- assign three_level_nav = false -%}
+      {%- if link.links != blank -%}
+        {%- if link.levels == 2 -%}
+          {%- assign three_level_nav = true -%}
+        {%- endif -%}
+      {%- endif -%}
+      {%- if link.links != blank -%}
+        {%- if three_level_nav -%}
+          <li class="nav-item nb-sub-nav sub_col_{{ linklists[link_handle].links.size }} {% if link.active %}active{% endif %}" data-dropdown-rel="{{ link.title | handle }}" data-id="megamenu_{{ link_handle }}">
+            <a href="{{ link.url }}" >{{ link.title }}</a>
+            <span class="arrow-icon"><em class="down-icon">{% include 'icon-chevron-down' %}</em></span>
+            <ul class="submenu wc_submenu_content" data-id="megamenu_{{ link_handle }}">
+              {%- for childlink in link.links -%}
+                {%- assign child_list_handle = childlink.title | handle -%}              
+                {%- assign count = forloop.index -%}
+                <li class="sub-menu-item {% unless linklists[grand_child_list_handle].links != blank %} wc_submenu_item {% endunless %}{% if link.active %}active{% endif %}">                 
+                  <a href="{{ childlink.url }}" class="child-link-title">{{ childlink.title | escape }}</a>
+                  {%- assign grand_child_list_handle = childlink.title | handle -%}
+                  {%- if linklists[grand_child_list_handle].links != blank -%}
+                  <span class="arrow-icon"><em class="down-icon">{% include 'icon-chevron-down' %}</em></span>
+                  {%- endif -%}
+                  {%- if linklists[grand_child_list_handle].links != blank -%}                
+                  <ul class="submenu">
+                    {%- for grand_child_link in linklists[child_list_handle].links -%}
+                    <li {% if link.active %}class="active"{% endif %}>{{ grand_child_link.title | link_to: grand_child_link.url }}</li>
+                    {%- endfor -%}
+                  </ul>
+                  {%- endif -%}
+                </li>
+              {%- endfor -%}
+            </ul>
+          </li>
+        {%- else -%}
+          <li class="nav-item nb-sub-nav wc_submenu_cls  {% if link.active %}active{% endif %}" data-dropdown-rel="{{ link.title | handle }}" data-id="megamenu_{{ link.title | handleize }}">
+            <a href="{{ link.url }}" >{{ link.title }} </a>
+            <span class="arrow-icon"><em class="down-icon">{% include 'icon-chevron-down' %}</em></span>
+            <ul class="submenu wc_submenu_content" data-id="megamenu_{{ link_handle }}">
+              <ul class="subnav_content">
+                {%- for childlink in link.links -%}
+                  <li class="sub-menu-item {% if link.active %}active{% endif %}">
+                    <a href="{{ childlink.url }}">
+                      {{ childlink.title | escape }}
+                    </a>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </ul>
+          </li>
+        {%- endif -%}
+      {%- else -%}
+        <li class="nav-item mega_menu_item {% if link.active %}active{% endif %}" data-dropdown-rel="{{ link.title | handle }}" data-id="megamenu_{{ link.title | handleize }}"> <a href="{{ link.url }}" >{{ link.title }}</a></li>
+      {%- endif -%}
+    {%- endfor -%}
+   {% if shop.customer_accounts_enabled %}{%- if customer -%}
+      <li class="nav-item mega_menu_item wc_mobile_nav_item {% if link.active %}active{% endif %}"><a href="{{ routes.account_url }}">Account</a></li>
+      <li class="nav-item mega_menu_item wc_mobile_nav_item"><a href="{{ routes.account_logout_url }}">Logout</a></li>
+    {%- else -%}
+      <li class="nav-item mega_menu_item wc_mobile_nav_item {% if link.active %}active{% endif %}"><a href="{{ routes.account_login_url }}">Login</a></li>
+      <li class="nav-item mega_menu_item wc_mobile_nav_item {% if link.active %}active{% endif %}"><a href="{{ routes.account_register_url }}">Register</a></li>
+    {%- endif -%}
+    {%- endif -%}
+  </ul>
+</nav>

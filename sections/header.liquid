@@ -1,0 +1,211 @@
+<!-- MOBILE MENU -->
+<div class="side-menu sidebar-inverse">
+  <nav class="navbar navbar-default">
+    <div class="side-menu-container">    
+   <div class="navbar-header">
+        <div style="display: inline-block;"><h4>
+          <a href="{{ routes.root_url }}" style="max-width:{{ settings.desktop_logo_width }}px;">
+            <img src="{% if settings.mobile_logo.size > 0 %}{{ settings.mobile_logo | img_url: 'master' }}{% else %}{{ 'dropshipthemelogo.png' | asset_url }}{% endif %}" alt="{{ settings.mobile_logo.alt }}" style="max-width:65%;">
+          </a>
+        </h4></div> {%- if section.settings.show_currency_picker and settings.show_multiple_currencies -%}<div style="width: 75px;float: right;display: inline-block;padding-top: 10px;vertical-align: middle;"><ul>
+                {%- include 'currency-picker' -%}
+          </ul></div>
+        {%- endif -%}
+       
+      </div>
+      {% include 'site-nav' %}
+      <button class="close-nav">X</button>
+    </div>
+    <!-- /.navbar-collapse -->
+  </nav>
+</div>
+
+<!-- NAV BAR -->
+<div class="nav-bar-section {% if section.settings.hide_top_strip_on_mobile %}show_desktop{% endif %}">
+  <div class="container">
+    <div class="nav-bar-part">
+      <div class="nav-bar-wrap_custom">
+        <p>{{ section.settings.announcement_first_text }}</p>
+          <p>{{ section.settings.announcement_second_text }}</p>
+          <p>{{ section.settings.announcement_third_text }}</p>
+
+      </div>
+        <div class="nav-bar-wrap_custom_mobile">
+            <div class="top_nav_block">
+                <p>{{ section.settings.announcement_first_text }}</p>
+            </div>
+           <div class="bottom_nav_block">
+               <p>{{ section.settings.announcement_second_text }}</p>
+               <p>{{ section.settings.announcement_third_text }}</p>
+           </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="nav-section WFwrap{% if section.settings.mobile_header_layout == 'mobile-layout-2' %} wc_header_mobile_layout_2{% endif %}">
+    <div class="container">
+      <div class="header-section">
+        <div class="col-md-3 col-xs-12">
+          <div class="header-logo">
+            <figure>
+              <a href="{{ routes.root_url }}" style="max-width:{{ settings.desktop_logo_width }}px;">
+                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{% if settings.desktop_logo.size > 0 %}{{ settings.desktop_logo | img_url: 'master' }}{% else %}{{ 'dropshipthemelogo.png' | asset_url }}{% endif %}" alt="{{ settings.desktop_logo.alt }}" class="show_desktop lazyload" style="max-width:{{ settings.desktop_logo_width }}px;">
+                <img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{% if settings.mobile_logo.size > 0 %}{{ settings.mobile_logo | img_url: 'master' }}{% else %}{{ 'dropshipthemelogo.png' | asset_url }}{% endif %}" alt="{{ settings.mobile_logo.alt }}" class="show_mobile  lazyload" style="max-width:{{ settings.mobile_logo_width }};">
+              </a>
+            </figure>
+          </div>
+        </div>
+          <div class="custom-menu-wrapper col-md-6 col-xs-12">
+              <nav class="custom-menu">
+                  {%- for link in linklists[section.settings.main_linklist].links -%}
+                      <a href="{{ link.url }}" class="menu-item {% if link.active %}active{% endif %}">
+                          {{ link.title }}
+                      </a>
+                  {%- endfor -%}
+              </nav>
+          </div>
+        <div class="col-md-3 col-xs-12">
+          <div class="header-search">
+            <div class="menu-icon">
+           <div id="nav-icon"> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> </div>
+            </div>
+            <ul>
+              <li id="search-form">
+                <div class="search-part">
+                  <form action="{{ routes.search_url }}" method="get">
+                    <input type="text" name="q" placeholder="Search Our Store...">
+                    {% include 'wc-icon-search' %}
+                  </form>
+                </div>
+              </li>
+              <li id="search"><a href="#">{% include 'wc-icon-search' %}</a></li>
+
+              {%- if section.settings.show_currency_picker and settings.show_multiple_currencies -%}
+                {%- include 'currency-picker' -%}
+              {%- endif -%}
+                {% if shop.customer_accounts_enabled %}
+                {% endif %}
+                    {% if customer %}
+                        <li>
+                            <a href="{{ routes.account_url }}">
+                                <em>{% include 'wc-icon-login' %}</em>
+                            </a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="{{ routes.account_login_url }}">
+                                <em>{% include 'wc-icon-login' %}</em>
+                            </a>
+                        </li>
+                    {% endif %}
+              <li>
+                <a href="{{ routes.cart_url }}">
+                  <em>{% include 'wc-icon-cart' %}</em>
+                  <span class="count_item cart_qty_cls">{{cart.item_count}}</span>
+                  <div class="subToggle" id="CartContainer"></div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="menu-part WFwrap grid-mobile-none {% unless section.settings.enable_menu_fix_on_scroll %}no-stickytop{% endunless %}">
+    <div class="container">
+      {% include 'site-nav' %}
+    </div>
+  </div>
+  <!-- MOBILE SEARCH -->
+  <div class="mobile-search WFwrap">
+    <div class="search-part">
+      <form action="{{ routes.search_url }}" method="get">
+        <input type="text" name="q" placeholder="Search Our Store...">
+        <button type="submit" class="btn">search</button>
+      </form>
+    </div>
+  </div>
+</header>
+<script>document.addEventListener("startasyncloading",function(){document.querySelectorAll("iframe[data-src], script[data-src]").forEach(a=>{datasrc=a.dataset.src,null!=datasrc&&(a.src=datasrc), delete a.dataset.src})});</script>
+ 
+
+{% schema %}
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Top Strip"
+      },
+      {
+        "type": "text",
+        "id": "announcement_first_text",
+        "label": "Announcement first text",
+        "default": "Use Code <span>BLUSH10 </span>& Get Surprise Discount"
+      },
+      {
+        "type": "text",
+        "id": "announcement_second_text",
+        "label": "Announcement second text",
+        "default": "15 Days Easy Return on All Orders"
+      },
+      {
+        "type": "text",
+        "id": "announcement_third_text",
+        "label": "Announcement third text",
+        "default": "Lifetime Warranty"
+      },
+	  {
+        "type": "checkbox",
+        "id": "hide_top_strip_on_mobile",
+        "label": "Hide Top Strip On Mobile",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_currency_picker",
+        "label": "Show currency picker",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Header Menu"
+      },
+      {
+        "type": "link_list",
+        "id": "main_linklist",
+        "label": "Header Menu",
+        "default": "main-menu"
+      },
+	  {
+        "type": "checkbox",
+        "id": "enable_menu_fix_on_scroll",
+        "label": "Enable menu fix on scroll",
+        "default": false
+      },
+	  {
+        "type": "header",
+        "content": "Mobile Header Layout"
+      },
+	  {
+        "type": "select",
+        "id": "mobile_header_layout",
+        "label": "Select mobile header layout",
+        "default": "mobile-layout-1",
+        "options": [
+          {
+            "value": "mobile-layout-1",
+            "label": "Separate Logo"
+          },
+          {
+            "value": "mobile-layout-2",
+            "label": "Inline Logo"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

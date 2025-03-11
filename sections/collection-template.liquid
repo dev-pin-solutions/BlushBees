@@ -1,0 +1,212 @@
+{% assign limit = section.settings.prod_limit %}
+
+{% if section.settings.prod_grid == '3' %}
+{% assign grid_width = 'col-lg-4 col-md-4 col-xs-6' %}
+{% else %}
+{% assign grid_width = 'col-lg-3 col-md-3 col-xs-6' %}
+{% endif %} 
+
+<!-- PRODUCTS -->
+
+{% paginate collection.products by limit %}
+
+<section class="collection-section">
+  <div class="container">
+    <div class="collection-list-part">
+      <div class="collection-sort-section">
+        <div class="collection-sort">
+          <div class="collection-sort-part">
+            <h2>{{ collection.title }}</h2>
+          </div>
+          
+          {% if section.settings.description_enable %}
+            {% if collection.description != blank %}
+            <div class="collection-des show_mobile">
+              {{ collection.description }}
+            </div>
+            {% endif %}
+          {% endif %}  
+          
+          {% if collection.all_products_count > 1 %}
+          	{% include 'collection-shorting' %}   
+          {% endif %}
+        </div>  
+        
+        {% if section.settings.description_enable %}
+          {% if collection.description != blank %}
+            <div class="collection-des show_desktop">
+              {{ collection.description }}
+            </div>
+          {% endif %}
+        {% endif %}   
+      </div>
+      
+      <div class="row">
+        
+        <div class="collection-wrap product-{{ forloop.index | plus:paginate.current_offset }}">
+                    
+          {% assign product_count = 0 -%}		  
+          {% for product in collection.products %}
+          	{% include 'product-card-grid' , grid_width %}
+          {% assign product_count = product_count | plus: 1 %}
+          {% endfor %}
+          
+          <div id="product-list-foot"></div>
+
+          {% if section.settings.sort_infinite == true %}
+          
+            {% if paginate.next %}
+            <p id="more" class="clearfix"><a href="{{ paginate.next.url }}"></a></p> 
+            {% endif %} 
+          
+          {% else %}    
+          
+            {% if paginate.pages > 1 %}
+            {% include 'pagination' %}
+            {% endif %}   
+          
+          {% endif %}
+
+          {% if product_count < 1 %}
+          <div class="col-sm-12 col-xs-12 empty_collection_cls">{{ 'collections.general.no_matches' | t }}</div>
+          {% endif %}
+
+        </div>
+               
+      </div>
+    </div>
+  </div>
+</section>
+{% endpaginate %}
+{% if template contains 'collection' %}
+<script>
+  
+  {% comment %} var isActive = true;
+
+  function scroll_fnt(){
+    $(window).scroll(function(){
+      if($(document).height() <= $(window).scrollTop() + $(window).height() + 300){
+        if(isActive){
+          ScrollExecute();
+          $(window).off('scroll');        
+        }
+      }
+    });
+  }
+  
+  function ScrollExecute() {
+
+    scrollNode = $('#more').last();
+    scrollURL = $('#more a').last().attr("href");
+    if(scrollNode.length > 0 && scrollNode.css('display') != 'none') {
+      $.ajax({
+        type: 'GET',
+        url: scrollURL,
+        beforeSend: function() {
+          scrollNode.clone().empty().insertAfter(scrollNode);
+          //scrollNode.hide();
+        },
+        success: function(data) {
+          // remove loading feedback
+
+          console.log('success');
+
+          scrollNode.next().remove();
+          var filteredData = $(data).find(".product_grid");
+          filteredData.insertBefore($("#product-list-foot"));
+          var page_url = $(data).find("#more a").attr('href');
+          if(typeof page_url === 'undefined'){
+            isActive = false;
+            scrollNode.hide();
+          } else{
+            $('#more a').attr('href', page_url);
+            $(window).on('scroll');
+            scroll_fnt();
+          }
+        },
+        dataType: "html"
+      });
+    }
+  } {% endcomment %}
+  
+  // $(document).ready(function () {
+  //   scroll_fnt();
+  // });
+</script>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Collection pages",
+    "settings": [
+      {
+        "type": "select",
+        "id": "prod_grid",
+        "label": "Product per row",
+        "default": "4",
+        "options": [          
+          {
+            "value": "3",
+            "label": "3"
+          },
+          {
+            "value": "4",
+            "label": "4"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "prod_limit",
+        "label": "Product per page",
+        "default": "12",
+        "options": [          
+          {
+            "value": "12",
+            "label": "12"
+          },
+          {
+            "value": "16",
+            "label": "16"
+          },
+          {
+            "value": "32",
+            "label": "32"
+          },
+          {
+            "value": "50",
+            "label": "50"
+          }
+        ]
+      },
+	  {
+        "type": "checkbox",
+        "id": "sort_infinite",
+        "label": "Enable infinite product",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "sort_enable",
+        "label": "Enable sorting",
+        "default": true
+      },
+	  {
+        "type": "checkbox",
+        "id": "description_enable",
+        "label": "Enable collection description",
+        "default": true
+      },
+	  {
+        "type": "header",
+        "content": "Price Slider"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_price_slider",
+        "label": "Enable Price Slider (USD only)",
+        "default": true
+      }
+    ]
+  }
+{% endschema %}

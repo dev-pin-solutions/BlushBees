@@ -1,0 +1,106 @@
+
+
+{% if product.metafields.zonify_app.product_link %}
+<input class="zonify_affiliate" data-id="{{product.id}}"  type="hidden">
+{% if shop.metafields.zonify_settings.affiliate_status.status == '1' or shop.metafields.zonify_settings.affiliate_status.status == 1%}
+<script>
+    try{
+
+        var metafields = {{product.metafields.zonify_app.product_link}}
+        var metafieldsObj = JSON.parse(metafields)
+        var productId = document.querySelector('.zonify_affiliate').getAttribute('data-id');
+
+        if (productId && metafieldsObj.success == true) {
+            console.log(metafieldsObj.link)
+            let url = metafieldsObj.link;
+            let addToCart = '';
+            if(document.querySelector('.product form[action="/cart/add"] button[type="submit"]')){
+
+                addToCart = document.querySelector('.product form[action="/cart/add"] button[type="submit"]');
+
+            }else if(document.querySelector('form[action="/cart/add"] button[type="submit"]')){
+
+                addToCart = document.querySelector('form[action="/cart/add"] button[type="submit"]');
+
+            }else if( document.querySelector('form[action="/cart/add"] button[name="add"]')){
+
+                addToCart = document.querySelector('form[action="/cart/add"] button[name="add"]');
+
+            }else if(document.querySelector('.btn.js-add-to-cart.btn--add-to-cart.js-trigger-addtocart ')){
+
+                addToCart = document.querySelector('.btn.js-add-to-cart.btn--add-to-cart.js-trigger-addtocart ');
+
+            }else if(document.querySelector('.zonify_affiliate[data-id="'+productId+'"]').closest('div').querySelector('.btn.js-add-to-cart')){
+
+                addToCart = document.querySelector('.zonify_affiliate[data-id="'+productId+'"]').closest('div').querySelector('.btn.js-add-to-cart');
+
+            }else if(document.querySelector('.btn.js-add-to-cart')){
+
+                addToCart = document.querySelector('.btn.js-add-to-cart');
+
+            }else if(document.querySelector('#AddToCart-product-template')){
+
+                addToCart = document.querySelector('#AddToCart-product-template');
+
+            }else if(document.querySelector('.btn.btn-cart2')){
+
+                addToCart = document.querySelector('.btn.btn-cart2');
+
+            }else if(document.querySelector('#product-add-to-cart')){
+
+                addToCart = document.querySelector('#product-add-to-cart');
+
+            }else if(document.querySelector('.shopify-product-form .btn-addtocart.addtocart-js')){
+
+                addToCart = document.querySelector('.shopify-product-form .btn-addtocart.addtocart-js');
+
+            }
+            let interval = setInterval(function () {
+                let paymentButton = document.querySelector('.shopify-payment-button');
+                if (paymentButton && paymentButton.outerHTML) {
+                    clearInterval(interval);
+                    paymentButton.outerHTML = '';
+                }
+            }, 1000)
+            console.log(addToCart)
+
+            if (addToCart) {
+                let classList = addToCart.classList.value
+                let id = addToCart.id
+                if(classList.indexOf('ajax-submit')>-1){
+                    classList = classList.replace('ajax-submit','')
+                }
+                if(classList.indexOf('js-add-to-cart')>-1){
+                    classList = classList.replace('js-add-to-cart','')
+                }
+                if(classList.indexOf('js-trigger-addtocart')>-1){
+                    classList = classList.replace('js-trigger-addtocart','')
+                }
+                if(classList.indexOf('product-addToCart')>-1){
+                    classList = classList.replace('product-addToCart','')
+                }
+
+                if(window.location.href.indexOf('monamuse') > -1){
+                    id = ''
+                }
+
+                let html = `
+  <a href="${url}" target="_blank" class="${classList}" id="${id}">
+                      {{shop.metafields.zonify_settings.button_text.text}}
+                              </a>`;
+                console.log(html)
+                addToCart.outerHTML = html;
+
+            }
+        }
+
+    }catch(e){
+        console.log(e)
+    }
+
+
+</script>
+
+{% endif %}
+
+{% endif %}

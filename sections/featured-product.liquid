@@ -1,0 +1,498 @@
+{%- assign product = all_products[section.settings.featured_product] -%}
+{% assign wc_sale_type = settings.product_grid_percent_amount %} <!-- 'money' or 'percentage'--> 
+
+
+
+<div itemscope itemtype="http://schema.org/Product" id="ProductSection-{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="product" data-enable-history-state="true">
+  <meta itemprop="name" content="{{ product.title }}">
+  <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+  <meta itemprop="image" content="{{ product.featured_image.src | img_url: 'master' }}">
+
+  {% comment %}
+  Get first variant, or deep linked one
+  {% endcomment %}
+
+  {% assign current_variant = product.selected_or_first_available_variant -%}
+  {% assign enable_zoom = section.settings.enable_image_zoom -%}
+  {% if wc_sale_type == 'percentage' %}
+  {% capture saved_amount %}{{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | money_without_currency | times: 100 | remove: '.0'}}%{% endcapture %}
+  {% else %}
+  {% capture saved_amount %}{{ product.compare_at_price | minus: product.price | money_without_trailing_zeros }}{% endcapture %}
+  {% endif %}
+  <!-- PRODUCT DETAIL -->
+
+  <section class="product-detail-section">
+    <div class="container">
+      <div class="row">
+        <div class="product-detail">
+          <div class="col-lg-6 col-xs-12">
+            <div class="product-slider-part">              
+              <ul class="slider-for">
+                {% for image in product.images %}
+                <li>
+                  <img id="ProductPhotoImg"  src="{{ image.src | img_url: 'master' }}"  alt="{{ image.alt | escape }}"  {% if enable_zoom %}class="img-zoom-{{ forloop.index0 }} lazyload"{% endif %}>
+                </li>
+                {% endfor %}
+              </ul>
+              {% if product.images.size > 1 %}
+              <ul class="slider-nav">
+                {% for image in product.images %}
+                <li><img class="lazyload" src="{{ image | img_url: 'master' }}" alt="{{ image.alt | escape }}" /></li>
+                {% endfor %}
+              </ul>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-lg-6 col-xs-12">
+
+            <div class="product-detail-part">
+              <h1 itemprop="name">{{ product.title }}</h1>
+              <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+
+                <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+                <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+
+                <span id="product_price" itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">{{ current_variant.price | money }}</span>
+                {% if section.settings.show_compare_at_price == true %}
+                <span id="product_compare_price" class="discount-price">{{ current_variant.compare_at_price | money }}</span>
+                <span class="save-price">SAVE {{ saved_amount }}</span>
+                {% endif %}
+
+                {% form 'product', product, id:'AddToCartForm_id', novalidate: 'novalidate' %}               
+                  <select name="id" id="productSelect" class="product-single__variants" style="display: none !important;">
+                    {% for variant in product.variants %}
+                    {% if variant.available %}
+                    <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money_with_currency }}</option>
+                    {% else %}
+                    <option disabled="disabled">
+                      {{ variant.title }} - {{ 'products.product.sold_out' | t }}
+                    </option>
+                    {% endif %}
+                    {% endfor %}
+                  </select>
+
+                  {% if section.settings.swatches_dropdown contains 'Swatches' %}
+                    {% if product.available and product.variants.size > 1 %}
+                      {% for option in product.options %}
+                        {% include 'swatch' with option %}
+                      {% endfor %}
+                    {% endif %}
+                  {% endif %}
+
+                  {% if section.settings.show_quantity_selector %}
+                  <h3 class="prod_qty"><span>Quantity</span>
+                    <ul class="QuantityBox">
+                      <li class="minus-box"> <a href="javascript:void(0)" class="minus produ_qty"> <em class="fa fa-minus"></em> </a> </li>
+                      <li class="input-box">
+                        <input type="text" id="Quantity" name="quantity" value="1" min="1" class="QuantityInput" pattern="[0-9]*" readonly>
+                      </li>
+                      <li class="plus-box"> <a href="javascript:void(0)" class="plus produ_qty"> <em class="fa fa-plus"></em> </a> </li>
+                    </ul>
+                  </h3>
+                  {% endif %}
+                  {% include 'product-countdown-stockbar' %}                  
+                {% endform %}
+              </div>
+            </div>
+            <div class="visa-section">
+              {% if section.settings.trust_image_below_description %}
+              <img src="{{ section.settings.trust_image_below_description | img_url:'master' }}">
+              {% endif %}
+            </div>
+            <div class="product-sharing">
+              {% if section.settings.enable_sharing_buttons %}
+              {% include 'product-social-sharing', share_title: product.title, share_permalink: product.url, share_image: product %}
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+ 
+  
+</div>
+
+{% unless product == empty %}
+  <script type="application/json" id="ProductJson-{{ section.id }}">
+    {{ product | json }}
+  </script>
+{% endunless %}
+
+
+{% if product.variants.size > 1 %}
+<script type="text/javascript">
+  var variantImages = {},
+      thumbnails,
+      variant,
+      variantImage,
+      optionValue,
+      productOptions = [];
+  {% for variant in product.variants %}
+  variant = {{ variant | json }};
+  if ( typeof variant.featured_image !== 'undefined' && variant.featured_image !== null ) {
+    variantImage =  variant.featured_image.src.split('?')[0].replace(/http(s)?:/,'');
+    variantImages[variantImage] = variantImages[variantImage] || {};
+    {% for option in product.options %}
+
+    {% assign option_value = variant.options[forloop.index0] %}
+    {% assign option_key = 'option-' | append: forloop.index0 %}
+
+    if (typeof variantImages[variantImage][{{ option_key | json }}] === 'undefined') {
+      variantImages[variantImage][{{ option_key | json }}] = {{ option_value | json }};
+    }
+    else {
+      var oldValue = variantImages[variantImage][{{ option_key | json }}];
+      if ( oldValue !== null && oldValue !== {{ option_value | json }} )  {
+          variantImages[variantImage][{{ option_key | json }}] = null;
+          }
+          }
+          {% endfor %}
+          }
+          productOptions.push(variant);
+      {% endfor %}
+
+      $(document).ready(function() {
+        thumbnails = $('img[src*="/products/"]').not(':first');
+        if (thumbnails.length) {
+          thumbnails.bind('click', function() {
+            var arrImage = $(this).attr('src').split('?')[0].split('.');
+            var strExtention = arrImage.pop();
+            var strRemaining = arrImage.pop().replace(/_[a-zA-Z0-9@]+$/,'');
+            var strNewImage = arrImage.join('.')+"."+strRemaining+"."+strExtention;
+            if (typeof variantImages[strNewImage] !== 'undefined') {
+              productOptions.forEach(function (value, i) {
+                optionValue = variantImages[strNewImage]['option-'+i];
+                if (optionValue !== null && $('.selector-wrapper .single-option-selector:eq('+i+') option').filter(function() { return $(this).text().trim() === optionValue }).length) {
+                  $('.selector-wrapper .single-option-selector:eq('+i+')').val(optionValue).trigger('change');
+                }
+              });
+            }
+          });
+          
+          $('.slider-for').on('afterChange', function(event, slick, currentSlide, nextSlide){
+            var arrImage = $('.product-slider-part .slick-current').find('img');
+            arrImage = arrImage.attr('src').split('?')[0].split('.');
+            var strExtention = arrImage.pop();
+            var strRemaining = arrImage.pop().replace(/_[a-zA-Z0-9@]+$/,'');
+            var strNewImage = arrImage.join('.')+"."+strRemaining+"."+strExtention;
+            if (typeof variantImages[strNewImage] !== 'undefined') {
+              productOptions.forEach(function (value, i) {
+                optionValue = variantImages[strNewImage]['option-'+i];
+                if (optionValue !== null && $('.selector-wrapper .single-option-selector:eq('+i+') option').filter(function() { return $(this).text().trim() === optionValue }).length) {
+                  $('.selector-wrapper .single-option-selector:eq('+i+')').val(optionValue).trigger('change');
+                }
+              });
+            }
+          });
+        }
+      });
+</script> 
+{% endif %}
+
+<script type="text/javascript">
+  var wc_selectCallback = function(variant, selector){
+    {% if section.settings.swatches_dropdown contains 'Swatches' %}
+      if(variant){
+        var form = jQuery('#' + selector.domIdPrefix).closest('form');
+        for(var i=0,length=variant.options.length; i<length; i++){
+          var radioButton = form.find('.swatch[data-option-index="' + i + '"] :radio[value="' + variant.options[i] +'"]');
+          if(radioButton.size()){
+            radioButton.get(0).checked = true;
+          }
+        }
+      }
+    {% endif %}
+    var addtocart_btn_text = '{{ section.settings.ATC_button_text }}'
+    if (variant && variant.available == true){
+      var shop_curr = '{{shop.money_format}}';
+      jQuery('#addtocart_btn_id').removeClass('disabled').removeAttr('disabled');      
+       jQuery('#addtocart_btn_id').html(addtocart_btn_text);
+      jQuery('#product_price').html(Shopify.formatMoney(variant.price, shop_curr));
+      if(variant.compare_at_price != null){
+        jQuery('#product_compare_price').html(Shopify.formatMoney(variant.compare_at_price, shop_curr));
+      }else{
+        jQuery('#product_compare_price').html('');
+      }
+      jQuery('#progress_bar,#clock-ticker').show(); 
+    } else{
+      jQuery('#addtocart_btn_id').addClass('disabled').attr('disabled', 'disabled');
+      var message = variant ? "Sold Out" : "Unavailable";      
+      jQuery('#product_price').text(variant.price, shop_cur);
+      jQuery('#product_compare_price').html('');
+      jQuery('#progress_bar,#clock-ticker').hide(); 
+      jQuery('#addtocart_btn_id').text(message);
+    }
+    
+    currenciesCallbackSpecial('span.money');
+
+    if(variant && variant.featured_image){
+      var originalImage = $(".slider-for .slick-current img");
+      var newImage = variant.featured_image;
+      var element = originalImage[0];
+      Shopify.Image.switchImage(newImage, element, function(newImageSizedSrc, newImage, element){
+        $(".slider-for li").each(function(index){
+          var temp_img_src = $(this).find('img').attr('src');
+          var temp_data_index = $(this).attr('data-slick-index');
+          if('https:'+temp_img_src == newImageSizedSrc){
+            $('.slider-for').slick('slickGoTo', temp_data_index);
+            $('.slider-nav').slick('slickGoTo', temp_data_index);
+          }
+        });
+      });
+    }
+  };
+  
+  $(window).load(function(){
+    new Shopify.OptionSelectors('productSelect',{
+      product: {{ product | json }},
+      onVariantSelected: wc_selectCallback,
+      enableHistoryState: true
+    });
+    
+    {% if product.options.size == 1 and product.options.first != 'Title' %}
+    var label_text = '{{ product.options.first | escape }}';
+    $('.selector-wrapper:eq(0)').prepend('<label for="productSelect-option-0">'+label_text+'</label>');
+    {% endif %}
+
+    {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+      $('.selector-wrapper').hide();
+    {% endif %}
+    {% if section.settings.swatches_dropdown contains 'Swatches' %}
+      $('.selector-wrapper').addClass('hide');
+    {% endif %}
+  });
+</script>
+
+<script type="text/javascript">
+   if($(window).width() > 991){
+    $('.slider-for').on('afterChange', function(event, slick, currentSlide, nextSlide){
+      var img_url_temp = $(this).find('img').attr('src');
+      var imgs = $('.img-zoom');
+      $('.zoomContainer').remove();
+      imgs.removeData('elevateZoom');
+      imgs.removeData('zoomImage');
+      var temp_zoom_cls = '.img-zoom-'+currentSlide;
+      setTimeout(function(){
+        $(temp_zoom_cls).elevateZoom({
+          zoomType : "lens",
+          lensShape : "round",
+          lensSize : 200
+        });
+      }, 100);
+    });
+  }
+  
+  if($(window).width() > 991){
+    $( document ).ready(function(){
+      setTimeout(function(){
+        var img_zoom_class = $(".slider-for .slick-active img").attr('class');
+        $('.'+img_zoom_class).elevateZoom({         
+          zoomType : "lens",
+          lensShape : "round",
+          lensSize : 200
+        });
+      }, 100);
+    });
+  }
+
+  {% if section.settings.enable_floating_ATC_button %}  
+  setTimeout(function(){
+    $('#AddToCartForm_id .cart-btn').clone().addClass('fix-cart-btn').appendTo("body");
+  }, 1000);
+  $(document).on('click', '.fix-cart-btn', function(){
+    $('#AddToCartForm_id .cart-btn').trigger('click');
+  });
+
+  $(document).ready(function(){
+    var Wwidth = $(window).width();
+    $.fn.is_on_screen = function(){
+      var win = $(window);
+      var viewport = {
+        top : win.scrollTop(),
+        left : win.scrollLeft()
+      };
+      viewport.right = viewport.left + win.width();
+      viewport.bottom = viewport.top + win.height();
+      var bounds = this.offset();
+      bounds.right = bounds.left + this.outerWidth();
+      bounds.bottom = bounds.top + this.outerHeight();
+      return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
+    };
+
+    $(window).on("scroll", function(){
+      if($(this).scrollTop() > 1000){
+        $('.fix-cart-btn').show();
+        if($('footer').length > 0){
+          if($('footer').is_on_screen()){
+            $('.fix-cart-btn').hide();
+          } else{
+            $('.fix-cart-btn').show();
+          }
+        }
+      } else{
+        $('.fix-cart-btn').hide();
+      }
+    });
+  });
+  {% endif %}
+</script>
+
+
+
+{% schema %}
+  {
+    "name": "Featured product",
+"class": "index-section index-section--featured-product",
+    "settings": [ 
+      {
+        "type": "product",
+        "id": "featured_product",
+        "label": "Product"
+      },
+	  {
+        "type": "header",
+        "content": "ATC Button"
+      }, 
+	  {
+        "type": "text",
+        "id": "ATC_button_text",
+        "label": "ATC Button Text",
+		"default":"Add to cart"
+      },
+	  {
+	  "type": "header",
+	  "content": "Order Of Elements"
+	  },
+	  {
+	  "type": "select",
+	  "id": "first_element",
+	  "label": "First Element",
+	  "default": "ATC_btn",
+	  "options":[
+	  {
+	  "value": "ATC_btn",
+	  "label": "ATC"
+	  },
+	  {
+	  "value": "none",
+	  "label": "None"
+	  }
+	  ]
+	  },
+	  {
+        "type": "checkbox",
+        "id": "enable_payment_button",
+        "label": "Enable Dynamic Checkout",
+		"default":true
+      }, 
+	  {
+        "type": "header",
+        "content": "Sharing"
+      },
+	  {
+        "type": "checkbox",
+        "id": "enable_sharing_buttons",
+        "label": "Enable Sharing Buttons",
+        "default": true
+      },
+	  {
+        "type": "checkbox",
+        "id": "share_facebook",
+        "label": "Share on Facebook",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "share_twitter",
+        "label": "Tweet on Twitter",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "share_pinterest",
+        "label": "Pin on Pinterest",
+        "default": true
+      },
+	  {
+        "type": "checkbox",
+        "id": "share_reddit",
+        "label": "Reddit Share",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "share_whatsapp",
+        "label": "Share on Whatsapp",
+        "default": true
+      },
+	  {
+        "type": "header",
+        "content": "Trust Badge"
+      },
+	  {
+        "type": "image_picker",
+        "id": "trust_image_below_description",
+        "label": "Trust Image Below Description"
+      },
+	  {
+        "type": "header",
+        "content": "General"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_quantity_selector",
+        "label": "Show Quantity Selector",
+        "default": true
+      },        
+	  {
+        "type": "checkbox",
+        "id": "show_compare_at_price",
+        "label": "Show Compare At Price",
+		"default":true
+      },	  
+	  {
+"type": "select",
+"id": "swatches_dropdown",
+"label": "Variant Swatches Or Dropdown",
+"default":"Swatches",
+"options":[
+{
+"value": "Swatches",
+"label": "Swatches"
+},
+{
+"value": "SwatchesRound",
+"label": "Swatches - Round"
+},
+{
+"value": "Dropdown",
+"label": "Dropdown"
+}
+]
+},
+      {
+"type": "select",
+"id": "variant_swatch_image",
+"info":"In order to use Web Color you need to name the variant from one of the colors mentioned [here](https:\/\/htmlcolorcodes.com\/color-names\/). For Color Variant - Images from Assets - You need to upload a jpg file which is 128x128px, in assets with the same name as variant. eg Variant name is Golden Sea then image name will be golden_sea.jpg",
+"label": "Variant Image or CSS",
+"default":"variant_css",
+"options":[
+{
+"value": "variant_css",
+"label": "Web Color - CSS"
+},
+{
+"value": "variant_asset",
+"label": "Color Variant - Images from Assets"
+},
+{
+"value": "variant_product",
+"label": "Color Variant - Images from Product"
+}
+]
+}
+    ]
+  }
+{% endschema %}

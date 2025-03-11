@@ -1,0 +1,361 @@
+{% capture content %}<!doctype html>
+<!--[if IE 9]> <html class="ie9 no-js" lang="{{ shop.locale }}"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js" lang="{{ shop.locale }}"> <!--<![endif]-->
+<head>
+  <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ET8G6XLK7Y"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-ET8G6XLK7Y');
+</script>
+  <script async defer src="https://tools.luckyorange.com/core/lo.js?site-id=f5839523"></script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async data-src="https://www.googletagmanager.com/gtag/js?id=G-SV1CFC1Q1N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-SV1CFC1Q1N');
+</script>
+
+  
+  <meta content="0CExHhLq-VU2lxGyJzpn36-ifSYMZ3O7P6x-AOij-0o" name="google-site-verification"/><meta content="fhi4PBGqfGaMzkROAMRR9iPeJXbG6pu6_hvp36SlgXU" name="google-site-verification"/>
+{% include "starapps-core" %}
+
+ <meta name="google-site-verification" content="AyuAdY8z-2k4z4cyU38m53WcZvU10hVpG3E5ZGHrFiA" />
+  <link rel="stylesheet"  href="https://obscure-escarpment-2240.herokuapp.com/stylesheets/bcpo-front.css">
+  <script>var bcpo_product={{ product | json }}; {% if product.metafields.bcpo.bcpo_data %}var bcpo_data={{ product.metafields.bcpo.bcpo_data }};{% endif %} {% if shop.metafields.bcpo.bcpo_settings %}var bcpo_settings={{ shop.metafields.bcpo.bcpo_settings }};{% endif %}var inventory_quantity = [];{% for v in product.variants %}inventory_quantity.push({{v.inventory_quantity}});{% endfor %}if(bcpo_product) { for (var i = 0; i < bcpo_product.variants.length; i += 1) { bcpo_product.variants[i].inventory_quantity = inventory_quantity[i]; }}window.bcpo = window.bcpo || {}; bcpo.cart = {{cart | json}}; bcpo.ogFormData = FormData;</script>
+ <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="{{ settings.primary_links_hover }}">
+  <meta name="apple-mobile-web-app-status-bar-style" content="{{ settings.primary_links_hover }}">
+  <!-- Add icon library -->
+  <link rel="stylesheet" data-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="canonical" href="{{ canonical_url }}">
+
+  {%- if settings.favicon != blank -%}
+    <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+  {%- endif -%}
+
+  {%- capture seo_title -%}
+    {{ page_title }}
+    {%- if current_tags -%}
+      {%- assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}
+    {%- endif -%}
+    {%- if current_page != 1 -%}
+      &ndash; {{ 'general.meta.page' | t: page: current_page }}
+    {%- endif -%}
+    {%- unless page_title contains shop.name -%}
+      &ndash; {{ shop.name }}
+    {%- endunless -%}
+  {%- endcapture -%}
+  <title>{{ seo_title }}</title>
+
+  {%- if page_description -%}
+    <meta name="description" content="{{ page_description | escape }}">
+  {%- endif -%}
+
+  {%- include 'social-meta-tags' -%}
+  {%- include 'google-fonts' -%}
+  
+  {{ 'theme.scss.css' | asset_url | stylesheet_tag }}
+   {% include 'theme-style' %} {% include 'theme-style1' %}{{ 'style.scss.css' | asset_url | stylesheet_tag | replace: ' href=', ' data-href='}}
+    {{ 'custom-css.css' | asset_url | stylesheet_tag }}
+  {{ 'lazysizes.js' | asset_url | script_tag }} {{ 'all.js' | asset_url | script_tag }}
+
+  <script>
+    var theme = {
+      strings: {
+        addToCart: {{ 'products.product.add_to_cart' | t | json }},
+        soldOut: {{ 'products.product.sold_out' | t | json }},
+        unavailable: {{ 'products.product.unavailable' | t | json }},
+        showMore: {{ 'general.filters.show_more' | t | json }},
+        showLess: {{ 'general.filters.show_less' | t | json }},
+        addressError: {{ 'sections.map.address_error' | t | json }},
+        addressNoResults: {{ 'sections.map.address_no_results' | t | json }},
+        addressQueryLimit: {{ 'sections.map.address_query_limit_html' | t | json }},
+        authError: {{ 'sections.map.auth_error_html' | t | json }}
+      },
+      moneyFormat: {{ shop.money_format | json }}
+    }
+    document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+  </script>
+
+  {%- if template.directory == 'customers' -%}
+    <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer="defer"></script><!--<![endif]-->
+    <!--[if lte IE 9]><script src="{{ 'shopify_common.js' | shopify_asset_url }}"></script><![endif]-->
+  {%- endif -%}
+  
+  {%- unless template contains 'cart' -%}
+    <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'core.js' | asset_url }}" defer="defer"></script><!--<![endif]-->
+    <!--[if lte IE 9]><script src="{{ 'core.js' | asset_url }}"></script><![endif]-->
+  {%- endunless -%}
+
+  <!-- starapps_scripts_start -->
+<!-- This code is automatically managed by StarApps Studio -->
+<!-- Please contact support@starapps.studio for any help -->
+<script type="text/javascript" src="https://bcdn.starapps.studio/apps/vtk/blushbees-usa/script-1660332959.js?shop={{shop.permanent_domain}}" async></script>
+<!-- starapps_scripts_end --> 
+  {% include 'vital-loader' %}
+  {% capture cfh %}{{ content_for_header }}{% endcapture %}   
+  
+  <script>
+    var junk_sites = ["app.commerceinspector.com","pexda.com","ecomhunt.com","dropship-spy.com","ehproductfinder.com","dropshippinggenesis.com","productmafia.com","e-sniper.com","drospy.com","anon.to","shoptrace.co","smartadfinder.com","nullrefer.com","upwork.com","nichescraper.com","fbcandy.com","easyali.com"];
+    junk_sites.forEach(function(v){
+      if(document.referrer.indexOf(v) != -1){
+        document.location.href = 'https://'+window.location.hostname;
+      }
+    });
+  </script>
+  <script>
+    if(window.location.href.indexOf("sort_by=best-selling") > -1){
+      document.location.href = 'https://'+window.location.hostname+'/collections/';
+    }
+  </script>
+
+	{{ shop.metafields.loox["global_html_head"] }}
+
+  <style>
+  .shopify-cleanslate {
+    width: 100% !important;
+}
+    .shopify-cleanslate span {
+    margin: 0px !important;
+}
+
+  
+  </style> 
+{% include 'kart_discount' %} {% include "omega_custom_code" %} </head>
+<body class="template-{{ template | split: '.' | first }}" {% if settings.enable_block_country %}data-blockcountry="{{ settings.block_country_array }}"{% endif %}>
+
+  <div id="wc_shop_detail" style="display:none;" data-email="{{ settings.licence_email_val }}">{{ shop.permanent_domain }}</div>
+  <div class="app-container transparent-menu">
+    <div class="content-container">
+      {%- section 'header' -%}
+                                 {% if settings.enable_bar %}
+  <div data-end="{{ settings.timer-date }}" class="promo-bar">
+    <h4 class="promo-bar__title promo-bar__title--first">{{ settings.timer_left_title }}</h4>
+    <div class="promo-bar__counter">
+      <div class="promo-bar__counter-item">
+        <span class="value"></span>
+        <span class="label"></span>
+      </div>
+      <span>:</span>
+      <div class="promo-bar__counter-item">
+        <span class="value"></span>
+        <span class="label"></span>
+      </div>
+      <span>:</span>
+      <div class="promo-bar__counter-item">
+        <span class="value"></span>
+        <span class="label"></span>
+      </div>
+      <span>:</span>
+      <div class="promo-bar__counter-item">
+        <span class="value"></span>
+        <span class="label"></span>
+      </div>
+    </div>
+    <h4 class="promo-bar__title promo-bar__title--second">{{ settings.timer_right_title }}</h4>
+  </div>
+  {% endif %}
+      <div class="wc_megamenu_section_outer">
+        {%- if settings.enable_megamenu_1 -%}
+          {%- section 'megamenu-1' -%}
+        {%- endif -%}
+        {%- if settings.enable_megamenu_2 -%}
+          {%- section 'megamenu-2' -%}
+        {%- endif -%}
+        {%- if settings.enable_megamenu_3 -%}
+          {%- section 'megamenu-3' -%}
+        {%- endif -%}
+        {%- if settings.enable_megamenu_4 -%}
+          {%- section 'megamenu-4' -%}
+        {%- endif -%}
+        {%- if settings.enable_megamenu_5 -%}
+          {%- section 'megamenu-5' -%}
+        {%- endif -%}
+        {%- if settings.enable_megamenu_6 -%}
+          {%- section 'megamenu-6' -%}
+        {%- endif -%}
+        {%- if settings.enable_megamenu_7 %}
+          {%- section 'megamenu-7' -%}
+        {%- endif -%}
+        {%- if settings.enable_megamenu_8 -%}
+          {%- section 'megamenu-8' -%}
+        {%- endif -%}
+        {%- if settings.enable_megamenu_9 -%}
+          {%- section 'megamenu-9' -%}
+        {%- endif -%}
+        {%- if settings.enable_megamenu_10 -%}
+          {%- section 'megamenu-10' -%}
+        {%- endif -%}
+      </div>
+
+      <div class="container-fluid">
+   
+        <div class="page-container" id="PageContainer">
+          
+          <main class="main-content" id="MainContent" role="main">
+
+            {{ content_for_layout }}
+          </main>
+          {%- section 'footer-blocks' -%}
+          {%- section 'footer' -%}
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  {%- include 'ajax-cart-template' -%}
+  <script>
+    jQuery(function($){
+      ajaxCart.init({
+        formSelector: '#AddToCartForm_id',
+        cartContainer: '#CartContainer',
+        addToCartSelector: '.add_to_cart_btn_cls',
+        moneyFormat: {{ shop.money_format | json }}
+      });
+    });
+  </script>
+  
+  {%- include 'add-to-cart-popup' -%}
+  <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'plugins.js' | asset_url }}" defer="defer"></script><!--<![endif]-->
+  <!--[if lte IE 9]><script src="{{ 'plugins.js' | asset_url }}"></script><![endif]-->
+  {%- include 'search-autocomplete' -%}
+  {%- include 'cookie-consent' -%}
+  {%- include 'swatch-script' -%}
+  {%- include 'currencies' -%}
+	{{ shop.metafields.loox["global_html_body"]| replace: ' src=', ' data-src='  }} 
+ 
+
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  function initCountdownTimer() {
+    const promoBar = document.querySelector('.promo-bar');
+    if (!promoBar) {
+      console.error('Element .promo-bar not found.');
+      return;
+    }
+
+    // Получаем дату окончания из атрибута data-end
+    let endDateStr = promoBar.dataset.end;
+
+    if (!endDateStr) {
+      console.error('data-end attribute is missing on .promo-bar element.');
+      return;
+    }
+
+    // Предположим, что формат должен быть MM.DD.YYYY, но у нас "12.31..2024"
+    // Уберём лишние точки: заменим все двойные точки на одну точку
+    endDateStr = endDateStr.replace(/\.+/g, '.'); // "12.31..2024" -> "12.31.2024"
+
+    const dateParts = endDateStr.split('.');
+    if (dateParts.length !== 3) {
+      console.error('Invalid date format. Expected MM.DD.YYYY');
+      return;
+    }
+
+    const [monthStr, dayStr, yearStr] = dateParts;
+    const month = parseInt(monthStr, 10);
+    const day = parseInt(dayStr, 10);
+    const year = parseInt(yearStr, 10);
+
+    if (isNaN(month) || isNaN(day) || isNaN(year)) {
+      console.error('Invalid date components.');
+      return;
+    }
+
+    const endDate = new Date(year, month - 1, day);
+    if (isNaN(endDate.getTime())) {
+      console.error('Invalid date provided in data-end attribute.');
+      return;
+    }
+
+    function updateCountdown() {
+      const now = new Date();
+      let timeRemaining = endDate.getTime() - now.getTime();
+
+      if (timeRemaining <= 0) {
+        timeRemaining = 0;
+        clearInterval(intervalId);
+        // Здесь можно добавить логику после завершения таймера
+      }
+
+      const totalSeconds = Math.floor(timeRemaining / 1000);
+      const days = Math.floor(totalSeconds / (3600 * 24));
+      const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      const timeValues = [days, hours, minutes, seconds];
+      const timeLabels = ['DAYS', 'HRS', 'MINS', 'SECS'];
+
+      const counterItems = promoBar.querySelectorAll('.promo-bar__counter-item');
+      counterItems.forEach((item, index) => {
+        const valueSpan = item.querySelector('.value');
+        const labelSpan = item.querySelector('.label');
+        labelSpan.textContent = timeLabels[index];
+        animateValueChange(valueSpan, timeValues[index]);
+      });
+    }
+
+    function animateValueChange(element, newValue) {
+      const currentValue = element.textContent;
+      if (currentValue === newValue.toString()) {
+        return;
+      }
+      element.classList.add('changing');
+      setTimeout(() => {
+        element.textContent = newValue;
+        element.classList.remove('changing');
+      }, 500);
+    }
+
+    updateCountdown();
+    const intervalId = setInterval(updateCountdown, 1000);
+  }
+
+  initCountdownTimer();
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const promoBar = document.querySelector('.promo-bar');
+    if (!promoBar) return;
+
+    const stickyOffset = promoBar.offsetTop;
+
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > stickyOffset) {
+            promoBar.classList.add('fixed');
+        } else {
+            promoBar.classList.remove('fixed');
+        }
+    });
+});
+</script>
+
+  
+
+
+
+
+{{ 'custom.min.js' | asset_url | script_tag }} 
+<script src="{{ 'custom-fb-comment-img-popup.js' | asset_url }}" defer="defer"></script>
+
+    <script src="{{ 'shadow-dom.js' | asset_url }}" defer></script>
+    <my-widget></my-widget>
+
+
+</body>
+</html> {% endcapture %}
+
+{{ content }}

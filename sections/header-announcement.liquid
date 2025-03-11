@@ -1,0 +1,65 @@
+<!-- NAV BAR -->
+<div class="nav-bar-section {% if section.settings.hide_top_strip_on_mobile %}show_desktop{% endif %}">
+  <div class="container">
+    <div class="nav-bar-part">
+      <div class="nav-bar-wrap">
+        <p>{{ section.settings.announcement_text }}</p>
+      </div>
+      <div class="nav-bar-wrap">
+        <p class="text-right">
+          <a href="{{ section.settings.contact_link }}">{{ section.settings.contact_text }}</a>
+          {% if shop.customer_accounts_enabled %}
+          {% if customer %}
+            <a href="{{ routes.account_url }}">Account</a>
+            <a href="{{ routes.account_logout_url }}">Logout</a>
+          {% else %}
+            <a href="{{ routes.account_register_url }}">Register</a>
+            <a href="{{ routes.account_login_url }}">Login</a>	
+          {% endif %}
+          {% endif %}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "header Announcement",
+    "settings": [
+	  {
+        "type": "header",
+        "content": "Announcement Bar Settings"
+      },          
+      {
+        "type": "text",
+        "id": "announcement_text",
+        "label": "Announcement text",
+        "default": "LAUNCH SPECIAL: FREE SHIPPING WORLDWIDE!"
+      },
+      {
+        "type": "text",
+        "id": "contact_text",
+        "label": "Contact Text",
+        "default":"Need Help? support@yourstore.com"
+      },
+	  {
+        "type": "text",
+        "id": "contact_link",
+        "label": "Contact Link"
+      },
+	  {
+        "type": "checkbox",
+        "id": "hide_top_strip_on_mobile",
+        "label": "Hide Top Strip On Mobile",
+        "default": true
+      }
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

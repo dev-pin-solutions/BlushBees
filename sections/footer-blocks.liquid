@@ -1,0 +1,130 @@
+<!-- FREE SHIPPING -->
+<section class="free-shipping-section">
+  <div class="container">
+    <div class="row">
+      <div class="free-shipping">
+        
+        <div class="col-md-6 col-xs-12">
+          <div class="free-shipping-part">
+           {% if section.settings.icon_position == 'icon_left' %}
+            <h5>
+              <img class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{% if section.settings.footer_block_1_icon.size > 0 %}{{ section.settings.footer_block_1_icon | img_url: 'master' }}{% else %}{{ 'free_shipping.png' | asset_url }}{% endif %}" alt="{{ section.settings.footer_block_1_icon.alt }}">              
+            </h5>
+            <div class="free-shipping-wrap">
+              <h4>{{ section.settings.footer_block_1_title }}</h4>
+              <p>{{ section.settings.footer_block_1_text }}</p>
+            </div>
+              {% else %}
+            <div class="free-shipping-wrap">
+              <h4>{{ section.settings.footer_block_1_title }}</h4>
+              <p>{{ section.settings.footer_block_1_text }}</p>
+            </div>
+            <h5>
+              <img class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{% if section.settings.footer_block_1_icon.size > 0 %}{{ section.settings.footer_block_1_icon | img_url: 'master' }}{% else %}{{ 'free_shipping.png' | asset_url }}{% endif %}" alt="{{ section.settings.footer_block_1_icon.alt }}">              
+            </h5>
+              {% endif %}
+          </div>
+        </div>
+        
+        <div class="col-md-6 col-xs-12">
+          <div class="free-shipping-part">
+           {% if section.settings.icon_position == 'icon_left' %}
+            <h5>
+              <img class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{% if section.settings.footer_block_2_icon.size > 0 %}{{ section.settings.footer_block_2_icon | img_url: 'master' }}{% else %}{{ 'got_questions.png' | asset_url }}{% endif %}" alt="{{ section.settings.footer_block_2_icon.alt }}">              
+            </h5>
+            <div class="free-shipping-wrap">
+              <h4>{{ section.settings.footer_block_2_title }}</h4>
+              <p>{{ section.settings.footer_block_2_text }}</p>
+            </div>
+               {% else %}
+             <div class="free-shipping-wrap">
+              <h4>{{ section.settings.footer_block_2_title }}</h4>
+              <p>{{ section.settings.footer_block_2_text }}</p>
+            </div>
+            <h5>
+              <img class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{% if section.settings.footer_block_2_icon.size > 0 %}{{ section.settings.footer_block_2_icon | img_url: 'master' }}{% else %}{{ 'got_questions.png' | asset_url }}{% endif %}" alt="{{ section.settings.footer_block_2_icon.alt }}">              
+            </h5>
+            {% endif %}
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Footer Blocks",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Footer Block #1"
+      }, 
+      {
+        "type": "image_picker",
+        "id": "footer_block_1_icon",
+        "label": "Footer Block #1 Icon",
+		"info":"Please use 38x38 size image"
+      }, 		 
+      {
+        "type": "text",
+        "id": "footer_block_1_title",
+        "label": "Footer Block #1 Title",
+        "default":"Free Shipping!"
+      },          
+      {
+        "type": "text",
+        "id": "footer_block_1_text",
+        "label": "Footer Block #1 Text",
+        "default":"Free Shipping Worldwide On Select Items"
+      },
+	  {
+        "type": "header",
+        "content": "Footer Block #2"
+      }, 
+      {
+        "type": "image_picker",
+        "id": "footer_block_2_icon",
+        "label": "Footer Block #2 Icon",
+		"info":"Please use 38x38 size image"
+      }, 		 
+      {
+        "type": "text",
+        "id": "footer_block_2_title",
+        "label": "Footer Block #2 Title",
+        "default":"Got Questions?"
+      },          
+      {
+        "type": "text",
+        "id": "footer_block_2_text",
+        "label": "Footer Block #2 Text",
+        "default":"We're happy to help! Email us: support@yourstore.com"
+      },
+{
+"type": "header",
+"content": "Icon Position"
+},
+{
+"type": "select",
+"id": "icon_position",
+"label": "Icon Position",
+"default": "icon_left",
+"options":[
+{
+"value": "icon_left",
+"label": "Left"
+},
+{
+"value": "icon_right",
+"label": "Right"
+}]
+}
+    ],
+	"presets": [{
+      "name": "Footer Blocks",
+      "category": "Text"
+    }]
+  }
+{% endschema %}
+

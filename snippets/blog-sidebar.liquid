@@ -1,0 +1,25 @@
+<div class="blog-sidebar">
+  <div class="blog-sidebar-part">
+    <h3>Popular Posts</h3>
+    <ul class="blog-recent-ul">
+      {% for article in blogs[blog.handle].articles limit: 5 %}
+        <li>{{ article.title | link_to: article.url }}<span>{{ article.published_at | date: "%b %d, %Y" }}</span></li>
+      {% endfor %}
+    </ul>
+  </div>
+  
+  <div class="blog-sidebar-part">
+    <h3>tags</h3>
+    <ul class="blog-tags-ul">
+      {% for tag in blog.all_tags limit:10 %}
+        {% unless tag contains 'date-' %}
+          {% if current_tags contains tag %}
+            <li><a href="javascript:void(0)" class="selected">{{ tag }}</a></li>
+          {% else %}
+            <li><a href="/blogs/{{ blog.handle }}/tagged/{{ tag | handle }}">{{ tag }}</a></li>
+          {% endif %}
+        {% endunless %}
+      {% endfor %}
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,278 @@
+<!-- SLIDER -->
+<div data-section-id="{{ section.id }}" data-section-type="slideshow-section">
+<section class="slider-section">
+  {% if section.blocks.size > 0 %}
+     {% unless section.settings.full_width %}
+  <div class="container">
+    {% endunless %}
+    <div class="slider-part">
+      <div class="home-slider-section {% unless section.settings.enable_banner %}home-slider-full{% endunless %}">
+        <ul class="home-slider" id="Slideshow-{{ section.id }}" data-autoplay="{{ section.settings.autoplay }}" data-speed="{{ section.settings.autoplay_speed }}">
+          {% for block in section.blocks %}
+          <li class="{{ block.id }}" {{ block.shopify_attributes }}>
+            <a href="{{ block.settings.button_link }}"><img  src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{% if block.settings.image.size > 0 %}{{ block.settings.image | img_url: 'master' }}{% else %}{{ 'slider_1.jpg' | asset_url }}{% endif %}" alt="{{ block.settings.image.alt }}" class="lazyload desktop-img"></a>
+            <a href="{{ block.settings.button_link }}"><img src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{% if block.settings.mobile_image.size > 0 %}{{ block.settings.mobile_image | img_url: 'master' }}{% else %}{{ 'slider_1.jpg' | asset_url }}{% endif %}" alt="{{ block.settings.mobile_image.alt }}" class="lazyload mobile-img"></a>
+            <div class="fig-caption">
+              <div class="small-content 
+                          {% if block.settings.alignment == 'right' %}float-xs-right
+                          {% elsif block.settings.alignment == 'center' %}float-xs-none text-xs-center
+                          {% else %}float-xs-left
+                          {% endif %}
+                          ">
+                <h1 style="color:{{ block.settings.slider_heading_color }}">{{ block.settings.title }}</h1>
+                <h5 style="color:{{ block.settings.slider_subheading_color }}">{{ block.settings.subheading }}</h5>
+               {% if block.settings.button_txt == blank %}
+                </div>
+                {% else %}
+               <a href="{{ block.settings.button_link }}" class="btn shop-now">{{ block.settings.button_txt }}</a></div>
+            {% endif %}
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% if section.settings.enable_banner %}
+      <div class="home-banner-section">
+        <div class="home-banner"> 
+          <a href="{{ section.settings.sliderBanner_link_1 }}">
+          <figure><img class="lazyload" src="{% if section.settings.sliderBanner_image_1.size > 0 %}{{ section.settings.sliderBanner_image_1 | img_url: 'master' }}{% else %}{{ 'slider_banner_1.jpg' | asset_url }}{% endif %}" alt="{{ section.settings.sliderBanner_image_1.alt }}">
+            <figcaption>
+              <h5 style="color:{{ section.settings.sliderBanner_subtitle_txt_color_1 }}">{{ section.settings.sliderBanner_subtitle_1 }}</h5>
+              <p style="color:{{ section.settings.sliderBanner_title_txt_color_1 }}">{{ section.settings.sliderBanner_title_1 }}</p>
+            </figcaption>
+          </figure>
+          </a> 
+          <a href="{{ section.settings.sliderBanner_link_2 }}">
+          <figure><img class="lazyload" src="{% if section.settings.sliderBanner_image_2.size > 0 %}{{ section.settings.sliderBanner_image_2 | img_url: 'master' }}{% else %}{{ 'slider_banner_2.jpg' | asset_url }}{% endif %}" alt="{{ section.settings.sliderBanner_image_2.alt }}">
+            <figcaption>
+              <h5 style="color:{{ section.settings.sliderBanner_subtitle_txt_color_2 }}">{{ section.settings.sliderBanner_subtitle_2 }}</h5>
+              <p style="color:{{ section.settings.sliderBanner_title_txt_color_2 }}">{{ section.settings.sliderBanner_title_2 }}</p>
+            </figcaption>
+          </figure>
+          </a> 
+        </div>
+      </div>
+      {% endif %}
+    </div>
+   {% unless section.settings.full_width %}
+  </div>
+{% endunless %}
+  {% endif %}
+  {% if section.blocks.size == 0 %}
+  <div class="placeholder-noblocks">
+    {{ 'homepage.onboarding.no_content' | t }}
+  </div>
+  {% endif %}
+</section>
+</div>
+
+{% schema %}
+  {
+    "name": "Slideshow",
+    "max_blocks": 4,
+    "settings": [ 
+	  {
+        "type": "checkbox",
+        "id": "enable_banner",
+        "label": "Enable Slider Banner",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "full_width",
+        "label": "Full page width",
+        "default": true
+      },
+      {
+        "type": "header",
+        "content": "Slider Banner 1"
+      },
+	  {
+        "type": "image_picker",
+        "id": "sliderBanner_image_1",
+        "label": "Image",
+		"info":"Please use 330x260 size image"
+      },
+	  {
+        "type": "text",
+        "id": "sliderBanner_title_1",
+        "label": "Title",
+		"default":"Extra 30% Off All Sale Styles"	
+      },
+	  {
+        "type": "color",
+        "id": "sliderBanner_title_txt_color_1",
+        "label": "Title color",
+		"default": "#fff"
+      },	
+	  {
+        "type": "text",
+        "id": "sliderBanner_subtitle_1",
+        "label": "Subtitle",
+		"default":"Clothing"
+      },
+	  {
+        "type": "color",
+        "id": "sliderBanner_subtitle_txt_color_1",
+        "label": "Text color",
+		"default": "#fff"
+      },
+	  {
+        "type": "url",
+        "id": "sliderBanner_link_1",
+        "label": "Link"
+      },	 
+	  {
+        "type": "header",
+        "content": "Slider Banner 2"
+      },
+	  {
+        "type": "image_picker",
+        "id": "sliderBanner_image_2",
+        "label": "Image",
+		"info":"Please use 330x260 size image"
+      },
+	  {
+        "type": "text",
+        "id": "sliderBanner_title_2",
+        "label": "Title",
+		"default":"New Collection 2018"
+      },	
+	  {
+        "type": "color",
+        "id": "sliderBanner_title_txt_color_2",
+        "label": "Title color",
+		"default": "#fff"
+      },
+	  {
+        "type": "text",
+        "id": "sliderBanner_subtitle_2",
+        "label": "Subtitle",
+		"default":"Season Sale"
+      },
+	  {
+        "type": "color",
+        "id": "sliderBanner_subtitle_txt_color_2",
+        "label": "Text color",
+		"default": "#fff"
+      },
+	  {
+        "type": "url",
+        "id": "sliderBanner_link_2",
+        "label": "Link"
+      },
+	  {
+        "type": "header",
+        "content": "Slider Settings"
+      },
+	  {
+        "type": "checkbox",
+        "id": "autoplay",
+        "label": "Auto-rotate slides",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "autoplay_speed",
+        "label": "Change slides every",
+        "options": [
+          { "value": "5000", "label": "5 seconds" },
+          { "value": "6000", "label": "6 seconds" },
+          { "value": "7000", "label": "7 seconds" },
+          { "value": "8000", "label": "8 seconds" },
+          { "value": "9000", "label": "9 seconds" },
+          { "value": "10000", "label": "10 seconds" }
+        ],
+        "default": "7000"
+      }
+    ],
+    "blocks": [
+      {
+        "type": "image",
+        "name": "Image slide",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image",
+			"info":"Please use 850x522 size image"
+          },
+          {
+            "type": "image_picker",
+            "id": "mobile_image",
+            "label": "Mobile image",
+			"info":"Please use 540x512 size image"
+          },
+          {
+            "type": "select",
+            "id": "alignment",
+            "label": "Text alignment",
+            "default": "right",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              },
+              {
+                "value": "center",
+                "label": "Center"
+              },
+              {
+                "value": "right",
+                "label": "Right"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Image slide"
+          },
+	      {
+            "type": "color",
+            "id": "slider_heading_color",
+            "label": "Heading color",
+			"default": "#fff"
+          },
+          {
+            "type": "text",
+            "id": "subheading",
+            "label": "Subheading",
+            "default": "Tell your brand's story through video and images"
+          },
+	      {
+            "type": "color",
+            "id": "slider_subheading_color",
+            "label": "Text color",
+		    "default": "#fff"
+          },
+          {
+            "type": "text",
+            "id": "button_txt",
+            "label": "Button text",
+			"default":"Shop Now"
+          },
+          {
+            "type": "url",
+            "id": "button_link",
+            "label": "Button link"
+          }
+        ]
+      }
+    ],
+    "presets": [{
+      "name": "Slideshow",
+      "category": "Image",
+      "settings": {},
+      "blocks": [
+        {
+          "type": "image"
+        },
+        {
+          "type": "image"
+        }
+      ]
+    }]
+  }
+{% endschema %}

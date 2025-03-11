@@ -1,0 +1,99 @@
+{% assign sidebar = section.settings.sidebar_pos %}
+<!-- BANNER -->
+<section class="banner-section">
+  <div class="container">
+    <div class="banner">
+      <h1>{{ page_title }}</h1>
+      <ul>
+        <li><a href="{{ routes.root_url }}">Home</a></li>
+        <li>{{ page_title }}</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- BLOGS -->
+<section class="blog-section">
+  <div class="container">
+    <div class="row">
+      <div class="blog">
+        {% unless sidebar == 'none' %}
+        <div class="col-lg-3 col-md-4 col-xs-12 {% if sidebar == 'right' %}float-xs-right{% else %}float-xs-left{% endif %}">
+          {% include 'blog-sidebar' %}
+        </div>
+        {% endunless %}
+        <div class="{% if sidebar == 'none' %}col-lg-12 col-md-12{% else %}col-lg-9 col-md-8{% endif %} col-xs-12">
+          <div class="blog-part {% if sidebar == 'right' %}pr-25{% endif %} {% if sidebar == 'left' %}pl-25{% endif %}">
+            <figure class="blog-img">            
+              {% if article.image == blank %}
+                <p> {{ 'lifestyle-1'| placeholder_svg_tag: 'placeholder-svg' }}<p>
+              {% else %}
+                <img class="lazyload" itemprop="image" src="{{ article | img_url: '1200x560' }}" title="{{ article.title }}" alt="{{ article.title }}" />
+              {% endif %}
+            </figure>
+
+            <div class="blog-description">
+              <div itemprop="articleBody">
+                {{ article.content }}
+              </div>
+            </div>
+            {% if section.settings.show_share_buttons %}
+            {% include 'social-sharing', share_title: article.title, share_permalink: article.url, share_image: article.image %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Posts",
+    "settings": [
+	  {
+        "type": "image_picker",
+        "id": "blog_banner",
+        "label": "Banner"
+      },	 
+      {
+        "type": "select",
+        "id": "sidebar_pos",
+        "label": "Sidebar position",
+        "default": "right",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          },
+          {
+            "value": "none",
+            "label": "None"
+          }
+        ]
+      },	
+      {
+        "type": "checkbox",
+        "id": "blog_show_author",
+        "label": "Show author",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_show_date",
+        "label": "Show date",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_share_buttons",
+        "label": "Show social sharing buttons",
+        "default": true
+      }
+    ]
+  }
+{% endschema %}

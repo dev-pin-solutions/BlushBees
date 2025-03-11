@@ -1,0 +1,35 @@
+{% assign timer_type = section.settings.countdown_timer_style  %}
+
+{% if timer_flag %}
+  {% unless product.tags contains 'no-timer' and settings.disable_timer_use_tag %}
+    {% if timer_type == 'color_background' %}
+    <div id="clock-ticker" class="clearfix">
+      <div class="block hide"><span class="flip-top" id="numdays">00</span><br><span class="label">Days</span></div>
+      <div class="block"><span class="flip-top" id="numhours">00</span><br><span class="label">Hours</span></div>
+      <div class="block"><span class="flip-top" id="nummins">00</span><br><span class="label">Minutes</span></div>
+      <div class="block"><span class="flip-top" id="numsecs">00</span><br><span class="label">Seconds</span></div>
+      <h5>{{ section.settings.countdown_timer_text }}</h5>
+    </div>
+    {% endif %}
+    {% if timer_type == 'white_background' %}
+    <div id="clock-ticker-w" class="clearfix">
+      <div class="block hide"><span class="flip-top" id="numdays">00</span><br><span class="label">Days</span></div>
+      <div class="block"><span class="flip-top" id="numhours">00</span><br><span class="label">Hours</span></div>
+      <div class="block"><span class="flip-top" id="nummins">00</span><br><span class="label">Minutes</span></div>
+      <div class="block"><span class="flip-top" id="numsecs">00</span><br><span class="label">Seconds</span></div>
+      <h5>{{ section.settings.countdown_timer_text }}</h5>
+    </div>
+  	{% endif %}
+	{% if timer_type == 'timer_modern' %}
+    <div id="clock-ticker-m" class="clearfix">
+      <span class="fa fa-clock-o timer_modern fa-flip-horizontal"></span>
+      <span class="clock-ticker-m-text">{{ section.settings.countdown_timer_text }}</span>
+      <span class="flip-top" id="numdays">00</span><span class="label">d </span>
+      <span class="flip-top" id="numhours">00</span><span class="label">h </span>
+      <span class="flip-top" id="nummins">00</span><span class="label">m </span>
+      <span class="flip-top" id="numsecs">00</span><span class="label">s </span>
+      
+    </div>
+  	{% endif %}
+  {% endunless %}
+{% endif %}

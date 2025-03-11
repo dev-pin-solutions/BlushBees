@@ -1,0 +1,60 @@
+<div class="container">
+
+
+{%- if product.description contains '[prod-description-start]'
+and product.description contains '[prod-description-end]'
+-%}
+    {%- assign product_start = product.description | split: '[prod-description-start]' | last -%}
+    {%- assign product_desc = product_start | split: '[prod-description-end]' | first -%}
+{%- else -%}
+    {%- assign product_desc = product.description -%}
+{%- endif -%}
+
+{%- if product.description contains '[prod-size-start]'
+and product.description contains '[prod-size-end]'
+-%}
+    {%- assign product_sizechart_start = product.description | split: '[prod-size-start]' | last -%}
+    {%- assign product_sizechart = product_sizechart_start | split: '[prod-size-end]' | first -%}
+{%- endif -%}
+
+{%- if product.description contains '[prod-returns-start]'
+and product.description contains '[prod-returns-end]'
+-%}
+    {%- assign product_returns_start = product.description | split: '[prod-returns-start]' | last -%}
+    {%- assign product_returns = product_returns_start | split: '[prod-returns-end]' | first -%}
+{%- endif -%}
+
+{%- if product.description contains '[prod-shipping-start]'
+and product.description contains '[prod-shipping-end]'
+-%}
+    {%- assign product_shipping_start = product.description | split: '[prod-shipping-start]' | last -%}
+    {%- assign product_shipping = product_shipping_start | split: '[prod-shipping-end]' | first -%}
+{%- endif -%}
+
+<div class="desc_div_contain" style="max-width: 800px">
+    {{
+    product_desc
+    | replace: ' src="https://cdn.shopify.com/s/files/',
+    ' class="lazyload" data-src="https://cdn.shopify.com/s/files/'
+    }}
+    {% if product.tags contains 'no-tabs' %}
+    {% else %}
+        {% if product.tags contains 'no-sizechart' %}
+        {% else %}
+            <br>
+            {{ product_sizechart }}
+        {% endif %}
+        {% if product.tags contains 'no-returns' %}
+        {% else %}
+            <br>
+            {{ product_returns }}
+        {% endif %}
+
+    {% endif %}
+</div>
+    {% if product.tags contains 'no-shipping' %}
+    {% else %}
+        <br>
+        {{ product_shipping }}
+    {% endif %}
+</div>

@@ -1,0 +1,48 @@
+<!-- CONTACT -->
+<section class="contact-section small-container">
+  <div class="container">
+    <div class="contact">
+      <div class="title-desc">
+        <h2>{{ page.title }}</h2>
+        {% if page.content.size > 0 %}
+          {{ page.content }}
+        {% endif %}
+      </div>
+      <div class="row">
+        <div class="contact-form">
+          {% form 'contact' %}
+          {% if form.posted_successfully? %}
+            <p class="note form-success">
+              {{ 'contact.form.post_success' | t }}
+            </p>
+          {% endif %}
+
+          {{ form.errors | default_errors }}
+          <div class="col-md-4 col-xs-12">
+            <input type="text" placeholder="name" id="ContactFormName" name="contact[name]" value="{% if form[name] %}{{ form[name] }}{% elsif customer %}{{ customer.name }}{% endif %}" required>
+          </div>
+          <div class="col-md-4 col-xs-12">
+            <input type="email" placeholder="email" id="ContactFormEmail" name="contact[email]" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" class="{% if form.errors contains 'email' %}input--error{% endif %}" required>
+          </div>
+          <div class="col-md-4 col-xs-12">
+            <input type="tel" placeholder="phone" id="ContactFormPhone" name="contact[phone]" pattern="[0-9\-]*" value="{% if form[phone] %}{{ form[phone] }}{% elsif customer %}{{ customer.phone }}{% endif %}" required>
+          </div>
+          <div class="col-xs-12">
+            <textarea placeholder="message" id="ContactFormMessage" name="contact[body]"></textarea>
+          </div>
+          <div class="col-xs-12">
+            <div class="check-box">
+              <input type="checkbox" id="ContactFormTerms" name="contact[terms and conditions]" required>
+              <label for="ContactFormTerms"></label>
+              <p>I agree with terms & conditions.</p>
+            </div>
+          </div>
+          <div class="col-xs-12">
+            <button type="submit" class="btn">{{ 'contact.form.submit' | t }}</button>
+          </div>
+          {% endform %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

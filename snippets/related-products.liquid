@@ -1,0 +1,73 @@
+{% assign number_of_products = section.settings.related_total %}
+
+
+{% if collection == null or collection.handle == 'frontpage' or collection.handle == 'all' %}
+  {% assign found_a_collection = false %}
+  {% for c in product.collections %}
+    {% if found_a_collection == false and c.handle != 'frontpage' and c.handle != 'all' and c.all_products_count > 1 %}
+      {% assign found_a_collection = true %}
+      {% assign collection = c %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+
+{% if collection and collection.products_count > 1 %}
+<!-- FASHION PRODUCTS -->
+<section class="featured-section product-feature" style="margin-top: 600px;margin-bottom: 100px;">
+  <div class="container">
+    <div class="featured-wrap">
+      <h2 class="title">{{ section.settings.related_items_title }}</h2>
+      <div class="row">
+        <div class="featured-part">
+          <div class="rproduct-wrapper">
+          <ul class="col-3-slider" id="Rproduct-{{ section.id }}">
+            {% assign current_product = product %}
+            {% assign current_product_found = false %}
+            {% for product in collection.products limit: number_of_products %}
+            {% if product.handle == current_product.handle %}
+            {% assign current_product_found = true %}
+            {% else %}
+            {% unless current_product_found == false and forloop.last %}  
+            {% capture saved_amount %}{{ product.variants[0].compare_at_price | minus: product.variants[0].price | money_without_trailing_zeros }}{% endcapture %}
+            {% assign wc_sale_type = settings.product_grid_percent_amount %} 
+
+
+			{% if wc_sale_type == 'percentage' %}
+ 			 {% capture saved_amount %}{{ product.variants[0].compare_at_price | minus: product.variants[0].price | times: 100.0 | divided_by: product.variants[0].compare_at_price | money_without_currency | times: 100 | remove: '.0'}}%{% endcapture %}
+			{% else %}
+ 			 {% capture saved_amount %}{{ product.variants[0].compare_at_price | minus: product.variants[0].price | money_without_trailing_zeros }}{% endcapture %}
+			{% endif %}
+            <li class="col-md-3 col-xs-12">
+              <div class="product-grid">
+                <figure>
+                  <img class="lazyload js" src="{{ product.featured_image | img_url: 'master' }}" alt="{{ product.title }}">
+                  <a href="{{ product.url | within: collection }}" style="background-image:url({{ product.featured_image | img_url: 'master' }});"></a> 
+                  <div class="prod_label">
+                    {% if product.compare_at_price > product.price %}
+                    <span class="sale">SAVE {{ saved_amount }}</span> 
+                    {% endif %}
+                    {% unless product.available %}
+                    <span class="sold">sold out</span>
+                    {% endunless %}
+                  </div>
+                </figure>
+                <div class="product-grid-desc">
+                  <h3><a href="{{ product.url | within: collection }}">{{ product.title }}</a></h3>
+                  <span>{{ product.variants[0].price | money }}</span>
+                  {% if product.variants[0].compare_at_price > product.variants[0].price %}
+                  <span class="discount-price">{{ product.variants[0].compare_at_price | money }}</span> 
+                  {% endif %}
+                </div>
+              </div>
+            </li>
+            {% endunless %}
+            {% endif %}
+            {% endfor %}
+          </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %} 

@@ -1,0 +1,804 @@
+{% assign codes = 'USD,EUR,GBP,CAD,ARS,AUD,BBD,BDT,BSD,BHD,BRL,BOB,BND,BGN,ILS,MMK,KYD,CLP,CNY,COP,CRC,HRK,CZK,DKK,DOP,XCD,EGP,XPF,FJD,GHS,GTQ,GYD,GEL,HKD,HUF,ISK,INR,IDR,NIS,JMD,JPY,JOD,KZT,KES,KWD,LVL,LTL,MXN,MYR,MUR,MDL,MAD,MNT,MZN,ANG,NZD,NGN,NOK,OMR,PKR,PYG,PEN,PHP,PLN,QAR,RON,RUB,SAR,RSD,SCR,SGD,SYP,ZAR,KRW,LKR,SEK,CHF,TWD,THB,TZS,TTD,TRY,UAH,AED,UYU,VEB,VND,ZMK' | split: ',' %}
+{% assign supported_codes = settings.supported_currencies | split: ' ' %}
+<li style="padding: 0;width: 0;display:none;">
+  <select class="currency-picker" name="currencies" style="display:block; width: auto; visibility:hidden; height:0; padding:0; margin:0; min-height:0px; border: none;">
+    <option value="{{ shop.currency }}" selected="selected">{{ shop.currency }}</option>
+    {% for code in supported_codes %}
+    {% if code != shop.currency and codes contains code %}
+    <option value="{{ code }}">{{ code }}</option>
+    {% endif %}
+    {% endfor %}
+  </select>
+</li>
+
+<li class="currency_picker_cls">
+  {%- capture default_currency_svg_file -%}curr_flag_{{ shop.currency }}{%- endcapture -%}
+  <span class="default_currency_svg">
+    {% include default_currency_svg_file %}
+  </span>
+  <a href="javascript:void(0)" class="selected_currency">{{ shop.currency }}</a><em class="down-icon fa fa-chevron-down"></em>
+  <ul>
+    <li class="currency_li_cls">
+      <a href="javascript:void(0)" data-value="{{ shop.currency }}">
+        <span class="currency_li_svg">
+          {% include default_currency_svg_file %}
+        </span>
+        <em class="currency_li_curr_name">{{ shop.currency }}</em>
+      </a>
+    </li>
+    {% for code in supported_codes %}
+      {%- capture currency_svg_file -%}curr_flag_{{ code }}{%- endcapture -%}
+      {% if code != shop.currency and codes contains code %}
+        <li class="currency_li_cls">
+          <a href="javascript:void(0)" data-value="{{ code }}">
+            <span class="currency_li_svg">
+              {% include currency_svg_file %}
+            </span>
+            <em class="currency_li_curr_name">{{ code }}</em>
+          </a>
+    	</li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</li>
+<script type="text/javascript">
+  $(document).ready(function(){
+    function setCookie(cname,cvalue,exdays) {
+      var d = new Date();
+      d.setTime(d.getTime() + (exdays*24*60*60*1000));
+      var expires = "expires=" + d.toGMTString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    function getCookie(cname) {
+      var name = cname + "=";
+      var decodedCookie = decodeURIComponent(document.cookie);
+      var ca = decodedCookie.split(';');
+      for(var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+          c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+          return c.substring(name.length, c.length);
+        }
+      }
+      return "";
+    }
+
+    function change_class(){
+      $('.currency_li_cls a').each(function(){
+        $(this).removeClass('selected');
+        //var cookie_val = getCookie("saved_auto_currency");
+        var cookie_val = $.cookie("currency");
+        if($(this).attr('data-value') == cookie_val){
+          var code = ''
+          code = ''+$(this).attr('data-value');
+          $(".selected_currency").html(code);
+          $(this).addClass('selected');
+        }
+      });
+      $('.currency_picker_cls li').each(function(){
+        var selected_curriency = $(this).find('a');
+        if(selected_curriency.hasClass('selected')){
+          var img = $(this).find('.currency_li_svg').html();
+          $(this).parents('.currency_picker_cls').find('.default_currency_svg').html(img);
+        }
+      });
+    }
+    change_class();
+
+    var shop_domain = '{{ shop.url }}';
+    shop_domain = shop_domain.replace(/(^\w+:|^)\/\//, '');
+    var cookie_domain = '.'+shop_domain;
+    $('.currency_li_cls a').click(function(){
+      var cty_opt = $(this).attr('data-value');
+      $.cookie('currency', cty_opt, { domain: cookie_domain, path: '/' });
+      $('.currency-picker option[value="'+cty_opt+'"]').attr('selected','selected').siblings().removeAttr('selected');
+      $(this).addClass('selected');
+      $('.currency-picker').val(cty_opt).trigger('change');
+      setCookie("saved_auto_currency", cty_opt, 30);
+      change_class();
+      if(window.location.href.indexOf('?currency=') > -1){
+        var main_URL = window.location.href.split('?');
+        window.location.href = main_URL[0]+'?currency='+cty_opt;
+      } else{
+        window.location.href = window.location.href+'?currency='+cty_opt;
+      }
+    });
+    
+    {% if settings.enable_auto_country_pickup %}
+      $.ajax({
+        type: 'GET',
+        url: 'https://pro.ip-api.com/json?key=MMKSlgJ007H0INY',
+        dataType: 'json',
+        success: function(result){
+          var first_time_load = getCookie("saved_auto_currency");
+          if(first_time_load != ""){} else{
+            if(result.countryCode == 'IN'){
+              setCookie("saved_auto_currency", "INR", 30);
+              $('.currency-picker option[value="INR"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=INR';
+              } else{
+                window.location.href = window.location.href+'?currency=INR';
+              }
+            } else if(result.countryCode == 'GB'){
+              setCookie("saved_auto_currency", "GBP", 30);
+              $('.currency-picker option[value="GBP"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=GBP';
+              } else{
+                window.location.href = window.location.href+'?currency=GBP';
+              }
+            } else if(result.countryCode == 'CA'){
+              setCookie("saved_auto_currency", "CAD", 30);
+              $('.currency-picker option[value="CAD"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=CAD';
+              } else{
+                window.location.href = window.location.href+'?currency=CAD';
+              }
+            } else if(result.countryCode == 'AT'){
+              setCookie("saved_auto_currency", "AUD", 30);
+              $('.currency-picker option[value="AUD"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=AUD';
+              } else{
+                window.location.href = window.location.href+'?currency=AUD';
+              }
+            } else if(result.countryCode == 'JP'){
+              setCookie("saved_auto_currency", "JPY", 30);
+              $('.currency-picker option[value="JPY"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=JPY';
+              } else{
+                window.location.href = window.location.href+'?currency=JPY';
+              }
+            } else if(result.countryCode == 'AE'){
+              setCookie("saved_auto_currency", "AED", 30);
+              $('.currency-picker option[value="AED"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=AED';
+              } else{
+                window.location.href = window.location.href+'?currency=AED';
+              }
+            } else if(result.countryCode == 'AR'){
+              setCookie("saved_auto_currency", "ARS", 30);
+              $('.currency-picker option[value="ARS"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=ARS';
+              } else{
+                window.location.href = window.location.href+'?currency=ARS';
+              }
+            } else if(result.countryCode == 'BB'){
+              setCookie("saved_auto_currency", "BBD", 30);
+              $('.currency-picker option[value="BBD"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=BBD';
+              } else{
+                window.location.href = window.location.href+'?currency=BBD';
+              }
+            } else if(result.countryCode == 'BD'){
+              setCookie("saved_auto_currency", "BDT", 30);
+              $('.currency-picker option[value="BDT"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=BDT';
+              } else{
+                window.location.href = window.location.href+'?currency=BDT';
+              }
+            } else if(result.countryCode == 'BG'){
+              setCookie("saved_auto_currency", "BGN", 30);
+              $('.currency-picker option[value="BGN"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=BGN';
+              } else{
+                window.location.href = window.location.href+'?currency=BGN';
+              }
+            } else if(result.countryCode == 'BH'){
+              setCookie("saved_auto_currency", "BHD", 30);
+              $('.currency-picker option[value="BHD"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=BHD';
+              } else{
+                window.location.href = window.location.href+'?currency=BHD';
+              }
+            } else if(result.countryCode == 'BN'){
+              setCookie("saved_auto_currency", "BND", 30);
+              $('.currency-picker option[value="BND"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=BND';
+              } else{
+                window.location.href = window.location.href+'?currency=BND';
+              }
+            } else if(result.countryCode == 'BO'){
+              setCookie("saved_auto_currency", "BOB", 30);
+              $('.currency-picker option[value="BOB"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=BOB';
+              } else{
+                window.location.href = window.location.href+'?currency=BOB';
+              }
+            } else if(result.countryCode == 'BR'){
+              setCookie("saved_auto_currency", "BRL", 30);
+              $('.currency-picker option[value="BRL"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=BRL';
+              } else{
+                window.location.href = window.location.href+'?currency=BRL';
+              }
+            } else if(result.countryCode == 'BS'){
+              setCookie("saved_auto_currency", "BSD", 30);
+              $('.currency-picker option[value="BSD"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=BSD';
+              } else{
+                window.location.href = window.location.href+'?currency=BSD';
+              }
+            } else if(result.countryCode == 'CH'){
+              setCookie("saved_auto_currency", "CHF", 30);
+              $('.currency-picker option[value="CHF"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=CHF';
+              } else{
+                window.location.href = window.location.href+'?currency=CHF';
+              }
+            } else if(result.countryCode == 'CL'){
+              setCookie("saved_auto_currency", "CLP", 30);
+              $('.currency-picker option[value="CLP"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=CLP';
+              } else{
+                window.location.href = window.location.href+'?currency=CLP';
+              }
+            } else if(result.countryCode == 'CN'){
+              setCookie("saved_auto_currency", "CNY", 30);
+              $('.currency-picker option[value="CNY"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=CNY';
+              } else{
+                window.location.href = window.location.href+'?currency=CNY';
+              }
+            } else if(result.countryCode == 'CO'){
+              setCookie("saved_auto_currency", "COP", 30);
+              $('.currency-picker option[value="COP"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=COP';
+              } else{
+                window.location.href = window.location.href+'?currency=COP';
+              }
+            } else if(result.countryCode == 'CR'){
+              setCookie("saved_auto_currency", "CRC", 30);
+              $('.currency-picker option[value="CRC"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=CRC';
+              } else{
+                window.location.href = window.location.href+'?currency=CRC';
+              }
+            } else if(result.countryCode == 'CZ'){
+              setCookie("saved_auto_currency", "CZK", 30);
+              $('.currency-picker option[value="CZK"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=CZK';
+              } else{
+                window.location.href = window.location.href+'?currency=CZK';
+              }
+            } else if(result.countryCode == 'DK'){
+              setCookie("saved_auto_currency", "DKK", 30);
+              $('.currency-picker option[value="DKK"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=DKK';
+              } else{
+                window.location.href = window.location.href+'?currency=DKK';
+              }
+            } else if(result.countryCode == 'DO'){
+              setCookie("saved_auto_currency", "DOP", 30);
+              $('.currency-picker option[value="DOP"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=DOP';
+              } else{
+                window.location.href = window.location.href+'?currency=DOP';
+              }
+            } else if(result.countryCode == 'EG'){
+              setCookie("saved_auto_currency", "EGP", 30);
+              $('.currency-picker option[value="EGP"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=EGP';
+              } else{
+                window.location.href = window.location.href+'?currency=EGP';
+              }
+            } else if(result.countryCode == 'FJ'){
+              setCookie("saved_auto_currency", "FJD", 30);
+              $('.currency-picker option[value="FJD"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=FJD';
+              } else{
+                window.location.href = window.location.href+'?currency=FJD';
+              }
+            } else if(result.countryCode == 'GE'){
+              setCookie("saved_auto_currency", "GEL", 30);
+              $('.currency-picker option[value="GEL"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=GEL';
+              } else{
+                window.location.href = window.location.href+'?currency=GEL';
+              }
+            } else if(result.countryCode == 'GH'){
+              setCookie("saved_auto_currency", "GHS", 30);
+              $('.currency-picker option[value="GHS"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=GHS';
+              } else{
+                window.location.href = window.location.href+'?currency=GHS';
+              }
+            } else if(result.countryCode == 'GT'){
+              setCookie("saved_auto_currency", "GTQ", 30);
+              $('.currency-picker option[value="GTQ"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=GTQ';
+              } else{
+                window.location.href = window.location.href+'?currency=GTQ';
+              }
+            } else if(result.countryCode == 'GY'){
+              setCookie("saved_auto_currency", "GYD", 30);
+              $('.currency-picker option[value="GYD"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=GYD';
+              } else{
+                window.location.href = window.location.href+'?currency=GYD';
+              }
+            } else if(result.countryCode == 'HR'){
+              setCookie("saved_auto_currency", "HRK", 30);
+              $('.currency-picker option[value="HRK"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=HRK';
+              } else{
+                window.location.href = window.location.href+'?currency=HRK';
+              }
+            } else if(result.countryCode == 'HU'){
+              setCookie("saved_auto_currency", "HUF", 30);
+              $('.currency-picker option[value="HUF"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=HUF';
+              } else{
+                window.location.href = window.location.href+'?currency=HUF';
+              }
+            } else if(result.countryCode == 'ID'){
+              setCookie("saved_auto_currency", "IDR", 30);
+              $('.currency-picker option[value="IDR"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=IDR';
+              } else{
+                window.location.href = window.location.href+'?currency=IDR';
+              }
+            } else if(result.countryCode == 'IL'){
+              setCookie("saved_auto_currency", "ILS", 30);
+              $('.currency-picker option[value="ILS"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=ILS';
+              } else{
+                window.location.href = window.location.href+'?currency=ILS';
+              }
+            } else if(result.countryCode == 'JM'){
+              setCookie("saved_auto_currency", "JMD", 30);
+              $('.currency-picker option[value="JMD"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=JMD';
+              } else{
+                window.location.href = window.location.href+'?currency=JMD';
+              }
+            } else if(result.countryCode == 'JO'){
+              setCookie("saved_auto_currency", "JOD", 30);
+              $('.currency-picker option[value="JOD"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=JOD';
+              } else{
+                window.location.href = window.location.href+'?currency=JOD';
+              }
+            } else if(result.countryCode == 'KE'){
+              setCookie("saved_auto_currency", "KES", 30);
+              $('.currency-picker option[value="KES"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=KES';
+              } else{
+                window.location.href = window.location.href+'?currency=KES';
+              }
+            } else if(result.countryCode == 'KR'){
+              setCookie("saved_auto_currency", "KRW", 30);
+              $('.currency-picker option[value="KRW"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=KRW';
+              } else{
+                window.location.href = window.location.href+'?currency=KRW';
+              }
+            } else if(result.countryCode == 'KW'){
+              setCookie("saved_auto_currency", "KWD", 30);
+              $('.currency-picker option[value="KWD"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=KWD';
+              } else{
+                window.location.href = window.location.href+'?currency=KWD';
+              }
+            } else if(result.countryCode == 'KZ'){
+              setCookie("saved_auto_currency", "KZT", 30);
+              $('.currency-picker option[value="KZT"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=KZT';
+              } else{
+                window.location.href = window.location.href+'?currency=KZT';
+              }
+            } else if(result.countryCode == 'LK'){
+              setCookie("saved_auto_currency", "LKR", 30);
+              $('.currency-picker option[value="LKR"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=LKR';
+              } else{
+                window.location.href = window.location.href+'?currency=LKR';
+              }
+            } else if(result.countryCode == 'MA'){
+              setCookie("saved_auto_currency", "MAD", 30);
+              $('.currency-picker option[value="MAD"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=MAD';
+              } else{
+                window.location.href = window.location.href+'?currency=MAD';
+              }
+            } else if(result.countryCode == 'MD'){
+              setCookie("saved_auto_currency", "MDL", 30);
+              $('.currency-picker option[value="MDL"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=MDL';
+              } else{
+                window.location.href = window.location.href+'?currency=MDL';
+              }
+            } else if(result.countryCode == 'MM'){
+              setCookie("saved_auto_currency", "MMK", 30);
+              $('.currency-picker option[value="MMK"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=MMK';
+              } else{
+                window.location.href = window.location.href+'?currency=MMK';
+              }
+            } else if(result.countryCode == 'MN'){
+              setCookie("saved_auto_currency", "MNT", 30);
+              $('.currency-picker option[value="MNT"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=MNT';
+              } else{
+                window.location.href = window.location.href+'?currency=MNT';
+              }
+            } else if(result.countryCode == 'MU'){
+              setCookie("saved_auto_currency", "MUR", 30);
+              $('.currency-picker option[value="MUR"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=MUR';
+              } else{
+                window.location.href = window.location.href+'?currency=MUR';
+              }
+            } else if(result.countryCode == 'MX'){
+              setCookie("saved_auto_currency", "MXN", 30);
+              $('.currency-picker option[value="MXN"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=MXN';
+              } else{
+                window.location.href = window.location.href+'?currency=MXN';
+              }
+            } else if(result.countryCode == 'MY'){
+              setCookie("saved_auto_currency", "MYR", 30);
+              $('.currency-picker option[value="MYR"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=MYR';
+              } else{
+                window.location.href = window.location.href+'?currency=MYR';
+              }
+            } else if(result.countryCode == 'MZ'){
+              setCookie("saved_auto_currency", "MZN", 30);
+              $('.currency-picker option[value="MZN"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=MZN';
+              } else{
+                window.location.href = window.location.href+'?currency=MZN';
+              }
+            } else if(result.countryCode == 'NG'){
+              setCookie("saved_auto_currency", "NGN", 30);
+              $('.currency-picker option[value="NGN"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=NGN';
+              } else{
+                window.location.href = window.location.href+'?currency=NGN';
+              }
+            } else if(result.countryCode == 'NO'){
+              setCookie("saved_auto_currency", "NOK", 30);
+              $('.currency-picker option[value="NOK"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=NOK';
+              } else{
+                window.location.href = window.location.href+'?currency=NOK';
+              }
+            } else if(result.countryCode == 'NZ'){
+              setCookie("saved_auto_currency", "NZD", 30);
+              $('.currency-picker option[value="NZD"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=NZD';
+              } else{
+                window.location.href = window.location.href+'?currency=NZD';
+              }
+            } else if(result.countryCode == 'OM'){
+              setCookie("saved_auto_currency", "OMR", 30);
+              $('.currency-picker option[value="OMR"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=OMR';
+              } else{
+                window.location.href = window.location.href+'?currency=OMR';
+              }
+            } else if(result.countryCode == 'PE'){
+              setCookie("saved_auto_currency", "PEN", 30);
+              $('.currency-picker option[value="PEN"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=PEN';
+              } else{
+                window.location.href = window.location.href+'?currency=PEN';
+              }
+            } else if(result.countryCode == 'PH'){
+              setCookie("saved_auto_currency", "PHP", 30);
+              $('.currency-picker option[value="PHP"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=PHP';
+              } else{
+                window.location.href = window.location.href+'?currency=PHP';
+              }
+            } else if(result.countryCode == 'PK'){
+              setCookie("saved_auto_currency", "PKR", 30);
+              $('.currency-picker option[value="PKR"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=PKR';
+              } else{
+                window.location.href = window.location.href+'?currency=PKR';
+              }
+            } else if(result.countryCode == 'PL'){
+              setCookie("saved_auto_currency", "PLN", 30);
+              $('.currency-picker option[value="PLN"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=PLN';
+              } else{
+                window.location.href = window.location.href+'?currency=PLN';
+              }
+            } else if(result.countryCode == 'QA'){
+              setCookie("saved_auto_currency", "QAR", 30);
+              $('.currency-picker option[value="QAR"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=QAR';
+              } else{
+                window.location.href = window.location.href+'?currency=QAR';
+              }
+            } else if(result.countryCode == 'RO'){
+              setCookie("saved_auto_currency", "RON", 30);
+              $('.currency-picker option[value="RON"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=RON';
+              } else{
+                window.location.href = window.location.href+'?currency=RON';
+              }
+            } else if(result.countryCode == 'RS'){
+              setCookie("saved_auto_currency", "RSD", 30);
+              $('.currency-picker option[value="RSD"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=RSD';
+              } else{
+                window.location.href = window.location.href+'?currency=RSD';
+              }
+            } else if(result.countryCode == 'RU'){
+              setCookie("saved_auto_currency", "RUB", 30);
+              $('.currency-picker option[value="RUB"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=RUB';
+              } else{
+                window.location.href = window.location.href+'?currency=RUB';
+              }
+            } else if(result.countryCode == 'SA'){
+              setCookie("saved_auto_currency", "SAR", 30);
+              $('.currency-picker option[value="SAR"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=SAR';
+              } else{
+                window.location.href = window.location.href+'?currency=SAR';
+              }
+            } else if(result.countryCode == 'SC'){
+              setCookie("saved_auto_currency", "SCR", 30);
+              $('.currency-picker option[value="SCR"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=SCR';
+              } else{
+                window.location.href = window.location.href+'?currency=SCR';
+              }
+            } else if(result.countryCode == 'SE'){
+              setCookie("saved_auto_currency", "SEK", 30);
+              $('.currency-picker option[value="SEK"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=SEK';
+              } else{
+                window.location.href = window.location.href+'?currency=SEK';
+              }
+            } else if(result.countryCode == 'SG'){
+              setCookie("saved_auto_currency", "SGD", 30);
+              $('.currency-picker option[value="SGD"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=SGD';
+              } else{
+                window.location.href = window.location.href+'?currency=SGD';
+              }
+            } else if(result.countryCode == 'SY'){
+              setCookie("saved_auto_currency", "SYP", 30);
+              $('.currency-picker option[value="SYP"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=SYP';
+              } else{
+                window.location.href = window.location.href+'?currency=SYP';
+              }
+            } else if(result.countryCode == 'TH'){
+              setCookie("saved_auto_currency", "THB", 30);
+              $('.currency-picker option[value="THB"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=THB';
+              } else{
+                window.location.href = window.location.href+'?currency=THB';
+              }
+            } else if(result.countryCode == 'TR'){
+              setCookie("saved_auto_currency", "TRY", 30);
+              $('.currency-picker option[value="TRY"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=TRY';
+              } else{
+                window.location.href = window.location.href+'?currency=TRY';
+              }
+            } else if(result.countryCode == 'TT'){
+              setCookie("saved_auto_currency", "TTD", 30);
+              $('.currency-picker option[value="TTD"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=TTD';
+              } else{
+                window.location.href = window.location.href+'?currency=TTD';
+              }
+            } else if(result.countryCode == 'TW'){
+              setCookie("saved_auto_currency", "TWD", 30);
+              $('.currency-picker option[value="TWD"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=TWD';
+              } else{
+                window.location.href = window.location.href+'?currency=TWD';
+              }
+            } else if(result.countryCode == 'TZ'){
+              setCookie("saved_auto_currency", "TZS", 30);
+              $('.currency-picker option[value="TZS"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=TZS';
+              } else{
+                window.location.href = window.location.href+'?currency=TZS';
+              }
+            } else if(result.countryCode == 'UA'){
+              setCookie("saved_auto_currency", "UAH", 30);
+              $('.currency-picker option[value="UAH"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=UAH';
+              } else{
+                window.location.href = window.location.href+'?currency=UAH';
+              }
+            } else if(result.countryCode == 'UY'){
+              setCookie("saved_auto_currency", "UYU", 30);
+              $('.currency-picker option[value="UYU"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=UYU';
+              } else{
+                window.location.href = window.location.href+'?currency=UYU';
+              }
+            } else if(result.countryCode == 'VN'){
+              setCookie("saved_auto_currency", "VND", 30);
+              $('.currency-picker option[value="VND"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=VND';
+              } else{
+                window.location.href = window.location.href+'?currency=VND';
+              }
+            } else if(result.countryCode == 'ZA'){
+              setCookie("saved_auto_currency", "ZAR", 30);
+              $('.currency-picker option[value="ZAR"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=ZAR';
+              } else{
+                window.location.href = window.location.href+'?currency=ZAR';
+              }
+            } else{
+              setCookie("saved_auto_currency", "USD", 30);
+              $('.currency-picker option[value="USD"]').attr('selected','selected').siblings().removeAttr('selected');
+              if(window.location.href.indexOf('?currency=') > -1){
+                var main_URL = window.location.href.split('?');
+                window.location.href = main_URL[0]+'?currency=USD';
+              } else{
+                window.location.href = window.location.href+'?currency=USD';
+              }
+              setCookie("saved_auto_currency", "USD", 30);
+            }
+          }
+          change_class();
+        },
+        error: function(XMLHttpRequest, textStatus){
+          console.log(XMLHttpRequest);
+        }
+      });
+    {% endif %}
+  });
+</script>

@@ -1,0 +1,65 @@
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="container">
+    <div class="faq">
+      <div class="title-desc">
+        <h2>{{ page_title }}</h2>
+         {{ section.settings.text }}
+      </div>
+      <div id="accordion" role="tablist" aria-multiselectable="true">
+        
+        {% for block in section.blocks %}
+        <div class="card">
+          <div class="card-header" role="tab" id="heading{{ forloop.index }}">
+            <h5 class="mb-0">
+              <a data-toggle="collapse" {% unless forloop.index == 1%}class="collapsed"{% endunless %}aria-expanded=" {% if forloop.index == 1 %}true {% else %}false{% endif %}" data-parent="#accordion" href="#collapse{{ forloop.index }}" aria-controls="collapse{{ forloop.index }}">
+                {{ block.settings.title }}
+              </a> 
+            </h5>
+          </div>
+          <div id="collapse{{ forloop.index }}" class="collapse {% if forloop.index == 1 %}in{% endif %}" role="tabpanel" aria-labelledby="heading{{ forloop.index }}">
+            <div class="card-block">
+              {{ block.settings.answer }}
+            </div>
+          </div>
+        </div>
+       {% endfor %}
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "FAQs",
+    "settings": [
+      {
+        "type": "richtext",
+        "id": "text",
+        "label": "Text",
+		"default": "<p>Here are a few of the frequently asked questions.</p>"
+      }
+	],
+    "blocks": [
+      {
+        "type": "FAQs",
+        "name": "FAQs",
+        "settings": [          
+          {
+            "type": "textarea",
+            "id": "title",
+            "label": "Question",
+            "default": "Where do you ship from?"
+          },
+          {
+            "type": "richtext",
+            "id": "answer",
+            "label": "Answer",
+			"default": "<p>We ship from our partnered warehouses & factories located in US & China.</p>"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

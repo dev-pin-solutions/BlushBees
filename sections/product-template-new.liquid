@@ -1,0 +1,1482 @@
+{% assign wc_sale_type = settings.product_grid_percent_amount %}
+<!-- 'money' or 'percentage' -->
+
+{% if section.settings.show_breadcrumb %}
+  {% include 'breadcrumbs' %}
+{% endif %}
+
+<div
+  itemscope
+  itemtype="http://schema.org/Product"
+  id="ProductSection-{{ section.id }}"
+  data-section-id="{{ section.id }}"
+  data-section-type="product"
+  data-enable-history-state="true"
+>
+    <div class="inventoryWrapper">
+
+            {% comment %}<p>Stock: {{ product.first_available_variant.inventory_quantity }}</p>{% endcomment %}
+
+    </div>
+    <script>
+        let variantStock = {};
+        {% for variant in product.variants %}
+        variantStock[{{- variant.id -}}] = {{ variant.inventory_quantity }};
+        {% endfor %}
+        console.log(variantStock);
+    </script>
+  {% if product.metafields.loox.num_reviews %}
+    <div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating">
+      <meta itemprop="ratingValue" content="{{ product.metafields.loox.avg_rating }}">
+      <meta itemprop="reviewCount" content="{{ product.metafields.loox.num_reviews }}">
+    </div>
+  {% endif %}
+  <meta itemprop="name" content="{{ product.title }}">
+  <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+  <meta itemprop="image" content="{{ product.featured_image.src | img_url: 'master' }}">
+
+  {% comment %}
+    Get first variant, or deep linked one
+  {% endcomment %}
+
+  {% assign current_variant = product.selected_or_first_available_variant -%}
+  {% assign enable_zoom = section.settings.enable_image_zoom -%}
+  {% if wc_sale_type == 'percentage' %}
+    {% capture saved_amount %}{{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | money_without_currency | times: 100 | remove: '.0'}}%{% endcapture %}
+  {% else %}
+    {% capture saved_amount %}{{ product.compare_at_price | minus: product.price | money_without_trailing_zeros }}{% endcapture %}
+  {% endif %}
+  <!-- PRODUCT DETAIL -->
+
+  <section class="product-detail-section">
+    <div class="container">
+      <div class="row">
+        <div class="product-detail">
+          <div class="col-lg-6 col-xs-12">
+            <div class="product-slider-part">
+              <ul class="slider-for">
+                {% for image in product.images %}
+                  <li>
+                    {% if forloop.first == true %}
+                      <img
+                        id="ProductPhotoImg"
+                        src="{{ image.src | img_url: 'master' }}"
+                        alt="{{ image.alt | escape }}"
+                        class="{% if enable_zoom %}img-zoom-{{ forloop.index0 }}{% endif %}"
+                      >
+                    {% else %}
+                      <img
+                        id="ProductPhotoImg"
+                        src="{{ image.src | img_url: 'master' }}"
+                        data-src="{{ image.src | img_url: 'master' }}"
+                        alt="{{ image.alt | escape }}"
+                        class="lazyload {% if enable_zoom %}img-zoom-{{ forloop.index0 }}{% endif %}"
+                      >
+                    {% endif %}
+                  </li>
+                {% endfor %}
+              </ul>
+              {% if product.images.size > 1 %}
+                <ul class="slider-nav">
+                  {% for image in product.images %}
+                    <li>
+                      <img
+                        class="lazyload"
+                        src="{{ image | img_url: 'master' }}"
+                        data-src="{{ image | img_url: 'master' }}"
+                        alt="{{ image.alt | escape }}"
+                      >
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </div>
+          </div>
+          <div class="col-lg-6 col-xs-12">
+            <div class="product-detail-part">
+              <h1 itemprop="name">{{ product.title }}</h1>
+              <script async data-src="//loox.io/widget/loox.js?shop=blushbees-usa.myshopify.com"></script>
+                <div class="dynamic_inventory_block">IN STOCK. <span class="dynamic_inventory"></span> LEFT</div>
+              <a href="#looxReviews">
+                <div
+                  class="loox-rating"
+                  style="font-size: 20px;margin-bottom: 15px;"
+                  data-id="{{ product.id }}"
+                  data-rating="{{ product.metafields.loox.avg_rating }}"
+                  data-raters="{{ product.metafields.loox.num_reviews }}"
+                ></div>
+              </a>
+
+              <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+                <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+                <link
+                  itemprop="availability"
+                  href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}"
+                >
+
+                <span id="product_price" itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
+                  {{- current_variant.price | money -}}
+                </span>
+                {% if section.settings.show_compare_at_price == true %}
+                  <span id="product_compare_price" class="discount-price">
+                    {{- current_variant.compare_at_price | money -}}
+                  </span>
+                  <span id="save_price" class="save-price">SAVE {{ saved_amount }}</span>
+                {% endif %}
+
+                {% form 'product', product, id: 'AddToCartForm_id', novalidate: 'novalidate' %}
+                  <!-- HC - Shop Pay Installments Banner - 17 Mar ‘22 -->
+                  <div class="hc-shop-pay-installments" style="margin: 15px 0;">
+                    {{ form | payment_terms }}
+                  </div>
+                  <select
+                    name="id"
+                    id="productSelect"
+                    class="product-single__variants"
+                    style="display: none !important;"
+                  >
+                    {% for variant in product.variants %}
+                      <option
+                        {% if variant == product.selected_or_first_available_variant %}
+                          selected="selected"
+                        {% endif %}
+                        data-sku="{{ variant.sku }}"
+                        value="{{ variant.id }}"
+                      >
+                        {{ variant.title }} - {{ variant.price | money_with_currency }}
+                      </option>
+                    {% endfor %}
+                  </select>
+
+                 {% if section.settings.swatches_dropdown contains 'Swatches' %}
+                    {% if product.available and product.variants.size > 1 %}
+                      {% for option in product.options %}
+                        {% include 'swatch' with option %}
+                      {% endfor %}
+                    {% endif %}
+                  {% endif %}
+
+                  {% if section.settings.show_quantity_selector %}
+                    <div class="quantity-wrapper">
+                            <div class="quantity-box">
+                                <div class="qty-label">QTY <span class="selected-qty">1</span></div>
+                                <div class="arrow">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18px" height="10px" viewBox="0 0 18 10" version="1.1">
+                                        <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+                                        <title>ic_down</title>
+                                        <desc>Created with Sketch.</desc>
+                                        <defs/>
+                                        <g id="Icons" stroke="none" stroke-width="1" fill="gray" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+                                            <g id="24-px-Icons" transform="translate(-315.000000, -79.000000)" stroke="#000000">
+                                                <g id="ic_down" transform="translate(312.000000, 72.000000)">
+                                                    <g transform="translate(12.000000, 12.000000) rotate(-90.000000) translate(-12.000000, -12.000000) " id="ic_back">
+                                                        <g stroke-width="2">
+                                                            <g id="back" transform="translate(8.000000, 4.000000)">
+                                                                <path d="M8,0 L0,8" id="Line"/>
+                                                                <path d="M0,8 L8,16" id="Line"/>
+                                                            </g>
+                                                        </g>
+                                                    </g>
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </div>
+                                    <ul class="quantity-dropdown">
+                                        <li data-value="1">1</li>
+                                        <li data-value="2">2</li>
+                                        <li data-value="3">3</li>
+                                        <li data-value="4">4</li>
+                                        <li data-value="5">5</li>
+                                    </ul>
+                            </div>
+
+                        <input type="hidden" id="Quantity" name="quantity" value="1">
+                    </div>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            const quantityBox = document.querySelector(".quantity-box");
+                            const selectedQty = document.querySelector(".selected-qty");
+                            const dropdown = document.querySelector(".quantity-dropdown");
+                            const options = dropdown.querySelectorAll("li");
+                            const quantityInput = document.getElementById("Quantity");
+
+                            quantityBox.addEventListener("click", function () {
+                                this.classList.toggle("active");
+                            });
+
+                            options.forEach((option) => {
+                                option.addEventListener("click", function (event) {
+                                    event.stopPropagation(); // Останавливаем всплытие события
+                                    const value = this.getAttribute("data-value");
+                                    selectedQty.textContent = value;
+                                    quantityInput.value = value;
+                                    quantityBox.classList.remove("active"); // Закрываем селект
+                                });
+                            });
+
+                            document.addEventListener("click", function (event) {
+                                if (!quantityBox.contains(event.target)) {
+                                    quantityBox.classList.remove("active");
+                                }
+                            });
+                        });
+
+
+                    </script>
+                  {% endif %}
+                    {% include 'product-addtocart-new' %}
+                  {% comment %}{% include 'product-countdown-stockbar' %}{% endcomment %}
+                {% endform %}
+                {% render 'banana-stand-product-page-container' %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% if section.settings.description_layout == 'tabs' and section.settings.description_width == 'full' %}
+    {% include 'product-tabs-description' %}
+  {% endif %}
+ {% comment %}
+  {% if section.settings.description_width == 'full' %}
+    <div class="container">
+      <div class="wc_cart_sharing_bottom_code">
+        <div class="visa-section">
+          {% if section.settings.trust_image_below_description %}
+            <img
+              class="lazyload"
+              src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+              data-src="{{ section.settings.trust_image_below_description | img_url:'master' }}"
+            >
+          {% endif %}
+        </div>
+       
+        <div class="product-sharing">
+          {% if section.settings.enable_sharing_buttons %}
+            {% include 'product-social-sharing',
+              share_title: product.title,
+              share_permalink: product.url,
+              share_image: product
+            %}
+          {% endif %}
+        </div>
+    
+      </div>
+    </div>
+  {% endif %}
+    {% endcomment %}
+    <div class="loox-v2-carousel-container"
+         id="LOOX-V2_CAROUSEL-{{ 'now' | date: "%09N" }}"
+         data-widget="carousel"
+         data-slide-type="card"
+            {% if section.settings.maxWidth %} data-max-width="{{ section.settings.maxWidth }}" {% endif %}
+            {% if section.settings.borderRadius %} data-border-radius="{{ section.settings.borderRadius }}" {% endif %}
+            {% if section.settings.itemsPerView %} data-items-per-view="{{ section.settings.itemsPerView }}" {% endif %}
+            {% if section.settings.maxNumberOfCharacters %} data-max-number-of-characters="{{ section.settings.maxNumberOfCharacters }}" {% endif %}
+            {% if section.settings.imageRatio %} data-image-ratio="{{ section.settings.imageRatio }}" {% endif %}
+            {% if section.settings.reviewerNameColor %} data-reviewer-name-color="{{ section.settings.reviewerNameColor | replace: "#", "" }}" {% endif %}
+            {% if section.settings.textColor %} data-text-color="{{ section.settings.textColor | replace: "#", "" }}" {% endif %}
+            {% if section.settings.itemBackgroundColor %} data-item-background-color="{{ section.settings.itemBackgroundColor | replace: "#", "" }}" {% endif %}
+            {% if section.settings.starsColor %} data-stars-color="{{ section.settings.starsColor | replace: "#", "" }}" {% endif %}
+            {% if section.settings.starsBackgroundColor %} data-stars-background-color="{{ section.settings.starsBackgroundColor | replace: "#", "" }}" {% endif %}
+            {% if section.settings.arrows_backgroundColor %} data-arrows_background-color="{{ section.settings.arrows_backgroundColor | replace: "#", "" }}" {% endif %}
+            {% if section.settings.arrows_iconColor %} data-arrows_icon-color="{{ section.settings.arrows_iconColor | replace: "#", "" }}" {% endif %}
+            {% if section.settings.shadow %} data-shadow="{{ section.settings.shadow }}" {% endif %}
+            {% if section.settings.border_active %} data-border_active="yes" {% else %} data-border_active="no" {% endif %}
+            {% if section.settings.border_width %} data-border_width="{{ section.settings.border_width }}" {% endif %}
+            {% if section.settings.border_color %} data-border_color="{{ section.settings.border_color | replace: "#", "" }}" {% endif %}
+             data-product-ids="{{ all_products[product.handle].id }}"
+
+         data-customer-locale="{{ request.locale.iso_code }}"
+            {% if request.design_mode %}
+                data-preview="yes"
+                data-loox-block-id="{{ section.id }}"
+                data-request-path="{{ request.path }}"
+                data-page-type="{{ request.page_type }}"
+                data-origin="{{ request.origin }}"
+                data-template="{{ template }}"
+            {% endif %}
+    >
+    </div>
+  {% if section.settings.enable_related_items %}
+    {% include 'related-products' %}
+  {% endif %}
+</div>
+
+{% unless product == empty %}
+  <script type="application/json" id="ProductJson-{{ section.id }}">
+    {{ product | json }}
+  </script>
+{% endunless %}
+
+{% if product.variants.size > 1 %}
+  <script type="text/javascript">
+    var variantImages = {},
+        thumbnails,
+        variant,
+        variantImage,
+        optionValue,
+        productOptions = [];
+    {% for variant in product.variants %}
+    variant = {{ variant | json }};
+    if ( typeof variant.featured_image !== 'undefined' && variant.featured_image !== null ) {
+      variantImage =  variant.featured_image.src.split('?')[0].replace(/http(s)?:/,'');
+      variantImages[variantImage] = variantImages[variantImage] || {};
+      {% for option in product.options %}
+
+      {% assign option_value = variant.options[forloop.index0] %}
+      {% assign option_key = 'option-' | append: forloop.index0 %}
+
+      if (typeof variantImages[variantImage][{{ option_key | json }}] === 'undefined') {
+        variantImages[variantImage][{{ option_key | json }}] = {{ option_value | json }};
+      }
+      else {
+        var oldValue = variantImages[variantImage][{{ option_key | json }}];
+        if ( oldValue !== null && oldValue !== {{ option_value | json }} )  {
+            variantImages[variantImage][{{ option_key | json }}] = null;
+            }
+            }
+            {% endfor %}
+            }
+            productOptions.push(variant);
+        {% endfor %}
+
+        $(document).ready(function() {
+          thumbnails = $('img[src*="/products/"]').not(':first');
+          if (thumbnails.length) {
+            thumbnails.bind('click', function() {
+              var arrImage = $(this).attr('src').split('?')[0].split('.');
+              var strExtention = arrImage.pop();
+              var strRemaining = arrImage.pop();
+              //var strRemaining = arrImage.pop().replace(/_[a-zA-Z0-9@]+$/,'');
+              var strNewImage = arrImage.join('.')+"."+strRemaining+"."+strExtention;
+              if (typeof variantImages[strNewImage] !== 'undefined') {
+                productOptions.forEach(function (value, i) {
+                  optionValue = variantImages[strNewImage]['option-'+i];
+                  if (optionValue !== null && $('.selector-wrapper .single-option-selector:eq('+i+') option').filter(function() { return $(this).text().trim() === optionValue }).length) {
+                    $('.selector-wrapper .single-option-selector:eq('+i+')').val(optionValue).trigger('change');
+                  }
+                });
+              }
+            });
+
+            $('.slider-for').on('afterChange', function(event, slick, currentSlide, nextSlide){
+              var arrImage = $('.product-slider-part .slick-current').find('img');
+              arrImage = arrImage.attr('src').split('?')[0].split('.');
+              var strExtention = arrImage.pop();
+              var strRemaining = arrImage.pop();
+              //var strRemaining = arrImage.pop().replace(/_[a-zA-Z0-9@]+$/,'');
+              var strNewImage = arrImage.join('.')+"."+strRemaining+"."+strExtention;
+              if (typeof variantImages[strNewImage] !== 'undefined') {
+                productOptions.forEach(function (value, i) {
+                  optionValue = variantImages[strNewImage]['option-'+i];
+                  if (optionValue !== null && $('.selector-wrapper .single-option-selector:eq('+i+') option').filter(function() { return $(this).text().trim() === optionValue }).length) {
+                    $('.selector-wrapper .single-option-selector:eq('+i+')').val(optionValue).trigger('change');
+                  }
+                });
+              }
+            });
+          }
+        });
+  </script>
+{% endif %}
+
+<script type="text/javascript">
+  var wc_selectCallback = function(variant, selector){
+      document.querySelector('.dynamic_inventory').innerHTML = variantStock[variant.id];
+    {% if section.settings.swatches_dropdown contains 'Swatches' %}
+      if(variant){
+        var form = jQuery('#' + selector.domIdPrefix).closest('form');
+        for(var i=0,length=variant.options.length; i<length; i++){
+          var radioButton = form.find('.swatch[data-option-index="' + i + '"] :radio[value="' + variant.options[i] +'"]');
+          if(radioButton.size()){
+            radioButton.get(0).checked = true;
+          }
+        }
+      }
+    {% endif %}
+    var addtocart_btn_text = '{{ section.settings.ATC_button_text }}'
+    if (variant && variant.available == true){
+      var shop_curr = '{{shop.money_format}}';
+      {% if wc_sale_type == 'percentage' %}
+      var save_perc = ((variant.compare_at_price - variant.price)/variant.compare_at_price)*100;
+      var save_percn = save_perc.toFixed(0);
+      jQuery('#save_price').html('SAVE '+ save_percn + '%');
+      {% else %}
+      var save_amnt = (variant.compare_at_price - variant.price)/100;
+      var save_amntn = save_amnt.toFixed(2);
+      jQuery('#save_price').html('SAVE '+ (Shopify.formatMoney(save_amntn, shop_curr)));
+      {% endif %}
+      jQuery('#addtocart_btn_id').removeClass('disabled').removeAttr('disabled');
+       jQuery('#addtocart_btn_id').html(addtocart_btn_text);
+      jQuery('#product_price').html(Shopify.formatMoney(variant.price, shop_curr));
+      if(variant.compare_at_price != null){
+        jQuery('#product_compare_price').html(Shopify.formatMoney(variant.compare_at_price, shop_curr));
+      }else{
+        jQuery('#product_compare_price').html('');
+      }
+      jQuery('#progress_bar,#clock-ticker').show();
+    } else{
+      var shop_curr = '{{shop.money_format}}';
+      jQuery('#addtocart_btn_id').addClass('disabled').attr('disabled', 'disabled');
+      var message = variant ? "Sold Out" : "Unavailable";
+      jQuery('#product_price').html(Shopify.formatMoney(variant.price, shop_curr));
+      jQuery('#product_compare_price').html('');
+      jQuery('#progress_bar,#clock-ticker,#clock-ticker-m,#save_price').hide();
+      jQuery('#addtocart_btn_id').text(message);
+    }
+
+    {% if settings.show_multiple_currencies %}
+    currenciesCallbackSpecial('span.money');
+    {% endif %}
+
+    if(variant && variant.featured_image){
+
+      var originalImage = $(".slider-for .slick-current img");
+
+      var newImage = variant.featured_image;
+      var element = originalImage[0];
+
+      Shopify.Image.switchImage(newImage, element, function(newImageSizedSrc, newImage, element){
+
+        $(".slider-for li").each(function(index){
+          var temp_img_src = $(this).find('img').attr('src');
+          var temp_data_index = $(this).attr('data-slick-index');
+         
+          if( temp_img_src == newImageSizedSrc ){
+                
+            $('.slider-for').slick('slickGoTo', temp_data_index);
+            $('.slider-nav').slick('slickGoTo', temp_data_index);
+
+          }
+        });
+      });
+    }
+  };
+
+  $(window).load(function(){
+    new Shopify.OptionSelectors('productSelect',{
+      product: {{ product | json }},
+      onVariantSelected: wc_selectCallback,
+      enableHistoryState: true
+    });
+
+    {% if product.options.size == 1 and product.options.first != 'Title' %}
+    var label_text = '{{ product.options.first | escape }}';
+    $('.selector-wrapper:eq(0)').prepend('<label for="productSelect-option-0">'+label_text+'</label>');
+    {% endif %}
+
+    {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+      $('.selector-wrapper').hide();
+    {% endif %}
+    {% if section.settings.swatches_dropdown contains 'Swatches' %}
+      $('.selector-wrapper').addClass('hide');
+    {% endif %}
+  });
+</script>
+
+<script type="text/javascript">
+   if($(window).width() > 991){
+    $('.slider-for').on('afterChange', function(event, slick, currentSlide, nextSlide){
+      var img_url_temp = $(this).find('img').attr('src');
+      var imgs = $('.img-zoom');
+      $('.zoomContainer').remove();
+      imgs.removeData('elevateZoom');
+      imgs.removeData('zoomImage');
+      var temp_zoom_cls = '.img-zoom-'+currentSlide;
+      setTimeout(function(){
+        $(temp_zoom_cls).elevateZoom({
+          zoomType : "lens",
+          lensShape : "round",
+          lensSize : 200
+        });
+      }, 100);
+    });
+  }
+
+  if($(window).width() > 991){
+    $( document ).ready(function(){
+      setTimeout(function(){
+        var img_zoom_class = $(".slider-for .slick-active img").attr('class');
+        $('.'+img_zoom_class).elevateZoom({
+          zoomType : "lens",
+          lensShape : "round",
+          lensSize : 200
+        });
+      }, 100);
+    });
+  }
+
+  {% if section.settings.enable_floating_ATC_button %}
+  setTimeout(function(){
+    $('#AddToCartForm_id .cart-btn').clone().addClass('fix-cart-btn').appendTo("body");
+  }, 1000);
+  $(document).on('click', '.fix-cart-btn', function(){
+    $('#AddToCartForm_id .cart-btn').trigger('click');
+  });
+
+  $(document).ready(function(){
+    var Wwidth = $(window).width();
+    $.fn.is_on_screen = function(){
+      var win = $(window);
+      var viewport = {
+        top : win.scrollTop(),
+        left : win.scrollLeft()
+      };
+      viewport.right = viewport.left + win.width();
+      viewport.bottom = viewport.top + win.height();
+      var bounds = this.offset();
+      bounds.right = bounds.left + this.outerWidth();
+      bounds.bottom = bounds.top + this.outerHeight();
+      return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
+    };
+
+    $(window).on("scroll", function(){
+      if($(this).scrollTop() > 1000){
+        $('.fix-cart-btn').show();
+        if($('footer').length > 0){
+          if($('footer').is_on_screen()){
+            $('.fix-cart-btn').hide();
+          } else{
+            $('.fix-cart-btn').show();
+          }
+        }
+      } else{
+        $('.fix-cart-btn').hide();
+      }
+    });
+  });
+  {% endif %}
+</script>
+<script>
+  {% comment %} let add_btn= document.querySelectorAll('.cart-btn');
+  function VariantClick(value){
+    if (value == 'available'){ 
+     add_btn.innerHTML ={{ section.settings.ATC_button_text }};
+    }
+    else {
+      add_btn.innerHTML ='Sorry, Sold Out';
+    }
+  } {% endcomment %}
+</script>
+<div class="overlay"></div>
+<div class="box__popup">
+    <div class="box__popup-wrapper">
+        <svg class="box__popup-close" width="30" height="30" viewBox="0 0 30 30" fill="none"
+             xmlns="http://www.w3.org/2000/svg">
+            <rect width="30" height="30" fill="black" fill-opacity="0.05"/>
+            <path d="M19.6768 18.1178C19.7792 18.2201 19.8605 18.3417 19.9159 18.4754C19.9714 18.6092 19.9999 18.7526 20 18.8974C20 19.0422 19.9716 19.1856 19.9162 19.3194C19.8608 19.4532 19.7796 19.5748 19.6773 19.6773C19.5749 19.7797 19.4534 19.861 19.3196 19.9164C19.1858 19.9719 19.0424 20.0004 18.8976 20.0005C18.7528 20.0005 18.6094 19.9721 18.4756 19.9167C18.3418 19.8613 18.2202 19.7801 18.1178 19.6778L14.9998 16.5578L11.8818 19.6768C11.7794 19.7792 11.6579 19.8605 11.5241 19.9159C11.3903 19.9714 11.2469 19.9999 11.1021 20C10.9573 20 10.8139 19.9716 10.6801 19.9162C10.5463 19.8608 10.4247 19.7796 10.3223 19.6773C10.1154 19.4705 9.99912 19.1901 9.99902 18.8976C9.99893 18.6051 10.115 18.3246 10.3218 18.1178L13.4418 14.9998L10.3228 11.8818C10.1159 11.675 9.99962 11.3946 9.99952 11.1021C9.99943 10.8096 10.1155 10.5291 10.3223 10.3223C10.529 10.1154 10.8094 9.99912 11.1019 9.99902C11.3944 9.99893 11.6749 10.115 11.8818 10.3218L14.9998 13.4418L18.1178 10.3228C18.2201 10.2203 18.3417 10.1391 18.4754 10.0836C18.6092 10.0281 18.7526 9.99957 18.8974 9.99952C19.0422 9.99948 19.1856 10.028 19.3194 10.0833C19.4532 10.1387 19.5748 10.2199 19.6773 10.3223C19.7797 10.4246 19.861 10.5462 19.9164 10.6799C19.9719 10.8137 20.0004 10.9571 20.0005 11.1019C20.0005 11.2467 19.9721 11.3901 19.9167 11.5239C19.8613 11.6577 19.7801 11.7793 19.6778 11.8818L16.5578 14.9998L19.6758 18.1178H19.6768Z"
+                  fill="black" fill-opacity="0.3"/>
+        </svg>
+        <div class="box__popup-media">
+            <h3 class="box__popup__title">Customers Love BlushBees Boxes</h3>
+            {% assign first_video_id = data.product_video_id_s.value | first %}
+            <div class="box__popup-main-video">
+                <iframe
+                        class="ytplayer"
+                        width="350"
+                        height="200"
+                        src="https://www.youtube.com/embed/{{ data.main_video_id }}"
+                        frameborder="0"
+                ></iframe>
+            </div>
+            {% if data.descriptions.value != blank %}
+                <p class="box__content-copy box__popup-main-copy">
+                    <svg width="25" height="25" viewBox="0 0 25 25" fill="none"
+                         xmlns="http://www.w3.org/2000/svg"
+                         xmlns:xlink="http://www.w3.org/1999/xlink">
+                        <rect y="0.00146484" width="25" height="25"
+                              fill="url(#pattern0_95_2730)"/>
+                        <defs>
+                            <pattern id="pattern0_95_2730"
+                                     patternContentUnits="objectBoundingBox" width="1"
+                                     height="1">
+                                <use xlink:href="#image0_95_2730"
+                                     transform="scale(0.00195312)"/>
+                            </pattern>
+                            <image id="image0_95_2730" width="512" height="512"
+                                   preserveAspectRatio="none"
+                                   xlink:href="data:image/png;base64,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"/>
+                        </defs>
+                    </svg>
+                    <span>{{ data.block_copy }}</span></p>
+            {% endif %}
+        </div>
+        <div class="box__popup-content">
+            <div class="box__popup-content-desc">
+                {% for d in data.descriptions.value %}
+                    <span>{{ d }}</span>
+                {% endfor %}
+                {% if data.product_for_related_products != blank %}
+                    {% assign related_product_d = data.product_for_related_products.value.metafields.custom.box_data.value %}
+                    {% for a in related_product_d.descriptions.value %}
+                        <span>{{ a }}</span>
+                    {% endfor %}
+
+                {% endif %}
+            </div>
+            <h4 class="box__popup-content-title">VIDEOS FOR THIS PRODUCT</h4>
+            <div class="box__popup-content-videos">
+                {% for id in data.product_video_id_s.value %}
+                    <div class="video-thumbnail">
+                        <iframe
+                                class="ytplayer"
+                                width="350"
+                                height="200"
+                                src="https://www.youtube.com/embed/{{ id }}"
+                                frameborder="0"
+                        ></iframe>
+                        <div class="video-overlay"></div>
+                    </div>
+                {% endfor %}
+            </div>
+            {% if data.product_for_related_products != blank %}
+                {% assign related_product = data.product_for_related_products.value.metafields.custom.box_data.value %}
+                <h4 class="box__popup-content-title">RELATED VIDEOS FOR THIS PRODUCT</h4>
+                <div class="box__popup-content-videos">
+                    <div class="video-thumbnail">
+                        <iframe
+                                class="ytplayer"
+                                width="350"
+                                height="200"
+                                src="https://www.youtube.com/embed/{{ related_product.main_video_id }}"
+                                frameborder="0"
+                        ></iframe>
+                        <div class="video-overlay"></div>
+                    </div>
+                    {% for id in related_product.product_video_id_s.value %}
+                        <div class="video-thumbnail">
+                            <iframe
+                                    class="ytplayer"
+                                    width="350"
+                                    height="200"
+                                    src="https://www.youtube.com/embed/{{ id }}"
+                                    frameborder="0"
+                            ></iframe>
+                            <div class="video-overlay"></div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const popup = document.querySelector(".box__popup");
+        const overlay = document.querySelector(".overlay");
+        const openPopupBtn = document.querySelector(".box__content-btn");
+        const closePopupBtn = document.querySelector(".box__popup-close");
+        const videoThumbnails = document.querySelectorAll(".video-thumbnail");
+        const mainVideo = document.querySelector(".box__popup-main-video iframe");
+        const mainText = document.querySelector(".box__popup-main-copy > span"); // Целевой текстовый блок
+        const descriptions = document.querySelectorAll(".box__popup-content-desc span"); // Тексты для подстановки
+        const boxVideo = document.querySelector(".box__video iframe");
+        const boxVideoDesc = document.querySelector('.box__content-copy_for_autoplay').textContent;
+
+        if (!popup || !overlay || !openPopupBtn || !closePopupBtn || !mainVideo || !mainText || descriptions.length === 0) {
+            console.error("Popup or required elements not found in the DOM.");
+            return;
+        }
+
+        // Открытие попапа
+        const showPopup = (event) => {
+            mainVideo.src = boxVideo.src;
+            mainText.innerHTML = boxVideoDesc;
+            event.preventDefault();
+            popup.classList.add("active");
+            overlay.classList.add("active");
+            document.querySelector('html').style.overflow = 'hidden';
+            document.querySelector('.zoomContainer').style.zIndex = '-1';
+            // Скроллим страницу вверх к попапу
+            window.scrollTo({
+                top: popup.offsetTop - 100, // Учитываем 100px сверху
+                behavior: "smooth"
+            });
+        };
+
+        // Закрытие попапа
+        const closePopup = () => {
+            popup.classList.remove("active");
+            overlay.classList.remove("active");
+            document.querySelector('html').style.overflow = 'auto';
+            document.querySelector('.zoomContainer').style.zIndex = '1';
+            mainVideo.src = "";
+
+        };
+
+        const changeMainVideo = (event) => {
+            event.preventDefault();
+
+            const clickedThumbnail = event.currentTarget;
+            const iframe = clickedThumbnail.querySelector("iframe");
+            const index = Array.from(videoThumbnails).indexOf(clickedThumbnail); // Получаем индекс кликнутого элемента
+
+            if (!iframe) return;
+
+            const videoID = new URL(iframe.src).pathname.split("/").pop();
+            if (videoID) {
+                mainVideo.src = `https://www.youtube.com/embed/${videoID}?autoplay=1`;
+            }
+
+            // Подставляем соответствующий текст
+            if (descriptions[index]) {
+                mainText.textContent = descriptions[index].textContent;
+            }
+        };
+
+        // Навешиваем клик на `.video-thumbnail`, а не на iframe
+        videoThumbnails.forEach((thumbnail) => {
+            thumbnail.addEventListener("click", changeMainVideo);
+        });
+
+        // Слушатели событий
+        openPopupBtn.addEventListener("click", showPopup);
+        closePopupBtn.addEventListener("click", closePopup);
+        overlay.addEventListener("click", closePopup);
+    });
+</script>
+{% schema %}
+{
+  "name": "Product pages",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Countdown Timer"
+    },
+    {
+      "type": "select",
+      "id": "countdown_timer_style",
+      "label": "Countdown Timer Style",
+      "default": "white_background",
+      "options": [
+        {
+          "value": "white_background",
+          "label": "White"
+        },
+        {
+          "value": "color_background",
+          "label": "Colored"
+        },
+        {
+          "value": "timer_modern",
+          "label": "Modern"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "countdown_timer_text",
+      "label": "Countdown Timer Text",
+      "default": "Sale Ends Soon - Get Yours Today!"
+    },
+    {
+      "type": "header",
+      "content": "Stock Bar"
+    },
+    {
+      "type": "select",
+      "id": "stockbar_style",
+      "label": "Stockbar Style",
+      "default": "old_stockbar",
+      "options": [
+        {
+          "value": "old_stockbar",
+          "label": "With Bar"
+        },
+        {
+          "value": "modern_nostockbar",
+          "label": "Modern - Without Bar"
+        },
+        {
+          "value": "modern_stockbar",
+          "label": "Modern - With Bar"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "stock_bar_text_left",
+      "label": "Stock Bar Text Left",
+      "default": "Hurry! Only "
+    },
+    {
+      "type": "text",
+      "id": "stock_bar_text_right",
+      "label": "Stock Bar Text Right",
+      "default": " left in stock!"
+    },
+    {
+      "type": "header",
+      "content": "Real time Visitors"
+    },
+    {
+      "type": "select",
+      "id": "real_visitor_style",
+      "label": "Realtime Visitor Style",
+      "default": "old_realtime",
+      "options": [
+        {
+          "value": "old_realtime",
+          "label": "Original"
+        },
+        {
+          "value": "modern_realtime",
+          "label": "Modern"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "real_visitor_text_left",
+      "label": "Real Time Visitor Text Left",
+      "default": "REAL TIME "
+    },
+    {
+      "type": "text",
+      "id": "real_visitor_text_right",
+      "label": "Real Time Visitor Text Right",
+      "default": " VISITORS RIGHT NOW"
+    },
+    {
+      "type": "header",
+      "content": "ATC Button"
+    },
+    {
+      "type": "select",
+      "id": "atc_style",
+      "label": "ATC Style",
+      "info": "This applies to Dynamic button as well",
+      "default": "atc_simple",
+      "options": [
+        {
+          "value": "atc_simple",
+          "label": "ATC Default"
+        },
+        {
+          "value": "atc_round",
+          "label": "ATC Rounded"
+        },
+        {
+          "value": "atc_s_a",
+          "label": "ATC Default with Animation"
+        },
+        {
+          "value": "atc_r_a",
+          "label": "ATC Rounded with Animation"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "ATC_button_text",
+      "label": "ATC Button Text",
+      "default": "Add to cart"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_floating_ATC_button",
+      "label": "Enable Floating ATC Button",
+      "info": "This enables a full-width ATC button on scroll",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_payment_button",
+      "label": "Enable Dynamic Checkout",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "atc_trust_style",
+      "label": "Trust Badge Style",
+      "default": "trust_image",
+      "options": [
+        {
+          "value": "trust_image",
+          "label": "Trust Image"
+        },
+        {
+          "value": "trust_icons",
+          "label": "Payment Icons"
+        }
+      ]
+    },
+    {
+      "type": "image_picker",
+      "id": "trust_badge_below_ATC_button",
+      "label": "Trust Badge Below ATC Button"
+    },
+    {
+      "type": "header",
+      "content": "Order Of Elements"
+    },
+    {
+      "type": "select",
+      "id": "first_element",
+      "label": "First Element",
+      "default": "ATC_btn",
+      "options": [
+        {
+          "value": "ATC_btn",
+          "label": "ATC"
+        },
+        {
+          "value": "stock_bar",
+          "label": "Stock Bar"
+        },
+        {
+          "value": "timer",
+          "label": "Timer"
+        },
+        {
+          "value": "visitor_count",
+          "label": "Visitor Count"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "secound_element",
+      "label": "Second Element",
+      "default": "stock_bar",
+      "options": [
+        {
+          "value": "ATC_btn",
+          "label": "ATC"
+        },
+        {
+          "value": "stock_bar",
+          "label": "Stock Bar"
+        },
+        {
+          "value": "timer",
+          "label": "Timer"
+        },
+        {
+          "value": "visitor_count",
+          "label": "Visitor Count"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "third_element",
+      "label": "Third Element",
+      "default": "timer",
+      "options": [
+        {
+          "value": "ATC_btn",
+          "label": "ATC"
+        },
+        {
+          "value": "stock_bar",
+          "label": "Stock Bar"
+        },
+        {
+          "value": "timer",
+          "label": "Timer"
+        },
+        {
+          "value": "visitor_count",
+          "label": "Visitor Count"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "fourth_element",
+      "label": "Fourth Element",
+      "default": "visitor_count",
+      "options": [
+        {
+          "value": "ATC_btn",
+          "label": "ATC"
+        },
+        {
+          "value": "stock_bar",
+          "label": "Stock Bar"
+        },
+        {
+          "value": "timer",
+          "label": "Timer"
+        },
+        {
+          "value": "visitor_count",
+          "label": "Visitor Count"
+        },
+        {
+          "value": "none",
+          "label": "None"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Sharing"
+    },
+    {
+      "type": "select",
+      "id": "sharing_style",
+      "label": "Sharing Icon Style",
+      "default": "modern",
+      "options": [
+        {
+          "value": "modern",
+          "label": "Modern"
+        },
+        {
+          "value": "old",
+          "label": "Icon and Name"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sharing_buttons",
+      "label": "Enable Sharing Buttons",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "share_facebook",
+      "label": "Share on Facebook",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "share_twitter",
+      "label": "Tweet on Twitter",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "share_pinterest",
+      "label": "Pin on Pinterest",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "share_reddit",
+      "label": "Reddit Share",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "share_whatsapp",
+      "label": "Share on WhatsApp",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Trust Badge"
+    },
+    {
+      "type": "image_picker",
+      "id": "trust_image_below_description",
+      "label": "Trust Image Below Description"
+    },
+    {
+      "type": "header",
+      "content": "General"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_image_zoom",
+      "label": "Enable Image Zoom",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_related_items",
+      "label": "Enable Related Items",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "related_items_title",
+      "label": "Related Items Title",
+      "default": "You'll Also Love These"
+    },
+    {
+      "type": "select",
+      "id": "related_total",
+      "label": "Total Product",
+      "default": "6",
+      "options": [
+        {
+          "value": "6",
+          "label": "6"
+        },
+        {
+          "value": "8",
+          "label": "8"
+        },
+        {
+          "value": "10",
+          "label": "10"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quantity_selector",
+      "label": "Show Quantity Selector",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_compare_at_price",
+      "label": "Show Compare At Price",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumb",
+      "label": "Show Breadcrumb",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "swatches_dropdown",
+      "label": "Variant Swatches Or Dropdown",
+      "default": "Swatches",
+      "options": [
+        {
+          "value": "Swatches",
+          "label": "Swatches"
+        },
+        {
+          "value": "SwatchesRound",
+          "label": "Swatches - Round"
+        },
+        {
+          "value": "Dropdown",
+          "label": "Dropdown"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "variant_swatch_image",
+      "info": "In order to use Web Color you need to name the variant from one of the colors mentioned [here](https:\/\/htmlcolorcodes.com\/color-names\/). For Color Variant - Images from Assets - You need to upload a jpg file which is 128x128px, in assets with the same name as variant. eg Variant name is Golden Sea then image name will be golden_sea.jpg",
+      "label": "Variant Image or CSS",
+      "default": "variant_css",
+      "options": [
+        {
+          "value": "variant_css",
+          "label": "Web Color - CSS"
+        },
+        {
+          "value": "variant_asset",
+          "label": "Color Variant - Images from Assets"
+        },
+        {
+          "value": "variant_product",
+          "label": "Color Variant - Images from Product"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Product Description Layout"
+    },
+    {
+      "type": "select",
+      "id": "description_layout",
+      "label": "Layout",
+      "default": "default",
+      "options": [
+        {
+          "value": "tabs",
+          "label": "Tabs"
+        },
+        {
+          "value": "default",
+          "label": "No Tabs"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "description_width",
+      "label": "Section Width",
+      "default": "full",
+      "options": [
+        {
+          "value": "full",
+          "label": "Full Width"
+        },
+        {
+          "value": "half",
+          "label": "Half Width (Right)"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show Description",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "tab_title_1",
+      "label": "Title",
+      "default": "Description"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sizechart",
+      "label": "Show Size Chart",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "tab_title_2",
+      "label": "Title",
+      "default": "Size Chart"
+    },
+    {
+      "type": "html",
+      "id": "default_sizechart",
+      "label": "Default Size Chart"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_returns",
+      "label": "Show Returns",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "tab_title_3",
+      "label": "Title",
+      "default": "Returns"
+    },
+    {
+      "type": "html",
+      "id": "default_returns",
+      "label": "Default Returns"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_shipping",
+      "label": "Show Shipping",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "tab_title_4",
+      "label": "Title",
+      "default": "Shipping"
+    },
+    {
+      "type": "html",
+      "id": "default_shipping",
+      "label": "Default Shipping"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_banner",
+      "label": "Show Banner",
+      "default": true
+    },
+    {
+      "type": "paragraph",
+      "content": "Note that this widget will display only reviews with a photo"
+    },
+    {
+      "type": "range",
+      "id": "maxWidth",
+      "min": 600,
+      "max": 1600,
+      "step": 10,
+      "unit": "px",
+      "label": "Maximum width",
+      "default": 1100
+    },
+    {
+      "type": "range",
+      "id": "borderRadius",
+      "min": 0,
+      "max": 60,
+      "step": 1,
+      "unit": "px",
+      "label": "Corner radius",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "itemsPerView",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "label": "Number of reviews on desktop",
+      "default": 4
+    },
+    {
+      "type": "range",
+      "id": "maxNumberOfCharacters",
+      "min": 50,
+      "max": 500,
+      "step": 10,
+      "label": "Max number of characters",
+      "default": 100
+    },
+    {
+      "type": "select",
+      "id": "imageRatio",
+      "label": "Image ratio",
+      "options": [
+        {
+          "value": "1",
+          "label": "1:1"
+        },
+        {
+          "value": "0.72",
+          "label": "3:4"
+        },
+        {
+          "value": "1.25",
+          "label": "4:3"
+        },
+        {
+          "value": "0.5625",
+          "label": "16:9"
+        }
+      ],
+      "default": "0.72"
+    },
+    {
+      "type": "color",
+      "id": "reviewerNameColor",
+      "label": "Reviewer name color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "textColor",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "itemBackgroundColor",
+      "label": "Text background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "starsColor",
+      "label": "Stars color"
+    },
+    {
+      "type": "color",
+      "id": "starsBackgroundColor",
+      "label": "Stars background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "arrows_backgroundColor",
+      "label": "Arrow background color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "arrows_iconColor",
+      "label": "Arrow color",
+      "default": "#9A9A9A"
+    },
+    {
+      "type": "header",
+      "content": "Shadow & Border"
+    },
+    {
+      "type": "select",
+      "id": "shadow",
+      "label": "Drop shadow style",
+      "options": [
+        {
+          "value": "none",
+          "label": "No shadow"
+        },
+        {
+          "value": "basic",
+          "label": "Basic"
+        },
+        {
+          "value": "offset-dark",
+          "label": "Offset Dark"
+        },
+        {
+          "value": "offset-light",
+          "label": "Offset Light"
+        }
+      ],
+      "default": "offset-dark"
+    },
+    {
+      "type": "checkbox",
+      "id": "border_active",
+      "label": "Show border",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "border_width",
+      "min": 1,
+      "max": 10,
+      "step": 1,
+      "unit": "px",
+      "label": "Border width",
+      "default": 2
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Reviews Selection"
+    },
+    {
+      "type": "paragraph",
+      "content": "Learn how to select reviews to display on this widget [Learn more](https://help.loox.io/article/607-loox-carousel-widgets)."
+    },
+    {
+      "type": "product",
+      "id": "productIds",
+      "label": "Select product (optional)",
+      "info": "If you prefer to display reviews of a specific product, select it here."
+    },
+    {
+      "type": "paragraph",
+      "content": "Customize the carousel font on your Loox settings [Loox Branding settings](/admin/apps/loox-fashion-reviews/admin/settings/branding)"
+    }
+  ]
+}
+{% endschema %}
+
+
+	
+
+{% comment %}	<div id="looxReviews" data-product-id="{{product.id}}" class="loox-reviews-default">{{ product.metafields.loox.reviews }}</div> {% endcomment %}

@@ -1,0 +1,143 @@
+{% if section.settings.enable_blog_display %}
+<!-- LATEST BLOG -->
+<section class="latest-blog-section" data-section-id="{{ section.id }}" data-section-type="blog">
+  <div class="container">
+    <div class="latest-blog">
+      <h2 class="title">{{ section.settings.title }}</h2>
+      <div class="row">
+        <div class="blog-wrapper">
+          <ul {% if section.settings.post_layout == 'slider' %}class="col-3-slider" id="Blog-{{ section.id }}"{% endif %}>            
+            {% if section.settings.post_grid == '3' %}
+            {% assign grid_width = 'col-lg-4 col-md-4 col-xs-12' %}
+            {% else %}
+            {% assign grid_width = 'col-lg-3 col-md-3 col-xs-12' %}
+            {% endif %}  
+
+            {% assign limit = section.settings.post_grid | times: section.settings.post_row %}
+            {% assign home_blog = blogs[section.settings.blog] %}
+            {% for article in home_blog.articles limit:limit %}
+            <li class="{{ grid_width }}">
+              <div class="latest-blog-part">
+                <figure><a href="{{ article.url }}"><img class="lazyload" src="{{ article.image.src | img_url: '450x450' }}" alt="{{ article.title }}"></a></figure>
+                <div class="latest-blog-figcaption">
+                  <h5><a href="{{ article.url }}">{{ article.title }}</a></h5>
+                  <p>
+                    {% if section.settings.blog_show_date %}
+                    <span>{{ article.published_at | date: "%d %b %Y" }}</span>
+                    {% endif %}
+                    {% if section.settings.blog_show_author %}
+                    <span>{{ article.author }}</span>
+                    {% endif %}
+                  </p>
+                </div>
+                <div class="latest-blog-wrap">
+                  <a href="{{ article.url }}" class="blog-btn">Read more</a>
+                </div>
+              </div>
+            </li>
+            {% endfor %}
+          </ul>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Blog posts",
+    "settings": [
+	  {
+        "type": "checkbox",
+        "id": "enable_blog_display",
+        "label": "Enable Blog Display",
+        "default": true
+      },
+	  {
+        "type": "select",
+        "id": "post_layout",
+        "label": "Posts layout",
+        "default": "slider",
+        "options": [          
+          {
+            "value": "slider",
+            "label": "Slider"
+          },
+          {
+            "value": "grid",
+            "label": "Grid"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Our Latest Blog"
+      },
+      {
+		"type": "blog",
+        "id": "blog",        
+        "label": "Blog"
+      },     
+      {
+        "type": "select",
+        "id": "post_grid",
+        "label": "Posts per row",
+        "default": "4",
+        "options": [          
+          {
+            "value": "3",
+            "label": "3"
+          },
+          {
+            "value": "4",
+            "label": "4"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "post_row",
+        "label": "Number of rows",
+        "default": "1",
+        "options": [
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          },
+          {
+            "value": "3",
+            "label": "3"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_show_author",
+        "label": "Show author",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_show_date",
+        "label": "Show date",
+        "default": true
+      }
+    ],
+    "presets": [
+      {
+        "name": "Blog posts",
+        "category": "Blog",
+        "settings": {}
+      }
+    ]
+  }
+{% endschema %}
+

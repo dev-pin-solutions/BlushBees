@@ -1,0 +1,39 @@
+
+
+
+<div class="
+{% if section.settings.atc_style == 'atc_round' or section.settings.atc_style == 'atc_r_a' %}atcround{% endif %}
+{% if section.settings.atc_style == 'atc_s_a' or section.settings.atc_style == 'atc_r_a' %} atcanimate{% endif %}">
+  <button type="submit" id="addtocart_btn_id" class="cart-btn {% if settings.cart_option == 'popup_cart' %}add_to_cart_btn_cls{% endif %}" name="add">
+    
+  </button>
+  {% if section.settings.enable_payment_button %}{{ form | payment_button }}{% endif %}
+</div>
+{% if section.settings.atc_trust_style == 'trust_icons' %}
+  {%- unless shop.enabled_payment_types == empty -%}
+  <div class="atcpay">
+    <span class="payvisuallyhidden"> Guaranteed Safe Checkout </span>
+    <ul>
+  	  {% assign enabled_payment_types = 'google_pay,visa,master,american_express' | remove: 'paypal,jcb' | split: ',' %}
+      {%- for type in shop.enabled_payment_types -%}
+        <li>
+          {{ type | payment_type_svg_tag: class: 'payicon icon--full-color' }}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+
+  {%- endunless -%}
+{% else %}
+{%if section.settings.show_banner and product.id==6944787431590 or product.id==4439094853763%}
+<figure class="atc_badge" style="width:100%; margin:0px;padding:0px">
+      <img class="lazyload" src="{{ 'banner.webp' | asset_url }}">
+    </figure>
+{%endif%}
+  {% if section.settings.trust_badge_below_ATC_button %}
+    <figure class="atc_badge">
+      <img class="lazyload" src="{% if section.settings.trust_badge_below_ATC_button.size > 0 %}{{ section.settings.trust_badge_below_ATC_button | img_url: 'master' }}{% else %}{{ 'dropship-theme-safe.png' | asset_url }}{% endif %}">
+    </figure>
+  {% endif %}
+{% endif %}
+ 

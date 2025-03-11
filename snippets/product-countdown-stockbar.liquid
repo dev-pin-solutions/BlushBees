@@ -1,0 +1,313 @@
+{% assign timer_flag = true %}
+{% if settings.disable_timer_regular_price %}
+  {% unless product.compare_at_price > product.price %}
+  	{% assign timer_flag = false %}
+  {% endunless %}
+{% endif %}
+
+
+{% assign total = 0 %}  
+{% for variant in product.variants %} 
+  {% if variant.inventory_management == "shopify" %} 
+	{% capture temp %}{{ total | plus: variant.inventory_quantity }}{% endcapture %} 		
+    {% assign total = temp %}	  	
+  {% else %}
+    {% assign total = 999 %}
+  {% endif %}
+{% endfor %}
+
+<script type="text/javascript">
+  function randomIntFromInterval(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+  // Settings are here
+  var total_items = 50;
+  var d = new Date();
+  var min_items_left = 12;
+  var max_items_left = 20;
+  
+  {% if settings.enable_inventory_stock_number == 'enable_stock_number_random' %}
+  var remaining_items = randomIntFromInterval(min_items_left, max_items_left);
+  {% else %} 
+  var remaining_items = {{ total }}; 
+  {% endif %}
+  
+  var min_of_remaining_items = 1;
+  var decrease_after = 1.7; 
+  var decrease_after_first_item = 0.17; 
+
+  function progressbar(_this){
+    var $this = $(_this);
+    
+    var a = "<p> {{ section.settings.stock_bar_text_left }} <span class='count'>" + remaining_items + "</span> {{ section.settings.stock_bar_text_right }}</p>" + "<div class='progressbar {% if section.settings.stockbar_style == 'modern_nostockbar'%} nostockbar {% endif %}'><div style='width:100%'></div></div>";
+    
+    $this.addClass('items-count');
+    $this.html(a + $this.html());
+    updateMeter($this);
+    var b = $this;
+    
+    {% unless settings.enable_inventory_stock_number == 'enable_stock_number_real_inventory' %}   
+    setTimeout(function() {
+      remaining_items--;
+      if (remaining_items < min_of_remaining_items) {
+        remaining_items = randomIntFromInterval(min_items_left, max_items_left)
+      }
+      //$('.count').css('background-color', '#CE0201');
+      $('.count').css('color', '#fff');
+      setTimeout(function() {
+        //$('.count').css('background-color', '#fff');
+        $('.count').css('color', '#CE0201')
+      }, 1000 * 60 * 0.03);
+      b.find(".count").text(remaining_items);
+      updateMeter(b);
+    }, 1000 * 60 * decrease_after_first_item);
+    
+    setInterval(function() {
+      remaining_items--;
+      if (remaining_items < min_of_remaining_items) {
+        remaining_items = randomIntFromInterval(min_items_left, max_items_left)
+      }
+     // $('.count').css('background-color', '#CE0201');
+      $('.count').css('color', '#fff');
+      setTimeout(function() {
+      //  $('.count').css('background-color', '#fff');
+        $('.count').css('color', '#CE0201')
+      }, 1000 * 60 * 0.03);
+      b.find(".count").text(remaining_items);
+      updateMeter(b)
+    }, 1000 * 60 * decrease_after);
+    {% endunless %}
+    
+  }
+  
+  
+  function updateMeter(a) {
+    var b = 100 * remaining_items / total_items;
+    if (remaining_items < 10) {
+      a.find('.progressbar div:first').addClass('less-than-ten')
+    }
+    a.find('.progressbar').addClass('active progress-striped');
+    setTimeout(function() {
+      myanimate(a.find('.progressbar div:first'), b);
+      a.find('.progressbar').removeClass('active progress-striped')
+    }, 1000)
+  }
+
+
+  function myanimate(a, b) {
+    var c = 0;
+    var d = parseInt(a.closest('.progressbar').css('width'));
+    var e = Math.floor(100 * parseInt(a.css('width')) / d);
+    if (e > b) {
+      c = e
+    }
+
+    function frame() {
+      if (e > b) {
+        c--
+      } else {
+        c++
+      }
+      a.css('width', c + '%');
+      if (c == b || c <= 0 || c >= 100) clearInterval(f)
+        }
+    var f = setInterval(frame, 40)
+    }
+
+  get_random = function (list) {
+    return list[Math.floor((Math.random()*list.length))];
+  } 
+
+  $(document).ready(function() {
+    progressbar('#progress_bar');
+    var tag = "ctdn-12-12".match(/\d+/g);
+    var hour = 23;
+    var theDaysBox = $("#numdays");
+    var theHoursBox = $("#numhours");
+    var theMinsBox = $("#nummins");
+    var theSecsBox = $("#numsecs");
+    var d = new Date();
+    var n = d.getDay();
+    var date = 1;
+    var nsec = 0;
+    var nmin = 0;
+    var nhrs = 0;
+	var kp_seconds = d.getSeconds() + (d.getMinutes()* 60) + (d.getHours()*60*60);
+    
+    var totalSeconds = {{ settings.enable_timer_custom_sec }};
+    
+    if(getCookie('custom_count_down') == ""){
+      setCookie('custom_count_down', '0', 1);
+      kp_seconds = 0;
+    }else{
+      kp_seconds = parseInt(getCookie('custom_count_down'));
+      {% if settings.enable_timer_type == 'enable_timer_custom' %}
+      if(totalSeconds == kp_seconds){
+        $('#clock-ticker').hide();
+      }
+      {% endif %}
+    }
+
+    if(totalSeconds > kp_seconds){
+		totalSeconds = totalSeconds - kp_seconds;
+    }else{
+      totalSeconds = 0;
+    }
+    var custom_hours   = Math.floor(totalSeconds / 3600);
+    var custom_minutes = Math.floor((totalSeconds - (custom_hours * 3600)) / 60);
+    var custom_seconds = totalSeconds - (custom_hours * 3600) - (custom_minutes * 60);
+    custom_seconds = Math.round(custom_seconds * 100) / 100;
+    
+    custom_hours = (custom_hours < 0 ? "0" : custom_hours);
+    custom_minutes = (custom_minutes < 0 ? "0" : custom_minutes);
+    custom_seconds = (custom_seconds  < 0 ? "0" : custom_seconds);
+
+    {% if settings.enable_timer_type == 'enable_timer_custom' %}
+      nsec = custom_seconds;
+      nmin = custom_minutes;
+      nhrs = custom_hours;
+	  console.log(custom_hours);
+    {% else %}
+      nsec = get_random([05,10,15,20,25,30,35,40,45,50,55,60]);
+      nmin = get_random([05,10,15,20,25,30,35,40,45,50,55,60]);
+      nhrs = get_random([01,02,03,04,05,06,07,08,09,10,11,12,13,14,15,16,17,18,19,20,21,22,23]);
+    {% endif %}
+    
+    var ndat = date - 1;
+    if (ndat < 0) {
+      var mmon = d.getMonth();
+      ndat = 30 + date - d.getDate() - ii
+    }
+    theSecsBox.html(("0" + nsec).slice(-2));
+    theMinsBox.html(("0" + nmin).slice(-2));
+    theHoursBox.html(("0" + nhrs).slice(-2));
+    theDaysBox.html(ndat);
+    
+    var refreshId = setInterval(function() {
+      var totalSeconds = {{ settings.enable_timer_custom_sec }};
+      var custom_count_down = parseInt(getCookie('custom_count_down'));   
+      if(getCookie('custom_count_down') != "" && totalSeconds > custom_count_down){
+        setCookie('custom_count_down', custom_count_down+1, 1);
+      }else if(totalSeconds == custom_count_down){
+        {% if settings.enable_timer_type == 'enable_timer_custom' %}
+        $('#clock-ticker').hide();
+        {% endif %}
+      }
+      var e = theSecsBox.text();      
+      var a = theMinsBox.text();
+      var c = theHoursBox.text();
+      var b = theDaysBox.text();
+      if (e == 0 && a == 0 && c == 0 && b == 0) {} else {
+        if (e == 0 && a == 0 && c == 0) {
+          theDaysBox.html(("0" + (b - 1)).slice(-2));
+          theHoursBox.html("23");
+          theMinsBox.html("59");
+          theSecsBox.html("59")
+        } else {
+          if (e == 0 && a == 0) {
+            theHoursBox.html(("0" + (c - 1)).slice(-2));
+            theMinsBox.html("59");
+            theSecsBox.html("59")
+          } else {
+            if (e == 0) {
+              theMinsBox.html(("0" + (a - 1)).slice(-2));
+              theSecsBox.html("59")
+            } else {
+              theSecsBox.html(("0" + (e - 1)).slice(-2))
+            }
+          }
+        }
+      }
+    }, 1000);
+  });
+ 
+  function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
+
+  function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return "";
+  }
+</script>
+
+{% assign first_element = section.settings.first_element %}
+{% assign secound_element = section.settings.secound_element %}
+{% assign third_element = section.settings.third_element %}
+{% assign fourth_element = section.settings.fourth_element %}
+
+
+
+{% if first_element == 'ATC_btn' %}
+  
+	{% include 'product-addtocart' %}
+    <div class="custom_act_guaranteed_bedg">
+        {% if product.metafields.custom.custom_atc_badge.value != blank %}
+           <img class="act_deal_company_class" src="{{ product.metafields.custom.custom_atc_badge.value | image_url | master }}">
+        {% endif %}
+           <img  class="act_banner_class" src="{{ 'dropship-theme-below-atc.png' | asset_url | master }}">
+     </div>
+{% elsif first_element == 'stock_bar' %}
+    {% unless product.tags contains 'no-stockbar' %}
+       <div class="items-count {% if section.settings.stockbar_style contains 'modern' %}progressbarmodern{% endif %}" id="progress_bar"></div>
+    {% endunless %}{% elsif first_element == 'timer' %}
+	{% include 'product-countdown' %}
+{% elsif first_element == 'visitor_count'  %}
+	{% unless product.tags contains 'no-visitor' %}
+       {% include 'real-time-visitors' %}
+    {% endunless %}
+{% endif %}
+
+{% if secound_element == 'ATC_btn' %}
+	{% include 'product-addtocart' %}
+{% elsif secound_element == 'stock_bar' %}
+    {% unless product.tags contains 'no-stockbar' %}
+       <div class="items-count {% if section.settings.stockbar_style contains 'modern' %}progressbarmodern{% endif %}" id="progress_bar"></div>
+{% endunless %}{% elsif secound_element == 'timer' %}
+	{% include 'product-countdown' %}
+{% elsif secound_element == 'visitor_count' %}
+	{% unless product.tags contains 'no-visitor' %}
+       {% include 'real-time-visitors' %}
+    {% endunless %}
+{% endif %}
+
+{% if third_element == 'ATC_btn' %}
+	{% include 'product-addtocart' %}
+{% elsif third_element == 'stock_bar' %}
+    {% unless product.tags contains 'no-stockbar' %}
+       <div class="items-count {% if section.settings.stockbar_style contains 'modern' %}progressbarmodern{% endif %}" id="progress_bar"></div>
+    {% endunless %}{% elsif third_element == 'timer' %}
+	{% include 'product-countdown' %}
+{% elsif third_element == 'visitor_count' %}
+	{% unless product.tags contains 'no-visitor' %}
+       {% include 'real-time-visitors' %}
+    {% endunless %}
+{% endif %}
+
+{% if fourth_element == 'ATC_btn' %}
+	{% include 'product-addtocart' %}
+{% elsif fourth_element == 'stock_bar' %}
+    {% unless product.tags contains 'no-stockbar' %}
+       <div class="items-count {% if section.settings.stockbar_style contains 'modern' %}progressbarmodern{% endif %}" id="progress_bar"></div>
+    {% endunless %}
+{% elsif fourth_element == 'timer' %}
+	{% include 'product-countdown' %}
+{% elsif fourth_element == 'visitor_count' %}
+	{% unless product.tags contains 'no-visitor' %}
+       {% include 'real-time-visitors' %}
+    {% endunless %}
+{% endif %}

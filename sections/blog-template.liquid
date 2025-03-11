@@ -1,0 +1,178 @@
+{% assign blog_limit = section.settings.grid | times: section.settings.blog_paginate_limit -%}
+{% assign blog_sidebar = section.settings.blog_sidebar_position -%} 
+{% case section.settings.grid %}
+{% when '1' %}
+{% assign blog_item_width = 'col-md-12 col-sm-12 col-xs-12' -%}
+{% when '2' %}
+{% assign blog_item_width = 'col-md-6 col-sm-6 col-xs-12' -%}
+{% when '3' %}
+{% assign blog_item_width = 'col-md-4 col-sm-6 col-xs-12' -%}
+{% endcase %}
+{% paginate blog.articles by blog_limit %}
+
+
+{% assign sidebar = section.settings.sidebar_pos -%} 
+
+<!-- BANNER -->
+<section class="banner-section" style="background:url({{ section.settings.blog_banner | img_url:'master' }}) no-repeat; background-size: cover;">
+  <div class="container">
+    <div class="banner">
+      <h1>{{ page_title }}</h1>
+      <ul>
+        <li><a href="{{ routes.root_url }}">Home</a></li>
+        <li>{{ page_title }}</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- BLOGS -->
+<section class="blog-section">
+  <div class="container">
+    <div class="row">
+      <div class="blog">
+        {% unless sidebar == 'none' %}
+        <div class="col-lg-3 col-md-4 col-xs-12 {% if sidebar == 'right' %}float-xs-right{% else %}float-xs-left{% endif %}">
+        {% include 'blog-sidebar' %}
+        </div>
+        {% endunless %}
+        <div class="{% if sidebar == 'none' %}col-lg-12 col-md-12{% else %}col-lg-9 col-md-8{% endif %} col-xs-12">
+          <div class="blog-part {% if sidebar == 'right' %}pr-25{% endif %} {% if sidebar == 'left' %}pl-25{% endif %}">
+            <div class="row">
+            {% for article in blog.articles %}
+              <div class="{{ blog_item_width }} blog_list">
+            <div class="blog-fig-part">
+              <figure><a href="{{ article.url }}"><img class="lazyload" src="{{ article.image | img_url: 'master'}}" alt="{{ article.title }}"></a></figure>
+              <div class="blog-wrap">
+                <h4><a href="{{ article.url }}">{{ article.title }}</a></h4>
+                <p>
+                  {% if section.settings.blog_show_date %}
+                  <span>{{ article.published_at | date: "%d %b %Y" }}</span>
+                  {% endif %}
+                  {% if section.settings.blog_show_author %}
+                  <span>{{ article.author }}</span>
+                  {% endif %}
+                </p>
+                <div class="desc">
+                <p>{{ article.content | strip_html | truncate: 150 }}</p>  
+                </div>
+              </div>
+              <div class="blog-fig"> <a href="{{ article.url }}" class="blog-btn">Read more</a> </div>
+            </div>
+              </div>
+			{% endfor %}
+            </div>
+            {% if paginate.pages > 1 %}
+            <div class="blog-pagination">
+            {% include 'pagination' %}
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endpaginate %}
+
+{% schema %}
+  {
+    "name": "Blog pages",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "blog_banner",
+        "label": "Banner"
+      },	 
+      {
+        "type": "select",
+        "id": "sidebar_pos",
+        "label": "Sidebar position",
+        "default": "right",
+        "options": [
+          {
+            "value": "left",
+            "label": "Left"
+          },
+          {
+            "value": "right",
+            "label": "Right"
+          },
+          {
+            "value": "none",
+            "label": "None"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "blog_paginate_limit",
+        "label": "Blog per row",
+        "default": "3",
+        "options": [
+          {
+            "value": "2",
+            "label": "2"
+          },
+          {
+            "value": "3",
+            "label": "3"
+          },
+          {
+            "value": "4",
+            "label": "4"
+          },
+          {
+            "value": "5",
+            "label": "5"
+          },
+          {
+            "value": "6",
+            "label": "6"
+          },
+          {
+            "value": "7",
+            "label": "7"
+          },
+          {
+            "value": "8",
+            "label": "8"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "grid",
+        "label": "Blog per row (grid only)",
+        "default": "3",
+        "options": [
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          },
+          {
+            "value": "3",
+            "label": "3"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_show_author",
+        "label": "Show author",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_show_date",
+        "label": "Show date",
+        "default": true
+      }
+    ]
+  }
+{% endschema %}

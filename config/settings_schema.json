@@ -1,0 +1,971 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Dropship Theme",
+    "theme_author": "Flying Start Online",
+    "theme_version": "2.0",
+    "theme_documentation_url": "https:\/\/ecom.flyingstartonline.com\/theme-docs",
+    "theme_support_url": "http:\/\/support.markace.com\/"
+  },
+  {
+    "name": "Licence Key",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Registered Email"
+      },
+      {
+        "type": "text",
+        "id": "licence_email_val",
+        "label": "Enter your licence. The email address that you used to purchase the theme is your licence key. Contact support@markace.com if you're facing issues here."
+      }
+    ]
+  },
+  {
+    "name": "Disable Right Click",
+    "settings": [
+      {
+        "type": "header",
+        "content": "To disable 'right click' on your store, just check the box below."
+      },
+      {
+        "type": "checkbox",
+        "id": "right_click_disable",
+        "label": "Disable Right Click",
+        "default": false
+      }
+    ]
+  },
+  {
+    "name": "Block Country",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Add the Country code where you want to block the website"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_block_country",
+        "label": "Enable Block Country",
+        "default": false
+      },
+      {
+        "type": "textarea",
+        "id": "block_country_array",
+        "label": "Add Block Country code here.",
+        "info": "For Ex: IN,CA,AU (Please do not add space after ','). Use the country code listed here: https:\/\/www.iso.org\/obp\/ui\/#search"
+      }
+    ]
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Text"
+      },
+      {
+        "type": "color",
+        "id": "top_strip_text",
+        "label": "Top Strip Text",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "product_sale_text",
+        "label": "Product Sale Text",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "product_soldout_text",
+        "label": "Product Sold Out Text",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "primary_button_text",
+        "label": "Primary Button Text",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "ATC_button_text",
+        "label": "ATC Button Text",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "buy_now_button_text",
+        "label": "Buy Now Button Text",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "checkout_button_text",
+        "label": "Checkout Button Text",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "body_text",
+        "label": "Body Text",
+        "default": "#000"
+      },
+      {
+        "type": "color",
+        "id": "slider_arrows",
+        "label": "Slider Arrows",
+        "default": "#818181"
+      },
+      {
+        "type": "color",
+        "id": "footer_text",
+        "label": "Footer Text",
+        "default": "#000"
+      },
+      {
+        "type": "color",
+        "id": "cc_banner_text",
+        "label": "CC Banner Text",
+        "default": "#000"
+      },
+      {
+        "type": "color",
+        "id": "cc_banner_link",
+        "label": "CC Banner Link",
+        "default": "#b760e6"
+      },
+      {
+        "type": "header",
+        "content": "Backgrounds"
+      },
+      {
+        "type": "color",
+        "id": "top_strip_background",
+        "label": "Top Strip Background",
+        "default": "#f8b946"
+      },
+      {
+        "type": "color",
+        "id": "header_background",
+        "label": "Header Background",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "header_menu_background",
+        "label": "Header Menu Background",
+        "default": "#000"
+      },
+      {
+        "type": "color",
+        "id": "body_background",
+        "label": "Body Background",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "deal_of_the_day_background",
+        "label": "Deal Of The Day Background",
+        "default": "#f7f7f7"
+      },
+      {
+        "type": "color",
+        "id": "product_sale_background",
+        "label": "Product Sale Background",
+        "default": "#547e06"
+      },
+      {
+        "type": "color",
+        "id": "product_soldout_background",
+        "label": "Product Sold Out Background",
+        "default": "#d81616"
+      },
+      {
+        "type": "color",
+        "id": "slider_arrows_background",
+        "label": "Slider Arrow Background",
+        "default": "#f0f0f0"
+      },
+      {
+        "type": "color",
+        "id": "footer_block_icon_background",
+        "label": "Footer Block Icon Background",
+        "default": "#ebebeb"
+      },
+      {
+        "type": "color",
+        "id": "footer_background",
+        "label": "Footer Background",
+        "default": "#f6f6f6"
+      },
+      {
+        "type": "color",
+        "id": "footer_bottom_background",
+        "label": "Footer Bottom Background",
+        "default": "#eeeeee"
+      },
+      {
+        "type": "color",
+        "id": "cc_banner_background",
+        "label": "CC Banner Background",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "collection_des_background",
+        "label": "Collection Description Background",
+        "default": "#f1f1f1"
+      },
+      {
+        "type": "header",
+        "content": "Buttons"
+      },
+      {
+        "type": "color",
+        "id": "primary_button",
+        "label": "Primary Button",
+        "default": "#b760e6"
+      },
+      {
+        "type": "color",
+        "id": "primary_button_hover",
+        "label": "Primary Button Hover",
+        "default": "#000"
+      },
+      {
+        "type": "color",
+        "id": "ATC_button",
+        "label": "ATC Button",
+        "default": "#ff7600"
+      },
+      {
+        "type": "color",
+        "id": "ATC_button_hover",
+        "label": "ATC Button Hover",
+        "default": "#000"
+      },
+      {
+        "type": "color",
+        "id": "buy_now_button",
+        "label": "Buy Now Button",
+        "default": "#ff7600"
+      },
+      {
+        "type": "color",
+        "id": "buy_now_button_hover",
+        "label": "Buy Now Button Hover",
+        "default": "#000"
+      },
+      {
+        "type": "color",
+        "id": "checkout_button",
+        "label": "Checkout Button",
+        "default": "#b760e6"
+      },
+      {
+        "type": "color",
+        "id": "checkout_button_hover",
+        "label": "Checkout Button Hover",
+        "default": "#000"
+      },
+      {
+        "type": "header",
+        "content": "Links"
+      },
+      {
+        "type": "color",
+        "id": "primary_links",
+        "label": "Primary Links",
+        "default": "#000"
+      },
+      {
+        "type": "color",
+        "id": "primary_links_hover",
+        "label": "Primary Theme Color",
+        "default": "#b760e6"
+      },
+      {
+        "type": "header",
+        "content": "Menus"
+      },
+      {
+        "type": "color",
+        "id": "header_menu_text",
+        "label": "Header Menu Text",
+        "default": "#fff"
+      },
+      {
+        "type": "color",
+        "id": "header_menu_text_hover",
+        "label": "Header Menu Text Hover",
+        "default": "#b760e6"
+      },
+      {
+        "type": "color",
+        "id": "primary_links_divider",
+        "label": "Primary Links Divider",
+        "default": "#656565"
+      },
+      {
+        "type": "color",
+        "id": "footer_menu_text",
+        "label": "Footer Menu Text",
+        "default": "#000"
+      },
+      {
+        "type": "color",
+        "id": "footer_menu_text_hover",
+        "label": "Footer Menu Text Hover",
+        "default": "#b760e6"
+      },
+      {
+        "type": "header",
+        "content": "Cart"
+      },
+      {
+        "type": "color",
+        "id": "cart_bag",
+        "label": "Cart Bag",
+        "default": "#000"
+      },
+      {
+        "type": "color",
+        "id": "cart_bag_hover",
+        "label": "Cart Bag Hover",
+        "default": "#b760e6"
+      },
+      {
+        "type": "color",
+        "id": "cart_bag_text",
+        "label": "Cart Text",
+        "default": "#000"
+      },
+      {
+        "type": "color",
+        "id": "cart_bag_text_hover",
+        "label": "Cart Text Hover",
+        "default": "#b760e6"
+      },
+      {
+        "type": "header",
+        "content": "More Elements"
+      },
+      {
+        "type": "color",
+        "id": "stock_bar",
+        "label": "Stock Bar",
+        "default": "#b760e6"
+      },
+      {
+        "type": "color",
+        "id": "stock_bar_text",
+        "label": "Stock Bar Text",
+        "default": "#b760e6"
+      },
+      {
+        "type": "color",
+        "id": "stock_bar_count",
+        "label": "Stock Bar Count",
+        "default": "#b760e6"
+      },
+      {
+        "type": "color",
+        "id": "countdown_timer",
+        "label": "Countdown Timer - Time",
+        "default": "#000"
+      },
+      {
+        "type": "color",
+        "id": "countdown_timer_text",
+        "label": "Countdown Timer - Message",
+        "default": "#b760e6"
+      },
+      {
+        "type": "header",
+        "content": "Product Tabs"
+      },
+      {
+        "type": "color",
+        "id": "tabs_background",
+        "label": "Product Tabs Title Background",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "tabs_background_active",
+        "label": "Product Tabs Active Title Background",
+        "default": "#eae9e9"
+      },
+      {
+        "type": "color",
+        "id": "tabs_text",
+        "label": "Product Tabs Title Text",
+        "default": "#000000"
+      },
+      {
+        "type": "color",
+        "id": "tabs_text_active",
+        "label": "Product Tabs Active Title Text",
+        "default": "#b760e6"
+      }
+    ]
+  },
+  {
+    "name": "Typography",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Title Font"
+      },
+      {
+        "type": "font_picker",
+        "id": "title_font_family",
+        "label": "Title Font",
+        "default": "work_sans_n6"
+      },
+      {
+        "type": "header",
+        "content": "Description Font"
+      },
+      {
+        "type": "font_picker",
+        "id": "description_font_family",
+        "label": "Description Font",
+        "default": "work_sans_n6"
+      },
+      {
+        "type": "header",
+        "content": "Button Font"
+      },
+      {
+        "type": "font_picker",
+        "id": "button_font_family",
+        "label": "Button Font",
+        "default": "work_sans_n4"
+      },
+      {
+        "type": "header",
+        "content": "Menu Font"
+      },
+      {
+        "type": "font_picker",
+        "id": "menu_font_family",
+        "label": "Menu Font",
+        "default": "work_sans_n4"
+      },
+      {
+        "type": "header",
+        "content": "All Other Fonts"
+      },
+      {
+        "type": "font_picker",
+        "id": "all_other_fonts_family",
+        "label": "All Other Font",
+        "default": "work_sans_n4"
+      }
+    ]
+  },
+  {
+    "name": "Cookie Consent - General Data Protection Regulation (GDPR)",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "cc_enable",
+        "label": "Enable Cookie Consent",
+        "default": true
+      },
+      {
+        "type": "textarea",
+        "id": "cc_message",
+        "label": "Message",
+        "default": "We use cookies to ensure that we give you the best experience on our website. If you continue we'll assume that you are understand this."
+      },
+      {
+        "type": "url",
+        "id": "cc_more_info",
+        "label": "Learn More Link"
+      },
+      {
+        "type": "text",
+        "id": "cc_expiry_day",
+        "label": "Cookie Expiry Days",
+        "default": "90",
+        "info": "After these days cookie will expiry and Cookie Consent will show again."
+      }
+    ]
+  },
+  {
+    "name": "Logos and Mega Menu",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Header Logo"
+      },
+      {
+        "type": "image_picker",
+        "id": "desktop_logo",
+        "label": "Desktop Logo"
+      },
+      {
+        "type": "text",
+        "id": "desktop_logo_width",
+        "label": "Logo Width",
+        "default": "190"
+      },
+      {
+        "type": "header",
+        "content": "Mobile Header Logo"
+      },
+      {
+        "type": "image_picker",
+        "id": "mobile_logo",
+        "label": "Mobile Logo"
+      },
+      {
+        "type": "select",
+        "id": "mobile_logo_width",
+        "label": "Logo Width %",
+        "default": "80%",
+        "options": [
+          {
+            "value": "30%",
+            "label": "30%"
+          },
+          {
+            "value": "35%",
+            "label": "35%"
+          },
+          {
+            "value": "40%",
+            "label": "40%"
+          },
+          {
+            "value": "45%",
+            "label": "45%"
+          },
+          {
+            "value": "50%",
+            "label": "50%"
+          },
+          {
+            "value": "55%",
+            "label": "55%"
+          },
+          {
+            "value": "60%",
+            "label": "60%"
+          },
+          {
+            "value": "65%",
+            "label": "65%"
+          },
+          {
+            "value": "70%",
+            "label": "70%"
+          },
+          {
+            "value": "75%",
+            "label": "75%"
+          },
+          {
+            "value": "80%",
+            "label": "80%"
+          },
+          {
+            "value": "85%",
+            "label": "85%"
+          },
+          {
+            "value": "90%",
+            "label": "90%"
+          },
+          {
+            "value": "95%",
+            "label": "95%"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Footer Logo"
+      },
+      {
+        "type": "image_picker",
+        "id": "footer_logo",
+        "label": "Footer Logo"
+      },
+      {
+        "type": "text",
+        "id": "footer_logo_width",
+        "label": "Logo Width",
+        "default": "160"
+      },
+      {
+        "type": "header",
+        "content": "Favicon"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon",
+        "info": "Will be scaled down to 32 x 32px"
+      },
+      {
+        "type": "header",
+        "content": "Mega Menu Options",
+        "info": "Select number of custom mega menus to enable."
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_megamenu_1",
+        "label": "Enable Mega Menu 1",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_megamenu_2",
+        "label": "Enable Mega Menu 2",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_megamenu_3",
+        "label": "Enable Mega Menu 3",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_megamenu_4",
+        "label": "Enable Mega Menu 4",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_megamenu_5",
+        "label": "Enable Mega Menu 5",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_megamenu_6",
+        "label": "Enable Mega Menu 6",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_megamenu_7",
+        "label": "Enable Mega Menu 7",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_megamenu_8",
+        "label": "Enable Mega Menu 8",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_megamenu_9",
+        "label": "Enable Mega Menu 9",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_megamenu_10",
+        "label": "Enable Mega Menu 10",
+        "default": false
+      }
+    ]
+  },
+  {
+    "name": "Countdown Timer & Stock Left",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Product Page Timer"
+      },
+      {
+        "type": "checkbox",
+        "id": "disable_timer_regular_price",
+        "label": "Disable timer if no discount",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "disable_timer_use_tag",
+        "label": "Disable Timer\/Stock Bar\/Visitor Count Using Product Tag",
+        "info": "Disable countdown timer on products by using product tag: no-timer, no-stockbar & no-visitor",
+        "default": true
+      },
+      {
+        "type": "select",
+        "id": "enable_timer_type",
+        "label": "Timer Type",
+        "options": [
+          {
+            "value": "enable_timer_randomly",
+            "label": "Random"
+          },
+          {
+            "value": "enable_timer_custom",
+            "label": "Custom"
+          }
+        ],
+        "default": "enable_timer_randomly",
+        "info": "Random : Shows a random time on each product (recommended). Custom : Enter custom time below and that will be same on all products."
+      },
+      {
+        "type": "header",
+        "content": "Timer Background Color"
+      },
+      {
+        "type": "color",
+        "id": "timer_background",
+        "label": "Timer Background",
+        "default": "#fff"
+      },
+      {
+        "type": "header",
+        "content": "Custom Timer Setting"
+      },
+      {
+        "type": "number",
+        "id": "enable_timer_custom_sec",
+        "label": "Time Left (in seconds)",
+        "info": "Recommended: 1500. Max: 86,400.",
+        "default": 1500
+      },
+      {
+        "type": "header",
+        "content": "Progress bar"
+      },
+      {
+        "type": "select",
+        "id": "enable_inventory_stock_number",
+        "label": "Stock Bar Type",
+        "options": [
+          {
+            "value": "enable_stock_number_random",
+            "label": "Random Number"
+          },
+          {
+            "value": "enable_stock_number_real_inventory",
+            "label": "Real Time"
+          },
+          {
+            "value": "enable_stock_number_real_inventory_reducer",
+            "label": "Inventory Reduction"
+          }
+        ],
+        "default": "enable_stock_number_random",
+        "info": "RANDOM NUMBER: Displays a random number for each product (Cookie based). REAL TIME: Grabs info from Shopify inventory for that product. INVENTORY REDUCTION : Automatically reduces starting with current Shopify inventory for that product."
+      }
+    ]
+  },
+  {
+    "name": "Promo Bar",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Promo Bar"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_bar",
+        "label": "Enable Bar on Pages",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "timer_left_title",
+        "label": "Left Title"
+      },
+      {
+        "type": "text",
+        "id": "timer_right_title",
+        "label": "Right Title"
+      },
+      {
+        "type": "header",
+        "content": "Timer Date"
+      },
+      {
+        "type": "text",
+        "id": "timer-date",
+        "label": "Input for End Date",
+        "info": "Format 12.12.2024"
+      }
+    ]
+  },
+  {
+    "name": "Save - % or $",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Product grid"
+      },
+      {
+        "type": "select",
+        "id": "product_grid_percent_amount",
+        "label": "Save Percentage or Amount",
+        "options": [
+          {
+            "value": "percentage",
+            "label": "Percentage"
+          },
+          {
+            "value": "money",
+            "label": "Amount"
+          }
+        ],
+        "default": "percentage",
+        "info": "PERCENTAGE : Displays product with SAVE 50% OFF. AMOUNT: Displays product with SAVE $25 OFF."
+      }
+    ]
+  },
+  {
+    "name": "Social media",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Social sharing image"
+      },
+      {
+        "type": "image_picker",
+        "id": "share_image",
+        "label": "Image",
+        "info": "Shown when sharing a link on social media. [Learn more](https:\/\/help.shopify.com\/manual\/using-themes\/troubleshooting\/showing-social-media-thumbnail-images\/) about image thumbnails."
+      },
+      {
+        "type": "header",
+        "content": "Social accounts"
+      },
+      {
+        "type": "text",
+        "id": "social_twitter_link",
+        "label": "Twitter",
+        "info": "https:\/\/twitter.com\/flying_online"
+      },
+      {
+        "type": "text",
+        "id": "social_facebook_link",
+        "label": "Facebook",
+        "info": "https:\/\/facebook.com\/flyingstartonline"
+      },
+      {
+        "type": "text",
+        "id": "social_pinterest_link",
+        "label": "Pinterest",
+        "info": "https:\/\/pinterest.com\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_instagram_link",
+        "label": "Instagram",
+        "info": "http:\/\/instagram.com\/flyingstartonline"
+      },
+      {
+        "type": "text",
+        "id": "social_tumblr_link",
+        "label": "Tumblr",
+        "info": "http:\/\/shopify.tumblr.com"
+      },
+      {
+        "type": "text",
+        "id": "social_snapchat_link",
+        "label": "Snapchat",
+        "info": "https:\/\/www.snapchat.com\/add\/shopify"
+      },
+      {
+        "type": "text",
+        "id": "social_youtube_link",
+        "label": "YouTube",
+        "info": "https:\/\/www.youtube.com\/flyingstartonline"
+      },
+      {
+        "type": "text",
+        "id": "social_vimeo_link",
+        "label": "Vimeo",
+        "info": "https:\/\/vimeo.com\/shopify"
+      }
+    ]
+  },
+  {
+    "name": "Cart",
+    "settings": [
+      {
+        "type": "select",
+        "id": "cart_option",
+        "label": "Cart option",
+        "default": "popup_cart",
+        "options": [
+          {
+            "value": "direct_cart",
+            "label": "Redirect cart"
+          },
+          {
+            "value": "popup_cart",
+            "label": "Popup cart"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Currency Conversion",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "To offer multiple currencies on your online store, you must first [edit your store's currency formatting]({{ site.url }}\/manual\/using-themes\/change-the-layout\/help-script-find-money-formats)."
+      },
+      {
+        "type": "checkbox",
+        "id": "show_multiple_currencies",
+        "label": "Enable currency conversion",
+        "default": true,
+        "info": "Even though prices are displayed in different currencies, orders will still be processed in your store's currency."
+      },
+      {
+        "type": "select",
+        "id": "currency_format",
+        "label": "Format",
+        "options": [
+          {
+            "value": "money_format",
+            "label": "Without currency ($10.00)"
+          },
+          {
+            "value": "money_with_currency_format",
+            "label": "With currency ($10.00 CAD)"
+          }
+        ],
+        "default": "money_with_currency_format"
+      },
+      {
+        "type": "text",
+        "id": "supported_currencies",
+        "label": "Supported currencies",
+        "default": "INR GBP CAD USD AUD EUR JPY",
+        "info": "Use the country's ISO currency code. Separate your currency codes with a space. List of supported currencies - AED, ARS, AUD, BBD, BDT, BGN, BHD, BND, BOB, BRL, BSD, CAD, CHF, CLP, CNY, COP, CRC, CZK, DKK, DOP, EGP, EUR, FJD, GBP, GEL, GHS, GTQ, GYD, HRK, HUF, IDR, ILS, INR, JMD, JOD, JYP, KES, KRW, KWD, KZT, LKR, MAD, MDL, MMK, MNT, MUR, MXN, MYR, MZN, NGN, NOK, NZD, OMR, PEN, PHP, PKR, PLN, PGY, QAR, RON, RSD, RUB, SAR, SCR, SEK, SGD, SYP, THB, TRY, TTD, TWD, TZS, UAH, USD, UYU, VND, XCD, ZAR"
+      },
+      {
+        "type": "text",
+        "id": "default_currency",
+        "label": "Default currency",
+        "default": "USD"
+      },
+      {
+        "type": "header",
+        "content": "Auto Country Pickup"
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_auto_country_pickup",
+        "label": "Enable Auto Currency Selection Based on the Country",
+        "default": false
+      }
+    ]
+  }
+]

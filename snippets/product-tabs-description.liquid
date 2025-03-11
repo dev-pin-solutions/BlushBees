@@ -1,0 +1,129 @@
+{%- assign show_product_sizechart = flase -%}
+{%- assign show_product_returns = flase -%}
+{%- assign show_product_shipping = flase -%}
+
+{%- if product.description contains '[prod-description-start]' and product.description contains '[prod-description-end]' -%}
+  {%- assign product_start = product.description | split: '[prod-description-start]' | last -%}
+  {%- assign product_desc = product_start | split: '[prod-description-end]' | first -%}
+{%- else -%}
+  {%- assign product_desc = product.description -%}
+{%- endif -%}
+
+{%- if product.description contains '[prod-size-start]' and product.description contains '[prod-size-end]' -%}
+  {%- assign product_sizechart_start = product.description | split: '[prod-size-start]' | last -%}
+  {%- assign product_sizechart = product_sizechart_start | split: '[prod-size-end]' | first -%}
+{%- endif -%}
+
+{%- if product.description contains '[prod-returns-start]' and product.description contains '[prod-returns-end]' -%}
+  {%- assign product_returns_start = product.description | split: '[prod-returns-start]' | last -%}
+  {%- assign product_returns = product_returns_start | split: '[prod-returns-end]' | first -%}
+{%- endif -%}
+
+{%- if product.description contains '[prod-shipping-start]' and product.description contains '[prod-shipping-end]' -%}
+  {%- assign product_shipping_start = product.description | split: '[prod-shipping-start]' | last -%}
+  {%- assign product_shipping = product_shipping_start | split: '[prod-shipping-end]' | first -%}
+{%- endif -%}
+
+{%- if section.settings.show_sizechart -%}
+  {%- if product_sizechart != blank -%}
+    {%- assign show_product_sizechart = true -%}
+  {%- elsif section.settings.default_sizechart != blank -%}
+    {%- assign show_product_sizechart = true -%}
+    {%- assign product_sizechart = section.settings.default_sizechart -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- if section.settings.show_returns -%}
+  {%- if product_returns != blank -%}
+    {%- assign show_product_returns = true -%}
+  {%- elsif section.settings.default_returns != blank -%}
+    {%- assign show_product_returns = true -%}
+    {%- assign product_returns = section.settings.default_returns -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- if section.settings.show_shipping -%}
+  {%- if product_shipping != blank -%}
+    {%- assign show_product_shipping = true -%}
+  {%- elsif section.settings.default_shipping != blank -%}
+    {%- assign show_product_shipping = true -%}
+    {%- assign product_shipping = section.settings.default_shipping -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- assign description_title = section.settings.tab_title_1 -%}
+{%- assign sizechart_title = section.settings.tab_title_2 -%}
+{%- assign returns_title = section.settings.tab_title_3 -%}
+{%- assign shipping_title = section.settings.tab_title_4 -%}
+
+{%- if product.tags contains 'tabs-enabled' -%}
+  {%- assign show_product_sizechart = true -%}
+  {%- assign show_product_returns = true -%}
+  {%- assign show_product_shipping = true -%}
+{%- endif -%}
+
+{%- if product.tags contains 'no-shipping' -%}
+  {%- assign show_product_shipping = false -%}
+{%- endif -%}
+{%- if product.tags contains 'no-returns' -%}
+  {%- assign show_product_returns = false -%}
+{%- endif -%}
+{%- if product.tags contains 'no-sizechart' -%}
+  {%- assign show_product_sizechart = false -%}
+{%- endif -%}
+
+{%- unless product.tags contains 'no-tabs' -%}
+  <div class="theme_tabs {% if section.settings.description_width == 'half' %}wc_half_tab_cls{% endif %}">
+    <div {% if section.settings.description_width == 'full' %}class="container"{% endif %}>
+      <ul class="theme-tabs-nav">
+        {%- if section.settings.show_description -%}
+          <li><a class="tab-link {% if section.settings.show_description %}active{% endif %}" href="#shop_desc">{{ description_title }}</a></li>
+        {%- endif -%}
+        {%- if show_product_sizechart -%}
+          <li><a class="tab-link {% unless section.settings.show_description %}active{% endunless %}" href="#shop_sizechart">{{ sizechart_title }}</a></li>
+        {%- endif -%}
+        
+        {%- if show_product_shipping -%}
+          <li><a class="tab-link" href="#shop_shipping">{{ shipping_title }}</a></li>
+        {%- endif -%}
+        {%- if show_product_returns -%}
+          <li><a class="tab-link" href="#shop_returns">{{ returns_title }}</a></li>
+        {%- endif -%}
+      </ul>
+      <div class="theme-tab-content">
+        {%- if section.settings.show_description -%}
+          <div class="tab-panel {% if section.settings.show_description %}active{% endif %}" id="shop_desc">
+            <h4 class="tab-panel-title">{{ description_title }}</h4>
+            <div class="tab-pane-content" itemprop="description">
+              {{ product_desc }}
+            </div>
+          </div>
+        {%- endif -%}
+        {%- if show_product_sizechart -%}
+          <div class="tab-panel {% unless section.settings.show_description %}active{% endunless %}" id="shop_sizechart">
+            <h4 class="tab-panel-title">{{ sizechart_title }}</h4>
+            <div class="tab-pane-content">
+              {{ product_sizechart }}
+            </div>
+          </div>
+        {%- endif -%}
+        {%- if show_product_returns -%}
+          <div class="tab-panel" id="shop_returns">
+            <h4 class="tab-panel-title">{{ returns_title }}</h4>
+            <div class="tab-pane-content">
+              {{ product_returns }}
+            </div>
+          </div>
+        {%- endif -%}
+        {%- if show_product_shipping -%}
+          <div class="tab-panel" id="shop_shipping">
+            <h4 class="tab-panel-title">{{ shipping_title }}</h4> 
+            <div class="tab-pane-content">
+               {{ product_shipping }}
+            </div>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+{%- endunless -%}

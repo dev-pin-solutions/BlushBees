@@ -1,0 +1,190 @@
+<div class="container">
+  <div class="fb_scr_section">
+    <div class="fb-comment-src-heading">
+      <h1>{{ section.settings.fb_title }}</h1>
+    </div>
+      <div class="grid-container">
+         {% for block in section.blocks %}
+           <div class="fb-comment-img">
+             <img class="img-popup" src="{{ block.settings.fb_image | img_url: 'master' }}">
+           </div>
+         {% endfor %}
+      </div>
+  </div>
+  <div id="pop_content">
+  </div>
+</div>
+<style>
+
+   .section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px; 
+  }
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 0 auto;
+  width:100%;
+}
+.grid-container img{
+  width: 100%;
+  height: auto;
+  cursor: pointer;
+}
+  section#shopify-section-custom-fb-comment-screenshoot {
+    padding:38px 0 38px 0;
+    background: #efefef;   
+}
+
+.fb-comment-src-heading h1 {
+  font-size: 40px;
+  text-align: center;
+  font-weight: 600;
+  padding-bottom: 38px;
+}
+.fb-comment-img {
+  max-height: 300px;
+  overflow: hidden;
+}
+#pop_content{
+    display: none; 
+    max-width:700px; 
+    max-height: 550px;
+    border: 5px solid #fff;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+#pop_content img {
+    width: 100%;
+    height:auto;
+    vertical-align: middle;
+    display: inline-block;
+}
+button.close_popup{
+    background-color: #fff;
+    color: #000;
+    padding-left: 5px;
+    padding-right:5px;
+    border: 0;
+    position: absolute;
+    right: 0px;
+    top: -4px;
+    font-size: 0.65em;
+    font-size:17px;
+    font-weight: 700;
+    cursor: pointer;
+}
+@media screen and (max-width:1024px) {
+.fb-comment-src-heading h1 {
+  font-size: 40px;
+  }
+}
+@media screen and (max-width:767px) {
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+/* .grid-container img{
+  width:100%;
+  height: auto;
+  margin:0 auto;
+} */
+#pop_content{
+    display: none; 
+    max-width:90%; 
+    max-height:98%;
+}
+.fb-comment-src-heading h1 { 
+  line-height: 1;
+}
+
+.fb-comment-img {
+  max-height: 200px;
+  overflow: hidden;
+}
+}
+@media screen and (max-width:560px) {
+.fb-comment-src-heading h1 {
+    font-size: 28px;
+    line-height: 1.2;
+}
+.fb-comment-src-heading h1 {
+  padding-bottom: 20px;
+}
+}
+@media screen and (max-width:480px) {
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    
+}
+ img.img-popup {
+    padding-top: 10px;
+}
+}
+@media screen and (max-width:320px) {
+.fb-comment-src-heading h1 {
+    font-size: 25px;
+    line-height: 1.2;
+}    
+}
+
+</style>
+
+{% schema %}
+{
+  "name": "Fb Comment",
+  "tag": "section",
+  "class": "section",
+"settings": [ 
+  {
+  "type": "text",
+  "id": "fb_title",
+  "label": "Fb Title"
+},
+  {
+    "type": "header",
+      "content": "SECTION PADDING"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 36
+    }
+],
+"blocks": [
+ {
+   "name": "Facebook image block",
+   "type": "image",
+   "settings": [
+     {
+       "type": "image_picker",
+       "id": "fb_image",
+       "label": "Image"
+     }
+   ]
+ }
+]
+}
+{% endschema %}
+
+

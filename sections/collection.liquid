@@ -1,0 +1,95 @@
+<!-- FEATURED PRODUCTS -->
+{% assign home_collection = collections[section.settings.collection] %}
+<section class="featured-section">
+  <div class="container">
+    <div class="featured-wrap">
+      <h2 class="title">{{ section.settings.title }}
+        {% if section.settings.show_more_btn %}
+        <span><a href="{{ home_collection.url }}">More {{ section.settings.title }} <em class="fa fa-angle-right"></em></a></span>
+        {% endif %}
+      </h2>
+      <div class="row">
+        <div class="featured-part">   
+          {% assign limit = section.settings.prod_grid | times: section.settings.prod_row %}
+          {% if section.settings.prod_grid == '3' %}
+          	{% assign grid_width = 'col-lg-4 col-md-4 col-xs-6' %}
+          {% else %}
+          	{% assign grid_width = 'col-lg-3 col-md-3 col-xs-6' %}
+          {% endif %}          
+          {% for product in home_collection.products limit:limit %}
+          	{% include 'product-card-grid' %} 
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Featured collection",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "default": "Featured collection"
+      },
+      {
+        "id": "collection",
+        "type": "collection",
+        "label": "Collection"
+      },
+      {
+        "type": "select",
+        "id": "prod_grid",
+        "label": "Product per row",
+        "default": "4",
+        "options": [          
+          {
+            "value": "3",
+            "label": "3"
+          },
+          {
+            "value": "4",
+            "label": "4"
+          }
+        ]
+      },
+      {
+        "type": "select",
+        "id": "prod_row",
+        "label": "Row",
+        "default": "1",
+        "options": [
+          {
+            "value": "1",
+            "label": "1"
+          },
+          {
+            "value": "2",
+            "label": "2"
+          },
+          {
+            "value": "3",
+            "label": "3"
+          }
+        ]
+      },      
+      {
+        "type": "checkbox",
+        "id": "show_more_btn",
+        "label": "Show More button",
+        "default": true
+      }
+    ],
+    "presets": [
+      {
+        "name": "Featured collection",
+        "category": "Collection"
+      }
+    ]
+  }
+{% endschema %}
+
+ 

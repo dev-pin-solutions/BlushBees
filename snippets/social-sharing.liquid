@@ -1,0 +1,49 @@
+<!-- /snippets/social-sharing.liquid -->
+<div class="social-sharing">
+
+  {% if settings.share_facebook %}
+    <a target="_blank" 
+       href="//www.facebook.com/sharer.php?u={{ shop.url | append: share_permalink }}" 
+       class="btn btn--small btn--secondary btn--share share-facebook" title="{{ 'general.social.alt_text.share_on_facebook' | t }}">
+      {% include 'icon-facebook' %}
+      <span class="share-title">Facebook</span>
+    </a>
+  {% endif %}
+
+  {% if settings.share_twitter %}
+    <a target="_blank" 
+       href="//twitter.com/share?text={{ share_title | url_param_escape }}&amp;url={{ shop.url | append: share_permalink }}" 
+       class="btn btn--small btn--secondary btn--share share-twitter" title="{{ 'general.social.alt_text.share_on_twitter' | t }}">
+      {% include 'icon-twitter' %}
+      <span class="share-title">Twitter</span>
+    </a>
+  {% endif %}
+
+  {% if settings.share_pinterest %}
+    <a target="_blank" 
+       href="//pinterest.com/pin/create/button/?url={{ shop.url | append: share_permalink }}&amp;media={{ share_image | img_url: 'master' }}&amp;description={{ share_title | url_param_escape }}" 
+       class="btn btn--small btn--secondary btn--share share-pinterest" title="{{ 'general.social.alt_text.share_on_pinterest' | t }}">
+      {% include 'icon-pinterest' %}
+      <span class="share-title">Pinterest</span>
+    </a>
+  {% endif %}
+  
+  {% if settings.share_reddit %}
+    <a target="_blank" 
+       href="//reddit.com/submit?url={{ shop.url | append: share_permalink }}&amp;title={{ share_title | url_param_escape }}" 
+       class="btn btn--small btn--secondary btn--share share-reddit" title="{{ 'general.social.alt_text.share_on_reddit' | t }}">
+      {% include 'icon-reddit' %}
+      <span class="share-title">Reddit</span>
+    </a>
+  {% endif %}
+  
+  {% if settings.share_whatsapp %}
+    <a target="_blank" 
+       href="https://wa.me/?text=Hey Checkout this {{ product.title | escape }} {{ shop.url | escape }}{{ product.url | escape }}" 
+       class="btn btn--small btn--secondary btn--share share-whatsapp" title="{{ 'general.social.alt_text.share_on_whatsapp' | t }}">
+      {% include 'icon-whatsapp' %}
+      <span class="share-title">Whatsapp</span>
+    </a>
+  {% endif %}
+
+</div>

@@ -1,0 +1,181 @@
+<!-- HOME COLLECTION -->
+<section class="home-collection-section" data-section-id="{{ section.id }}" data-section-type="collection">
+  <div class="container">
+    <div class="home-collection">
+      <div class="row">
+        <div class="home-collection-part">
+          <div class="col-md-4 col-xs-6 float-xs-right">
+            <div class="home-collection-wrap">
+              <figure>
+                <a href="{{ section.settings.collection_link_1 }}">
+                  <img class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{% if section.settings.collection_image_1.size > 0 %}{{ section.settings.collection_image_1 | img_url: '450x450' }}{% else %}{{ 'collection_image_1.jpg' | asset_url }}{% endif %}" alt="{{ section.settings.collection_image_1.alt }}" />
+                  <figcaption>
+                    <h5 style="color:{{ section.settings.collection_subtitle_color_1 }}">{{ section.settings.collection_subtitle_1 }}</h5>
+                    <p style="color:{{ section.settings.collection_title_color_1 }}">{{ section.settings.collection_title_1 }}</p>
+                  </figcaption>
+                </a>
+              </figure>
+            </div>
+          </div>
+          <div class="col-md-4 col-xs-6 float-xs-right">
+            <div class="home-collection-wrap">
+              <figure>
+                <a href="{{ section.settings.collection_link_2 }}">
+                  <img class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{% if section.settings.collection_image_2.size > 0 %}{{ section.settings.collection_image_2 | img_url: '450x450' }}{% else %}{{ 'collection_image_2.jpg' | asset_url }}{% endif %}" alt="{{ section.settings.collection_image_2.alt }}" />
+                  <figcaption>
+                    <h5 style="color:{{ section.settings.collection_subtitle_color_2 }}">{{ section.settings.collection_subtitle_2 }}</h5>
+                    <p style="color:{{ section.settings.collection_title_color_2 }}">{{ section.settings.collection_title_2 }}</p>
+                  </figcaption>
+                </a> 
+              </figure>
+            </div>
+          </div>
+          <div class="col-md-4 col-xs-12 float-xs-left wc_coll_list_pro_grid">
+            <div class="deal-day">
+              <div class="deal-day-part">
+                <h6>{{ section.settings.title }}</h6>
+                <div class="collection-wrapper">
+                  <ul id="Collection-{{ section.id }}">
+                    {% assign home_collection = collections[section.settings.collection] %}
+                    {% for product in home_collection.products limit:10 %}
+                    {% assign wc_sale_type = settings.product_grid_percent_amount %}
+                    {% if wc_sale_type == 'percentage' %}
+                      {% capture saved_amount %}{{ product.variants[0].compare_at_price | minus: product.variants[0].price | times: 100.0 | divided_by: product.variants[0].compare_at_price | money_without_currency | times: 100 | remove: '.0'}}%{% endcapture %}
+                    {% else %}
+                      {% capture saved_amount %}{{ product.variants[0].compare_at_price | minus: product.variants[0].price | money_without_trailing_zeros }}{% endcapture %}
+                    {% endif %}
+                    <li>
+                      <figure>
+                        <a href="{{ product.url }}">
+                          <img class="lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-src="{{  product.featured_image | img_url:'450x450' }}" alt="{{ product.title }}">
+                        </a>
+                      </figure>
+                      <div class="product-grid">
+                        <div class="product-grid-desc">
+                          <h3><a href="{{ product.url | within: collection }}">{{ product.title }}</a></h3>
+                          <span>{{ product.variants[0].price | money }}</span>
+                          {% if product.variants[0].compare_at_price > product.variants[0].price %}
+     						<span class="discount-price">{{ product.variants[0].compare_at_price | money }}</span> 
+                          {% endif %}
+   					   </div>
+                      </div>
+                    </li>
+                    {% endfor %}              
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Collection list",
+	"class": "wc_collection_list_cls",
+    "settings": [
+	  {
+        "type": "header",		
+        "content": "Deal of the day"
+      },
+      {
+        "type": "collection",		
+        "id": "collection",
+        "label": "Select collection"
+      },
+      {
+        "type": "text",		
+        "id": "title",
+        "label": "Title",
+		"default":"Deal of the day"
+      },
+	  {
+        "type": "header",
+        "content": "Collection Banner 1"
+      },
+	  {
+        "type": "image_picker",
+        "id": "collection_image_1",
+        "label": "Image",
+		"info":"Please use 500x500 size image"
+      },
+	  {
+        "type": "text",
+        "id": "collection_title_1",
+        "label": "Title",
+		"default":"Extra 30% Off All Sale Styles"	
+      },
+	  {
+        "type": "color",
+        "id": "collection_title_color_1",
+        "label": "Title color",
+		"default": "#000"
+      },
+	  {
+        "type": "text",
+        "id": "collection_subtitle_1",
+        "label": "Subtitle",
+		"default":"Clothing"
+      },
+	  {
+        "type": "color",
+        "id": "collection_subtitle_color_1",
+        "label": "Subtitle color",
+		"default": "#000"
+      },
+	  {
+        "type": "url",
+        "id": "collection_link_1",
+        "label": "Link"
+      },
+	  {
+        "type": "header",
+        "content": "Collection Banner 2"
+      },
+	  {
+        "type": "image_picker",
+        "id": "collection_image_2",
+        "label": "Image",
+		"info":"Please use 500x500 size image"
+      },
+	  {
+        "type": "text",
+        "id": "collection_title_2",
+        "label": "Title",
+		"default":"New Collection 2018"
+      },
+	  {
+        "type": "color",
+        "id": "collection_title_color_2",
+        "label": "Title color",
+		"default": "#000"
+      },
+	  {
+        "type": "text",
+        "id": "collection_subtitle_2",
+        "label": "Subtitle",
+		"default":"Season Sale"
+      },
+	  {
+        "type": "color",
+        "id": "collection_subtitle_color_2",
+        "label": "Subtitle color",
+		"default": "#000"
+      },
+	  {
+        "type": "url",
+        "id": "collection_link_2",
+        "label": "Link"
+      }
+	],
+    "presets": [{
+      "name": "Collection list",
+      "category": "Collection",
+      "settings": {}
+    }]
+  }
+{% endschema %}
+

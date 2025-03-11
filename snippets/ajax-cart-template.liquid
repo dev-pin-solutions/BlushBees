@@ -1,0 +1,42 @@
+<script id="CartTemplate" type="text/template">
+  {% render 'banana-stand-cart-top-container' %}
+{% raw %}
+<form action="/cart" method="post" novalidate class="cart_ajax_silder_form">
+  <div class="cart-info">
+    <div class="block-cart-title">
+      <h5>Recently added items</h5>
+    </div>
+    <div class="items cart-container">
+      {{#items}}
+      <div class="items_row">
+        <div class="cart_left">
+          <a class="cart-image" href="{{url}}">
+            <img src="{{img}}" alt="{{name}}">
+          </a>
+        </div>
+        <div class="cart_right">
+          <div class="cart_title">
+            <a href="{{url}}">{{name}}</a>
+            
+          </div>
+          <div class="cart_price">
+            <span class="x">{{itemQty}} x</span>
+            <span class="money">{{price}}</span>
+          </div>
+          <span class="cart_remove_item" data-id="{{key}}" data-line="{{line}}">X</span>
+        </div>
+      </div>
+      {{/items}}
+    </div>
+    <div class="subtotal">
+      <span>cart total : </span>
+      <span class="cart-total-right money"><span class="money">{{totalPrice}}</span></span>
+    </div>
+    <div class="cart-footer">
+      <button type="submit" name="checkout" class="button golden">Checkout</button>
+      <a href="/cart" class="button golden cart_link_btn">View Cart</a>
+    </div>
+  </div>
+</form>
+{% endraw %}
+</script>

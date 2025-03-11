@@ -1,0 +1,125 @@
+<!-- COLLECTION -->
+<section class="collection-section collection-list">
+  <div class="container">
+    <div class="collection-list-part">
+      <div class="collection-sort-section">
+        <div class="collection-sort">
+          <div class="collection-sort-part">
+            <h2>{{ page_title }}</h2>
+          </div>          
+        </div>
+      </div>
+      <div class="row">
+        <div class="collection-wrap">
+          
+          {% if section.settings.grid == '3' %}
+          	{% assign grid_width = 'col-lg-4 col-md-4 col-xs-6' %}
+          {% else %}
+          	{% assign grid_width = 'col-lg-3 col-md-3 col-xs-6' %}
+          {% endif %}    
+          
+          {% for collection in collections %}
+          
+          {% if collection.image %}
+            {% assign collection_image = collection.image %}
+          {% elsif collection.products.first and collection.products.first.images != empty %}
+            {% assign collection_image = collection.products.first.featured_image %}
+          {% else %}
+            {% assign collection_image = blank %}
+          {% endif %}          
+          <div class="{{ grid_width }}">             
+            <div class="product-grid">
+              <figure><a href="{{ collection.url }}" style="background-image:url({{ collection_image | img_url: 'master' }});">
+                <img src="{{ collection_image | img_url: 'master' }}" alt="{{ collection.title }}" class="lazyload" /></a>
+              </figure>
+              <div class="product-grid-desc">
+                <h3><a href="{{ collection.url }}">{{ collection.title }}</a></h3>
+              </div>
+            </div>
+          </div>
+          {% endfor %}         
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% comment %}
+<div class="page-width">
+  <header class="section-header text-center">
+    <h1>{{ page_title }}</h1>
+  </header>
+  
+  {%- assign blocks = section.blocks | sort: 'collection.all_products_count' -%}
+  
+  {% case section.settings.grid %}
+    {% when '2' %}
+      {%- assign grid_item_width = 'medium-up--one-half' -%}
+      {%- assign image_size = '530x' -%}
+    {% when '3' %}
+      {%- assign grid_item_width = 'small--one-half medium-up--one-third' -%}
+      {%- assign image_size = '350x' -%}
+    {% when '4' %}
+      {%- assign grid_item_width = 'small--one-half medium-up--one-quarter' -%}
+      {%- assign image_size = '250x' -%}
+    {% when '5' %}
+      {%- assign grid_item_width = 'small--one-half medium-up--one-fifth' -%}
+      {%- assign image_size = '225x' -%}
+  {% endcase %}
+  
+  <div class="grid grid--uniform">
+    {% if section.settings.display_type == 'all' %}
+      {% case section.settings.sort %}
+        {% when 'products_high' or 'products_low' %}
+          {%- assign collections = collections | sort: 'all_products_count' -%}
+        {% when 'date' or 'date_reversed' %}
+          {%- assign collections = collections | sort: 'published_at' -%}
+      {% endcase %}
+      {% if section.settings.sort == 'products_low' or section.settings.sort == 'date' or section.settings.sort == 'alphabetical' %}
+        {% for collection in collections %}
+          <div class="grid__item {{ grid_item_width }}">
+            {% include 'collection-grid-item', collection_image_size: image_size %}
+          </div>
+        {% endfor %}
+      {% else %}
+        {% for collection in collections reversed %}
+          <div class="grid__item {{ grid_item_width }}">
+            {% include 'collection-grid-item', collection_image_size: image_size %}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% else %}
+      {% for block in section.blocks %}
+        <div class="grid__item {{ grid_item_width }}">
+          {%- assign collection = collections[block.settings.collection] -%}
+          {% include 'collection-grid-item', collection_image_size: image_size %}
+        </div>
+      {% endfor %}
+    {% endif %}
+  </div>
+</div>
+{% endcomment %}
+
+{% schema %}
+  {
+    "name": "Collections list page",
+    "settings": [      
+      {
+        "type": "select",
+        "id": "grid",
+        "label": "Collections per row",
+        "default": "4",
+        "options": [         
+          {
+            "value": "3",
+            "label": "3"
+          },
+          {
+            "value": "4",
+            "label": "4"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

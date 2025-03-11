@@ -1,0 +1,214 @@
+
+{% if section.settings.description_width == 'full' %}
+  <div class="container">
+    <div class="wc_cart_sharing_bottom_code">
+      <div class="visa-section">
+        {% if section.settings.trust_image_below_description %}
+          <img
+            class="lazyload"
+            src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="
+            data-src="{{ section.settings.trust_image_below_description | img_url:'master' }}"
+          >
+        {% endif %}
+      </div>
+      <div class="product-sharing">
+        {% if section.settings.enable_sharing_buttons %}
+          {% if section.settings.sharing_style == 'old' %}
+<!-- /snippets/social-sharing.liquid -->
+
+<div class="social-sharing">
+
+  {% if section.settings.share_facebook %}
+    <a target="_blank" 
+       href="//www.facebook.com/sharer.php?u={{ shop.url | append: share_permalink }}" 
+       class="btn btn--small btn--secondary btn--share share-facebook" title="{{ 'general.social.alt_text.share_on_facebook' | t }}">
+      {% include 'icon-facebook' %}
+      <span class="share-title">Facebook</span>
+    </a>
+  {% endif %}
+
+  {% if section.settings.share_twitter %}
+    <a target="_blank" 
+       href="//twitter.com/share?text={{ share_title | url_param_escape }}&amp;url={{ shop.url | append: share_permalink }}" 
+       class="btn btn--small btn--secondary btn--share share-twitter" title="{{ 'general.social.alt_text.share_on_twitter' | t }}">
+      {% include 'icon-twitter' %}
+      <span class="share-title">Twitter</span>
+    </a>
+  {% endif %}
+
+  {% if section.settings.share_pinterest %}
+    <a target="_blank" 
+       href="//pinterest.com/pin/create/button/?url={{ shop.url | append: share_permalink }}&amp;media={{ share_image | img_url: 'master' }}&amp;description={{ share_title | url_param_escape }}" 
+       class="btn btn--small btn--secondary btn--share share-pinterest" title="{{ 'general.social.alt_text.share_on_pinterest' | t }}">
+      {% include 'icon-pinterest' %}
+      <span class="share-title">Pinterest</span>
+    </a>
+  {% endif %}
+  
+  {% if section.settings.share_reddit %}
+    <a target="_blank" 
+       href="//reddit.com/submit?url={{ shop.url | append: share_permalink }}&amp;title={{ share_title | url_param_escape }}" 
+       class="btn btn--small btn--secondary btn--share share-reddit" title="{{ 'general.social.alt_text.share_on_reddit' | t }}">
+      {% include 'icon-reddit' %}
+      <span class="share-title">Reddit</span>
+    </a>
+  {% endif %}
+  
+  {% if section.settings.share_whatsapp %}
+    <a target="_blank" 
+       href="https://wa.me/?text=Hey Checkout this {{ product.title | escape }} {{ shop.url | escape }}{{ product.url | escape }}" 
+       class="btn btn--small btn--secondary btn--share share-whatsapp" title="{{ 'general.social.alt_text.share_on_whatsapp' | t }}">
+      {% include 'icon-whatsapp' %}
+      <span class="share-title">WhatsApp</span>
+    </a>
+  {% endif %}
+
+</div>
+  {% else %}
+<div class="social-sharingn">
+    {% if section.settings.share_facebook %}
+  		<span class="share-title">SHARE:</span>
+  		<div class="facebook">
+          <a target="_blank" 
+       href="//www.facebook.com/sharer.php?u={{ shop.url | append: share_permalink }}" 
+       class="btn btn--small btn--secondary btn--share share-facebook" title="{{ 'general.social.alt_text.share_on_facebook' | t }}">
+     	<span class="fa-stack fa-lg">
+  		<i class="fa fa-square fa-stack-2x"></i>
+  		<i class="fa fa-facebook fa-stack-1x"></i>
+		</span>
+        </a>
+  		</div>
+  {% endif %}
+  {% if section.settings.share_twitter %}
+   <div class="twitter"> <a target="_blank" 
+       href="//twitter.com/share?text={{ share_title | url_param_escape }}&amp;url={{ shop.url | append: share_permalink }}" 
+       class="btn btn--small btn--secondary btn--share share-twitter" title="{{ 'general.social.alt_text.share_on_twitter' | t }}">
+      <span class="fa-stack fa-lg">
+  		<i class="fa fa-square fa-stack-2x"></i>
+  		<i class="fa fa-twitter fa-stack-1x"></i>
+		</span>
+    </a>
+  </div>
+  {% endif %}
+  {% if section.settings.share_pinterest %}
+    <div class="pinterest"><a target="_blank" 
+       href="//pinterest.com/pin/create/button/?url={{ shop.url | append: share_permalink }}&amp;media={{ share_image | img_url: 'master' }}&amp;description={{ share_title | url_param_escape }}" 
+       class="btn btn--small btn--secondary btn--share share-pinterest" title="{{ 'general.social.alt_text.share_on_pinterest' | t }}">
+      <span class="fa-stack fa-lg">
+  		<i class="fa fa-square fa-stack-2x"></i>
+  		<i class="fa fa-pinterest fa-stack-1x"></i>
+		</span>
+      </a></div>
+  {% endif %}
+  
+  {% if section.settings.share_reddit %}
+    <div class="reddit-alien"><a target="_blank" 
+       href="//reddit.com/submit?url={{ shop.url | append: share_permalink }}&amp;title={{ share_title | url_param_escape }}" 
+       class="btn btn--small btn--secondary btn--share share-reddit" title="{{ 'general.social.alt_text.share_on_reddit' | t }}">
+      <span class="fa-stack fa-lg">
+  		<i class="fa fa-square fa-stack-2x"></i>
+  		<i class="fa fa-reddit-alien fa-stack-1x"></i>
+		</span>
+      </a></div>
+  {% endif %}
+  
+  {% if section.settings.share_whatsapp %}
+    <div class="whatsapp"><a target="_blank" 
+       href="https://wa.me/?text=Hey Checkout this {{ product.title | escape }} {{ shop.url | escape }}{{ product.url | escape }}" 
+       class="btn btn--small btn--secondary btn--share share-whatsapp" title="{{ 'general.social.alt_text.share_on_whatsapp' | t }}">
+      <span class="fa-stack fa-lg">
+  		<i class="fa fa-square fa-stack-2x"></i>
+  		<i class="fa fa-whatsapp fa-stack-1x"></i>
+		</span>
+      </a></div>
+  {% endif %}
+  
+</div>
+  {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Social Sharing",
+  "settings": [
+{
+"type": "select",
+"id": "description_width",
+"label": "Section Width",
+"default":"full",
+"options":[
+{
+"value": "full",
+"label": "Full Width"
+}
+]
+},
+{
+"type": "header",
+"content": "Sharing"
+},
+{
+"type": "select",
+"id": "sharing_style",
+"label": "Sharing Icon Style",
+"default":"modern",
+"options":[
+{
+"value": "modern",
+"label": "Modern"
+},
+{
+"value": "old",
+"label": "Icon and Name"
+}
+]
+},
+{
+"type": "checkbox",
+"id": "enable_sharing_buttons",
+"label": "Enable Sharing Buttons",
+"default": true
+},
+{
+"type": "checkbox",
+"id": "share_facebook",
+"label": "Share on Facebook",
+"default": true
+},
+{
+"type": "checkbox",
+"id": "share_twitter",
+"label": "Tweet on Twitter",
+"default": true
+},
+{
+"type": "checkbox",
+"id": "share_pinterest",
+"label": "Pin on Pinterest",
+"default": true
+},
+{
+"type": "checkbox",
+"id": "share_reddit",
+"label": "Reddit Share",
+"default": true
+},
+{
+"type": "checkbox",
+"id": "share_whatsapp",
+"label": "Share on WhatsApp",
+"default": true
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

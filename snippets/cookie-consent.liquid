@@ -1,0 +1,30 @@
+{% if settings.cc_enable %}
+<div class="cc_banner">
+  <p class="cc_message">{{ settings.cc_message }}
+    <a target="_blank" class="cc_more_info" href="{{ settings.cc_more_info }}">Learn more</a>
+  </p>
+  <a href="#" class="btn cc_btn_accept">Got It</a>
+
+</div>
+<script> 
+  $(function () {
+
+    var expiry_day = parseInt({{ settings.cc_expiry_day }});
+
+    $(".cc_btn_accept").bind("click", function () { 
+      $('.cc_banner').hide();      
+      $.cookie("cookieConsent", 1, { expires : expiry_day,  path: '/' });      
+    });
+
+    if ($.cookie("cookieConsent") == 1) {
+      $('.cc_banner').hide();
+      $('.cc_banner').removeClass('show_cc_banner');
+    }
+    else{
+      $('.cc_banner').show();
+      $('.cc_banner').addClass('show_cc_banner');
+    }
+  });
+  
+</script>
+{% endif %}

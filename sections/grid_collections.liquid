@@ -1,0 +1,81 @@
+<div class="wc_collection_grid_cls">
+  <div class="container">
+    {%- if section.settings.title != blank -%}<h2>{{ section.settings.title }}</h2>{%- endif -%}
+    <div class="row">
+      
+      {% for block in section.blocks %}      
+      <div class="{{ block.settings.collection_width }} col-xs-12 wc_collection_grid_six">
+        <figure>
+          <a href="{{ block.settings.collection_link }}" style="background-image:url({{ block.settings.collection_image | img_url : 'master' }});">
+            <img class="hide lazyload" src="{{ block.settings.collection_image | img_url : '800x800' }}" alt="{{ block.settings.title }}">
+            <figcaption>
+              <h4>{{ block.settings.title }}</h4>
+            </figcaption>
+          </a>
+        </figure>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+  "name": "Collection Grid",
+  "settings": [
+	{
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Featured Collections"
+    }
+  ],
+  "blocks":[
+	{
+      "type" : "collection",
+      "name" : "Collection",
+      "settings" : [
+		{
+		  "type": "select",
+          "id": "collection_width",
+          "label": "Grid Width",
+          "options" : [
+            {
+              "value" : "col-md-6",
+              "label" : "50%"
+            },
+	        {
+              "value" : "col-md-4",
+              "label" : "33.33%"
+            }
+          ]
+		},
+        {
+          "type": "image_picker",
+          "id": "collection_image",
+          "label": "Collection Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Collection Title",
+          "default": "Home & Kitchen"
+        },
+        {
+          "type": "url",
+          "id": "collection_link",
+          "label": "Collection Link"
+        }
+      ]
+	}
+  ],	
+  "presets": [
+    {
+      "name": "Collection Grid",
+      "category": "Collection",
+      "settings": {}
+    }
+  ]
+  }
+{% endschema %}

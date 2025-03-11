@@ -1,0 +1,381 @@
+{%- if section.blocks.size > 0 -%}
+  {%- case section.blocks.size -%}
+    {%- when 1 -%}
+      {%- assign wc_mega_column = 'wc_one_column' -%}
+    {%- when 2 -%}
+      {%- assign wc_mega_column = 'wc_two_column' -%}
+    {%- when 3 -%}
+      {%- assign wc_mega_column = 'wc_three_column' -%}
+    {%- when 4 -%}
+      {%- assign wc_mega_column = 'wc_four_column' -%}
+    {%- when 5 -%}
+      {%- assign wc_mega_column = 'wc_five_column' -%}
+  {%- endcase -%}
+  <div class="wc_megamenu_section" id="megamenu_{{ section.settings.link_title_1 | handleize }}">
+    <div class="container">
+      <ul class="submenu wc_submenu_content wc_megamenu_start">
+        <ul class="subnav_content mega_content wc_megamenu_inner_start">
+          {%- for block in section.blocks -%}
+            <li class="wc_custom_column {{ wc_mega_column }}" {{ block.shopify_attributes }}>
+              <div class="wc_megamenu_content">
+                {%- if block.type == 'menu' -%}
+                  {%- if block.settings.menu_list_1 != blank -%}
+                    {%- if block.settings.menu_title_1 != blank -%}
+                      <h6 class="wc_mg_menu_title"><a {% if block.settings.menu_title_url_1 %}href="{{ block.settings.menu_title_url_1 }}"{% endif %}>{{ block.settings.menu_title_1 }}</a></h6>
+                    {%- else -%}
+                      <h6 class="wc_mg_menu_title"><a {% if block.settings.menu_title_url_1 %}href="{{ block.settings.menu_title_url_1 }}"{% endif %}>{{ linklists[block.settings.menu_list_1].title }}</a></h6>
+                    {%- endif -%}
+                    {%- if linklists[block.settings.menu_list_1] != empty -%}
+                      <ul class="wc_mg_sc_menu">
+                        {%- for sc_link in linklists[block.settings.menu_list_1].links -%}
+                          <li>
+                            <a href="{{ sc_link.url }}">{{ sc_link.title }}</a>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    {%- endif -%}
+                  {%- endif -%}
+                {%- endif -%}
+                {%- if block.type == 'image' -%}
+                  <figure class="wc_mg_figure">
+                    <a {% if block.settings.image_url_1 %}href="{{ block.settings.image_url_1 }}"{% endif %}>
+                      {%- if block.settings.image_image_1 != blank -%}
+                        <img src="{{ block.settings.image_image_1 | img_url: 'large' }}" alt="{{ block.settings.image_image_1.alt }}" />
+                      {%- else -%}
+                        {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                      {%- endif -%}
+                    </a>
+                  </figure>
+                  <h6 class="wc_mg_inner_title">
+                    {%- if block.settings.image_url_1 -%}
+                      <a href="{{ block.settings.image_url_1 }}">{{ block.settings.image_text_1 }}</a>
+                    {%- else -%}
+                      {{ block.settings.image_text_1 }}
+                    {%- endif -%}
+                  </h6>
+                {%- endif -%}
+                {%- if block.type == 'mixed' -%}
+                  {%- for i in (1..3) -%}
+                    {%- capture mixed_title -%}mixed_title_{{ i }}{%- endcapture -%}
+                    {%- capture mixed_title_url -%}mixed_title_url_{{ i }}{%- endcapture -%}
+                    {%- capture mixed_list -%}mixed_list_{{ i }}{%- endcapture -%}
+                    {%- capture mixed_list_handle -%}{{ block.settings[mixed_list] }}{%- endcapture -%}
+                    {%- if block.settings[mixed_list] != blank -%}
+                      {%- if block.settings[mixed_title] != blank -%}
+                        <h6 class="wc_mg_menu_title"><a {% if block.settings[mixed_title_url] %}href="{{ block.settings[mixed_title_url] }}"{% endif %}>{{ block.settings[mixed_title] }}</a></h6>
+                      {%- else -%}
+                        <h6 class="wc_mg_menu_title"><a {% if block.settings[mixed_title_url] %}href="{{ block.settings[mixed_title_url] }}"{% endif %}>{{ linklists[mixed_list_handle].title }}</a></h6>
+                      {%- endif -%}
+                      {%- if linklists[mixed_list_handle] != empty -%}
+                        <ul class="wc_mg_mixed_menu">
+                          {%- for mixed_link in linklists[mixed_list_handle].links -%}
+                            <li>
+                              <a href="{{ mixed_link.url }}">{{ mixed_link.title }}</a>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                      {%- endif -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                {%- endif -%}
+                {%- if block.type == 'featured-product' -%}
+                  {%- assign mg_product = all_products[block.settings.product_list_1] -%}
+                  <figure class="wc_mg_figure">
+                    <a href="{{ mg_product.url }}">
+                      {%- if mg_product.featured_image != blank -%}
+                        <img src="{{ mg_product.featured_image | img_url: 'large' }}" alt="{{ mg_product.featured_image.alt }}" />
+                      {%- else -%}
+                        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                      {%- endif -%}
+                    </a>
+                  </figure>
+                  <h6 class="wc_mg_inner_title">
+                    <a href="{{ mg_product.url }}">{{ mg_product.title }}</a>
+                  </h6>
+                  <p class="wc_mg_inner_price">
+                    <span class="sale_price">{{ mg_product.price | money }}</span>
+                    
+                  </p>
+                {%- endif -%}
+                {%- if block.type == 'featured-collection' -%}
+                  {%- assign mg_collection = collections[block.settings.collection_list_1] -%}
+                  <figure class="wc_mg_figure">
+                    <a href="{{ mg_collection.url }}">
+                      {%- if mg_collection.image != blank -%}
+                        <img src="{{ mg_collection.image | img_url: 'large' }}" alt="{{ mg_collection.image.alt }}" />
+                      {%- else -%}
+                        {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                      {%- endif -%}
+                    </a>
+                  </figure>
+                  <h6 class="wc_mg_inner_title">
+                    <a href="{{ mg_collection.url }}">{{ mg_collection.title }}</a>
+                  </h6>
+                {%- endif -%}
+                {%- if block.type == 'featured-article' -%}
+                  {%- assign mg_article = articles[block.settings.article_list_1] -%}
+                  <figure class="wc_mg_figure">
+                    <a href="{{ mg_article.url }}">
+                      {%- if mg_article.image != blank -%}
+                        <img src="{{ mg_article.image | img_url: 'large' }}" alt="{{ mg_product.image.alt }}" />
+                      {%- else -%}
+                        {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                      {%- endif -%}
+                    </a>
+                  </figure>
+                  <h6 class="wc_mg_inner_title">
+                    <a href="{{ mg_article.url }}">{{ mg_article.title }}</a>
+                  </h6>
+                {%- endif -%}
+                {%- if block.type == 'featured-promotion' -%}
+                  <figure class="wc_mg_figure">
+                    <a {% if block.settings.promotion_enable_1 %}href="{{ block.settings.promotion_btn_url_1 }}"{% endif %}>
+                      {%- if block.settings.promotion_list_1 != blank -%}
+                        <img src="{{ block.settings.promotion_list_1 | img_url: 'large' }}" alt="{{ block.settings.promotion_list_1.alt }}" />
+                      {%- else -%}
+                        {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                      {%- endif -%}
+                    </a>
+                  </figure>
+                  <h6 class="wc_mg_inner_title">
+                    {%- if block.settings.promotion_enable_1 -%}
+                      <a href="{{ block.settings.promotion_btn_url_1 }}">{{ block.settings.promotion_title_1 }}</a>
+                    {%- else -%}
+                      {{ block.settings.promotion_title_1 }}
+                    {%- endif -%}
+                  </h6>
+                  {%- if block.settings.promotion_enable_1 -%}
+                    <p class="wc_mg_inner_btn">
+                      <a href="{{ block.settings.promotion_btn_url_1 }}" class="btn">{{ block.settings.promotion_btn_text_1 }}</a>
+                    </p>
+                  {%- endif -%}
+                {%- endif -%}
+                {%- if block.type == 'empty-column' -%}
+                  <div class="wc_mg_empty_column">
+                    {{ block.settings.empty_list_1 }}
+                  </div>
+                {%- endif -%}
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </ul>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+  {
+    "name": "Megamenu 7",
+	"max_blocks": 5,
+    "settings": [
+	  {
+        "type": "header",
+        "content": "MEGA MENU"
+      },
+	  {
+        "type": "text",
+        "id": "link_title_1",
+        "label": "Link Title",
+		"info": "The mega menu will appear below this parent link."
+      }
+	],
+	"blocks": [
+      {
+        "type": "menu",
+        "name": "Menu",
+        "settings": [
+		  {
+            "type": "link_list",
+            "id": "menu_list_1",
+            "label": "Select Menu"
+          },
+		  {
+			"type": "text",
+            "id": "menu_title_1",
+            "label": "Menu Title",
+			"info": "If you leave the title as blank then it will take selected menu title"
+		  },
+		  {
+			"type": "url",
+            "id": "menu_title_url_1",
+            "label": "Menu link",
+			"info": "Add a link to the title of the menu."
+		  }
+        ]
+      },
+	  {
+        "type": "image",
+        "name": "Image",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "image_image_1",
+            "label": "Select Image"
+          },
+		  {
+            "type": "text",
+            "id": "image_text_1",
+            "label": "Add Title"
+          },
+		  {
+            "type": "url",
+            "id": "image_url_1",
+            "label": "Select URL"
+          }
+        ]
+      },
+	  {
+        "type": "mixed",
+        "name": "Mixed",
+        "settings": [
+		  {
+            "type": "header",
+            "content": "Menu - 1"
+          },
+		  {
+            "type": "link_list",
+            "id": "mixed_list_1",
+            "label": "Select Menu 1"
+          },
+		  {
+			"type": "text",
+            "id": "mixed_title_1",
+            "label": "Menu Title 1",
+			"info": "If you leave the title as blank then it will take selected menu title"
+		  },
+	  	  {
+			"type": "url",
+            "id": "mixed_title_url_1",
+            "label": "Menu link 1",
+			"info": "Add a link to the title of the menu 1."
+		  },
+		  {
+            "type": "header",
+            "content": "Menu - 2"
+          },
+		  {
+            "type": "link_list",
+            "id": "mixed_list_2",
+            "label": "Select Menu 2"
+          },
+		  {
+			"type": "text",
+            "id": "mixed_title_2",
+            "label": "Menu Title 2",
+			"info": "If you leave the title as blank then it will take selected menu title"
+		  },
+		  {
+			"type": "url",
+            "id": "mixed_title_url_2",
+            "label": "Menu link 2",
+			"info": "Add a link to the title of the menu 2."
+		  },
+		  {
+            "type": "header",
+            "content": "Menu - 3"
+          },
+		  {
+            "type": "link_list",
+            "id": "mixed_list_3",
+            "label": "Select Menu 3"
+          },
+		  {
+			"type": "text",
+            "id": "mixed_title_3",
+            "label": "Menu Title 3",
+			"info": "If you leave the title as blank then it will take selected menu title"
+		  },
+		  {
+			"type": "url",
+            "id": "mixed_title_url_3",
+            "label": "Menu link 3",
+			"info": "Add a link to the title of the menu 3."
+		  }
+        ]
+      },
+	  {
+        "type": "featured-product",
+        "name": "Featured Product",
+        "settings": [
+          {
+            "type": "product",
+            "id": "product_list_1",
+            "label": "Select Product"
+          }
+        ]
+      },
+	  {
+        "type": "featured-collection",
+        "name": "Featured Collection",
+        "settings": [
+          {
+            "type": "collection",
+            "id": "collection_list_1",
+            "label": "Select Collection"
+          }
+        ]
+      },
+	  {
+        "type": "featured-article",
+        "name": "Featured Article",
+        "settings": [
+          {
+            "type": "article",
+            "id": "article_list_1",
+            "label": "Select Article"
+          }
+        ]
+      },
+	  {
+        "type": "featured-promotion",
+        "name": "Featured Promotion",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "promotion_list_1",
+            "label": "Select Image"
+          },
+	 	  {
+            "type": "text",
+            "id": "promotion_title_1",
+            "label": "Add Title"
+          },
+		  {
+            "type": "checkbox",
+            "id": "promotion_enable_1",
+            "label": "Enable Button"
+          },
+		  {
+            "type": "text",
+            "id": "promotion_btn_text_1",
+            "label": "Add Button Text"
+          },
+		  {
+            "type": "url",
+            "id": "promotion_btn_url_1",
+            "label": "Select URL"
+          }
+        ]
+      },
+	  {
+        "type": "empty-column",
+        "name": "Empty Column",
+        "settings": [
+          {
+            "type": "html",
+            "id": "empty_list_1",
+            "label": "Add your content here",
+			"default": "<p>Lorem ipsum dolor sit amet, copiosae urbanitas nam id. Vix vero dictas nusquam ea, ne possim accusata urbanitas ius, quas consul sed ut. Et usu quodsi salutandi.</p>"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}
