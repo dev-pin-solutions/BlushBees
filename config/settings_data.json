@@ -1304,7 +1304,7 @@
           "real_visitor_text_right": "VISITORS RIGHT NOW",
           "atc_style": "atc_simple",
           "ATC_button_text": "Add to cart",
-          "enable_floating_ATC_button": true,
+          "enable_floating_ATC_button": false,
           "enable_payment_button": true,
           "atc_trust_style": "trust_image",
           "first_element": "ATC_btn",
