@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "current": {
     "licence_email_val": "jafri0533@gmail.com",
@@ -64,13 +73,13 @@
     "all_other_fonts_family": "work_sans_n4",
     "cc_enable": false,
     "cc_message": "We use cookies to ensure that we give you the best experience on our website. If you continue we'll assume that you understand this.",
-    "cc_more_info": "shopify:\/\/pages\/faq",
+    "cc_more_info": "shopify://pages/faq",
     "cc_expiry_day": "90",
-    "desktop_logo": "shopify:\/\/shop_images\/Logo-01_c439af0c-688a-48db-9da9-82718398303f_png.png",
+    "desktop_logo": "shopify://shop_images/Logo-01_c439af0c-688a-48db-9da9-82718398303f_png.png",
     "desktop_logo_width": "180",
-    "mobile_logo": "shopify:\/\/shop_images\/Logo-01_c439af0c-688a-48db-9da9-82718398303f_png.png",
+    "mobile_logo": "shopify://shop_images/Logo-01_c439af0c-688a-48db-9da9-82718398303f_png.png",
     "mobile_logo_width": "60%",
-    "footer_logo": "shopify:\/\/shop_images\/Logo-01_c439af0c-688a-48db-9da9-82718398303f.png",
+    "footer_logo": "shopify://shop_images/Logo-01_c439af0c-688a-48db-9da9-82718398303f.png",
     "footer_logo_width": "130",
     "favicon": "",
     "enable_megamenu_1": false,
@@ -96,21 +105,21 @@
     "product_grid_percent_amount": "percentage",
     "share_image": "",
     "social_twitter_link": "",
-    "social_facebook_link": "https:\/\/www.facebook.com\/Blushbees.net\/",
+    "social_facebook_link": "https://www.facebook.com/Blushbees.net/",
     "social_pinterest_link": "",
-    "social_instagram_link": "https:\/\/www.instagram.com\/blushbeesstorage\/",
+    "social_instagram_link": "https://www.instagram.com/blushbeesstorage/",
     "social_tumblr_link": "",
     "social_snapchat_link": "",
     "social_youtube_link": "",
     "social_vimeo_link": "",
-    "cart_option": "popup_cart",
+    "cart_option": "direct_cart",
     "show_multiple_currencies": false,
     "currency_format": "money_with_currency_format",
     "supported_currencies": "INR GBP CAD USD AUD EUR JPY",
     "default_currency": "USD",
     "enable_auto_country_pickup": false,
     "checkout_header_image": "",
-    "checkout_logo_image": "shopify:\/\/shop_images\/Logo-01_c439af0c-688a-48db-9da9-82718398303f.png",
+    "checkout_logo_image": "shopify://shop_images/Logo-01_c439af0c-688a-48db-9da9-82718398303f.png",
     "checkout_logo_position": "center",
     "checkout_logo_size": "large",
     "checkout_body_background_image": "",
@@ -177,7 +186,7 @@
       "header": {
         "type": "header",
         "settings": {
-          "announcement_first_text": "Use Code <span>BLUSH10 <\/span>& Get Surprise Discount",
+          "announcement_first_text": "Use Code <span>BLUSH10 </span>& Get Surprise Discount",
           "announcement_second_text": "15 Days Easy Return on All Orders",
           "announcement_third_text": "Lifetime Warranty",
           "hide_top_strip_on_mobile": false,
@@ -201,7 +210,7 @@
           "enable_subscribe_checkbox": true,
           "checkbox_text": "I want to be notified with updates and offers",
           "footer_copyright": "Copyright 2023 BLUSHBEES USA",
-          "footer_copyright_link": "\/",
+          "footer_copyright_link": "/",
           "enable_cc_icons": true
         }
       },
@@ -212,91 +221,91 @@
             "type": "FAQs",
             "settings": {
               "title": "Where do you ship from?",
-              "answer": "<p>We ship from our partnered warehouses &amp; factories located in US &amp; China. So, please expect your items to be shipped separately (if you order more than one item) as different factories specialise in different areas of manufacturing.<\/p>"
+              "answer": "<p>We ship from our partnered warehouses &amp; factories located in US &amp; China. So, please expect your items to be shipped separately (if you order more than one item) as different factories specialise in different areas of manufacturing.</p>"
             }
           },
           "1525498003939": {
             "type": "FAQs",
             "settings": {
               "title": "How long will it take for my items to arrive?",
-              "answer": "<p>It will usually take 7-30 business days for all orders to arrive. Shipping times vary from product-to-product; based on demand and shipping location.<\/p>"
+              "answer": "<p>It will usually take 7-30 business days for all orders to arrive. Shipping times vary from product-to-product; based on demand and shipping location.</p>"
             }
           },
           "1525498082745": {
             "type": "FAQs",
             "settings": {
               "title": "How long will it take to receive a tracking number?",
-              "answer": "<p>It will take usually between 2-5 business days.<\/p>"
+              "answer": "<p>It will take usually between 2-5 business days.</p>"
             }
           },
           "1525498087087": {
             "type": "FAQs",
             "settings": {
               "title": "Where can I place an order from?",
-              "answer": "<p>You can place an order from any country, we ship Worldwide.<\/p>"
+              "answer": "<p>You can place an order from any country, we ship Worldwide.</p>"
             }
           },
           "1525498090445": {
             "type": "FAQs",
             "settings": {
               "title": "Is shipping really FREE?",
-              "answer": "<p>Yes, shipping is Free Worldwide on most items. One some items, we have Free Shipping over $75.<\/p>"
+              "answer": "<p>Yes, shipping is Free Worldwide on most items. One some items, we have Free Shipping over $75.</p>"
             }
           },
           "1525498093930": {
             "type": "FAQs",
             "settings": {
               "title": "Where is you company located?",
-              "answer": "<p>We have an office in the beautiful country: India; Supply warehouses in: USA; High-Quality vendor contacts in: China.<\/p>"
+              "answer": "<p>We have an office in the beautiful country: India; Supply warehouses in: USA; High-Quality vendor contacts in: China.</p>"
             }
           },
           "1525498185672": {
             "type": "FAQs",
             "settings": {
               "title": "Which currency will I be charged in?",
-              "answer": "<p>We processes all orders in USD. While the content of the cart is displayed in several currencies, you will checkout using USD at the most current exchange rate.<\/p>"
+              "answer": "<p>We processes all orders in USD. While the content of the cart is displayed in several currencies, you will checkout using USD at the most current exchange rate.</p>"
             }
           },
           "1525498200657": {
             "type": "FAQs",
             "settings": {
               "title": "Will I receive a confirmation number when I place my order?",
-              "answer": "<p>Yes, all customers will receive an order number after placing their orders. Please contact us if you don't receive one within 24 hours.<\/p>"
+              "answer": "<p>Yes, all customers will receive an order number after placing their orders. Please contact us if you don't receive one within 24 hours.</p>"
             }
           },
           "1525498215370": {
             "type": "FAQs",
             "settings": {
               "title": "Who can I contact if I have a problem with my order?",
-              "answer": "<p>All inquiries can be forwarded to support@yourstore.com<\/p>"
+              "answer": "<p>All inquiries can be forwarded to support@yourstore.com</p>"
             }
           },
           "1525498233589": {
             "type": "FAQs",
             "settings": {
               "title": "How can I pay?",
-              "answer": "<p>We accept all Major Credit Cards: Visa, Mastercard, Discover, Amex and also Paypal<\/p>"
+              "answer": "<p>We accept all Major Credit Cards: Visa, Mastercard, Discover, Amex and also Paypal</p>"
             }
           },
           "1525498245697": {
             "type": "FAQs",
             "settings": {
               "title": "Is Checkout on this site safe and secure?",
-              "answer": "<p>You can be absolutely sure that all purchases here are safe and secure.<\/p>"
+              "answer": "<p>You can be absolutely sure that all purchases here are safe and secure.</p>"
             }
           },
           "1525498257514": {
             "type": "FAQs",
             "settings": {
               "title": "If I enter my email address will you sell my information?",
-              "answer": "<p>We do not sell any customer information. Emails are strictly for follow-up and to send newsletters of our promotions and coupons for discounts.<\/p>"
+              "answer": "<p>We do not sell any customer information. Emails are strictly for follow-up and to send newsletters of our promotions and coupons for discounts.</p>"
             }
           },
           "1525498260663": {
             "type": "FAQs",
             "settings": {
               "title": "Will I (the customer) have to pay customs?",
-              "answer": "<p>For most countries you will not have to pay customs, but it depends where are you located and if you order more than 1 piece.<\/p>"
+              "answer": "<p>For most countries you will not have to pay customs, but it depends where are you located and if you order more than 1 piece.</p>"
             }
           }
         },
@@ -316,7 +325,7 @@
           "1525498260663"
         ],
         "settings": {
-          "text": "<p>Here are a few of the frequently asked questions. To provide you with the best customer experience, your feedback is greatly encouraged. If you have any questions please send us an email at&nbsp;<a href=\"mailto:support@yourstore.com\" title=\"mailto:support@yourstore.com\">support@yourstore.com<\/a><\/p>"
+          "text": "<p>Here are a few of the frequently asked questions. To provide you with the best customer experience, your feedback is greatly encouraged. If you have any questions please send us an email at&nbsp;<a href=\"mailto:support@yourstore.com\" title=\"mailto:support@yourstore.com\">support@yourstore.com</a></p>"
         }
       },
       "about": {
@@ -327,7 +336,7 @@
             "settings": {
               "about_content_icon": "",
               "about_content_title": "Connect with us on social media!",
-              "about_content_text": "<p>Share your experience with us by sending a picture or video of yourself with the shiny new product you bought from us. We're always looking forward to reading your reviews and suggestions. Let's make it happen!<\/p>"
+              "about_content_text": "<p>Share your experience with us by sending a picture or video of yourself with the shiny new product you bought from us. We're always looking forward to reading your reviews and suggestions. Let's make it happen!</p>"
             }
           },
           "1525499413112": {
@@ -335,7 +344,7 @@
             "settings": {
               "about_content_icon": "",
               "about_content_title": "A Guarantee",
-              "about_content_text": "<p>We're so confident you'll love our products - we offer 100% free U.S. shipping on most items; and a 100% satisfaction guarantee. Don't like something you bought? Tell us, and we'll be happy to issue a full refund.<\/p>"
+              "about_content_text": "<p>We're so confident you'll love our products - we offer 100% free U.S. shipping on most items; and a 100% satisfaction guarantee. Don't like something you bought? Tell us, and we'll be happy to issue a full refund.</p>"
             }
           },
           "1525499460031": {
@@ -343,7 +352,7 @@
             "settings": {
               "about_content_icon": "",
               "about_content_title": "Have any questions?",
-              "about_content_text": "<p>Contact us now using our contact page, or email us at <a href=\"mailto:support@yourstore.com\" title=\"mailto:support@yourstore.com\">support@yourstore.com<\/a><\/p>\n<p>Happy shopping!<\/p>\n<p>Thanks<\/p>"
+              "about_content_text": "<p>Contact us now using our contact page, or email us at <a href=\"mailto:support@yourstore.com\" title=\"mailto:support@yourstore.com\">support@yourstore.com</a></p>\n<p>Happy shopping!</p>\n<p>Thanks</p>"
             }
           }
         },
@@ -387,7 +396,7 @@
           "real_visitor_text_left": "REAL TIME",
           "real_visitor_text_right": "VISITORS RIGHT NOW",
           "atc_style": "atc_simple",
-          "ATC_button_text": "<em class=\"fa fa-heart\"><\/em> Add to cart <em class=\"fa fa-heart\"><\/em>",
+          "ATC_button_text": "<em class=\"fa fa-heart\"></em> Add to cart <em class=\"fa fa-heart\"></em>",
           "enable_floating_ATC_button": false,
           "enable_payment_button": false,
           "atc_trust_style": "trust_image",
@@ -440,10 +449,10 @@
           "cart_timer_text": "Due To HIGH Demand, Cart Expires In:",
           "cart_expiry_text": "Please proceed to checkout now",
           "enable_benefit_points": true,
-          "benefit_points": "<ul>\n<li> Congratulations! You Have Secured The BEST DEAL Today<\/li>\n<li>Price INCLUDES All Taxes and Fees!<\/li>\n\n<li>FREE Shipping on Minimum 3 Storage Bins! <\/li>\n<li>We Ship From our Facility in Bethlehem PA! <\/li>\n<li>15 Days Return Policy on All PRODUCTS!<\/li>\n<\/ul>",
+          "benefit_points": "<ul>\n<li> Congratulations! You Have Secured The BEST DEAL Today</li>\n<li>Price INCLUDES All Taxes and Fees!</li>\n\n<li>FREE Shipping on Minimum 3 Storage Bins! </li>\n<li>We Ship From our Facility in Bethlehem PA! </li>\n<li>15 Days Return Policy on All PRODUCTS!</li>\n</ul>",
           "enable_cart_blurb": false,
           "blurb_title": "Our 5-point happiness checklist",
-          "blurb_content": "<p>FREE shipping on select items\n              <\/p><p>Safe payments via Stripe® and\/or PayPal®<\/p>\n              <p>30 Day Money Back Guarantee<\/p>\n              <p>Real humans on our support helpdesk!<\/p>\n              <p>Tracking number for every order<\/p>\n              <p>We use encrypted SSL certificates for 100% security.<\/p>",
+          "blurb_content": "<p>FREE shipping on select items\n              </p><p>Safe payments via Stripe® and/or PayPal®</p>\n              <p>30 Day Money Back Guarantee</p>\n              <p>Real humans on our support helpdesk!</p>\n              <p>Tracking number for every order</p>\n              <p>We use encrypted SSL certificates for 100% security.</p>",
           "payment_badge_title": "We Gladly Accept",
           "trust_badge_title": "Secure Shopping"
         }
@@ -462,10 +471,10 @@
       "footer-blocks": {
         "type": "footer-blocks",
         "settings": {
-          "footer_block_1_icon": "shopify:\/\/shop_images\/free-delivery_1.png",
+          "footer_block_1_icon": "shopify://shop_images/free-delivery_1.png",
           "footer_block_1_title": "Fast Shipping!",
           "footer_block_1_text": "We Ship From Bethlehem PA, Delivery in 5-7 Days.",
-          "footer_block_2_icon": "shopify:\/\/shop_images\/return.png",
+          "footer_block_2_icon": "shopify://shop_images/return.png",
           "footer_block_2_title": "Easy Returns!",
           "footer_block_2_text": "15 Days Easy Local Returns For Refund or Exchange.",
           "icon_position": "icon_left"
@@ -510,8 +519,8 @@
           "1602611219741": {
             "type": "image",
             "settings": {
-              "image": "shopify:\/\/shop_images\/1700x1044_2_e54bb83b-02e7-4359-b7c2-45094308f704.jpg",
-              "mobile_image": "shopify:\/\/shop_images\/3000x3000_2.jpg",
+              "image": "shopify://shop_images/1700x1044_2_e54bb83b-02e7-4359-b7c2-45094308f704.jpg",
+              "mobile_image": "shopify://shop_images/3000x3000_2.jpg",
               "alignment": "right",
               "title": "",
               "slider_heading_color": "#ffffff",
@@ -567,13 +576,13 @@
         "settings": {
           "collection": "deal-of-the-day",
           "title": "Deal of the day",
-          "collection_image_1": "shopify:\/\/shop_images\/Hc6d75e0a91694132bb3d0d118326c6ffb_copy.jpg",
+          "collection_image_1": "shopify://shop_images/Hc6d75e0a91694132bb3d0d118326c6ffb_copy.jpg",
           "collection_title_1": "",
           "collection_title_color_1": "#000000",
           "collection_subtitle_1": "",
           "collection_subtitle_color_1": "#000000",
           "collection_link_1": "",
-          "collection_image_2": "shopify:\/\/shop_images\/H725f338204484b0185850179e1cd68c4s_copy.jpg",
+          "collection_image_2": "shopify://shop_images/H725f338204484b0185850179e1cd68c4s_copy.jpg",
           "collection_title_2": "",
           "collection_title_color_2": "#000000",
           "collection_subtitle_2": "",
@@ -598,7 +607,7 @@
         "settings": {
           "alignment": "center",
           "title": "dvddfb",
-          "text": "<p>bdfbfd dkv[pdsk[ p<\/p>",
+          "text": "<p>bdfbfd dkv[pdsk[ p</p>",
           "hero_size": "medium",
           "text_size": "medium",
           "button_label": "",
@@ -609,10 +618,10 @@
         "type": "feature-row",
         "disabled": true,
         "settings": {
-          "image": "shopify:\/\/shop_images\/71evYwjPxCL_fc5348e0-12ec-4496-930d-fe3ac7fd7c9f.jpg",
+          "image": "shopify://shop_images/71evYwjPxCL_fc5348e0-12ec-4496-930d-fe3ac7fd7c9f.jpg",
           "layout": "left",
           "title": "BLUSHBEES® LIVING BOXES",
-          "text": "<p>The Ultimate Solution For Storage!<\/p><p>BlushBees storage boxes are the perfect way to store your clothing and household items. These storage boxes help you put your clothes, quilts, blankets, garments, pillows, bed linens or other household objects tidily for long periods of time without acquiring dust and moisture.<\/p>",
+          "text": "<p>The Ultimate Solution For Storage!</p><p>BlushBees storage boxes are the perfect way to store your clothing and household items. These storage boxes help you put your clothes, quilts, blankets, garments, pillows, bed linens or other household objects tidily for long periods of time without acquiring dust and moisture.</p>",
           "button_label": "",
           "button_link": ""
         }
@@ -624,7 +633,7 @@
             "type": "text",
             "settings": {
               "title": "Talk about your brand",
-              "text": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.<\/p>",
+              "text": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>",
               "width": "50%",
               "alignment": "center",
               "align_text": "left"
@@ -653,7 +662,7 @@
         "settings": {
           "full_width": false,
           "section_title": "Talk about your brand",
-          "text": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.<\/p>",
+          "text": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>",
           "text_size": "medium"
         }
       },
@@ -665,7 +674,7 @@
             "settings": {
               "collection_width": "col-md-6",
               "title": "Home & Kitchen",
-              "collection_link": "shopify:\/\/products\/3d-magnetic-false-eyelashes"
+              "collection_link": "shopify://products/3d-magnetic-false-eyelashes"
             }
           },
           "1540379497179": {
@@ -673,7 +682,7 @@
             "settings": {
               "collection_width": "col-md-6",
               "title": "Home & Kitchen",
-              "collection_link": "shopify:\/\/collections"
+              "collection_link": "shopify://collections"
             }
           },
           "1540379550492": {
@@ -737,7 +746,7 @@
         "settings": {
           "alignment": "center",
           "title": "Image with text overlay",
-          "text": "<p>Use overlay text to give your customers insight into your brand. Select imagery and text that relates to your style and story.<\/p>",
+          "text": "<p>Use overlay text to give your customers insight into your brand. Select imagery and text that relates to your style and story.</p>",
           "hero_size": "medium",
           "text_size": "medium",
           "button_label": "",
@@ -765,7 +774,7 @@
             "type": "text",
             "settings": {
               "title": "The Ultimate Solution For Storage!",
-              "text": "<p>BlushBees storage boxes are the perfect way to store your clothing and household items. These storage boxes help you put your clothes, quilts, blankets, garments, pillows, bed linen or other household objects tidily for long periods of time without acquiring dust and moisture.<\/p>",
+              "text": "<p>BlushBees storage boxes are the perfect way to store your clothing and household items. These storage boxes help you put your clothes, quilts, blankets, garments, pillows, bed linen or other household objects tidily for long periods of time without acquiring dust and moisture.</p>",
               "width": "50%",
               "alignment": "center",
               "align_text": "center"
@@ -774,7 +783,7 @@
           "1542614802528-1": {
             "type": "image",
             "settings": {
-              "image": "shopify:\/\/shop_images\/71evYwjPxCL_33838345-186d-486b-a94e-fd1eadfe2031.jpg",
+              "image": "shopify://shop_images/71evYwjPxCL_33838345-186d-486b-a94e-fd1eadfe2031.jpg",
               "width": "50%",
               "alignment": "center"
             }
@@ -805,7 +814,7 @@
             "settings": {
               "collection_width": "col-md-6",
               "title": "",
-              "collection_link": "shopify:\/\/collections\/frontpage"
+              "collection_link": "shopify://collections/frontpage"
             }
           },
           "1542615072479": {
@@ -813,7 +822,7 @@
             "settings": {
               "collection_width": "col-md-6",
               "title": "",
-              "collection_link": "shopify:\/\/collections\/frontpage"
+              "collection_link": "shopify://collections/frontpage"
             }
           }
         },
@@ -884,7 +893,7 @@
           "5015e5b3-f78d-4c3a-b217-e86f8f0af192": {
             "type": "video",
             "settings": {
-              "video_url": "https:\/\/www.youtube.com\/watch?v=vnoyNOlan6Y",
+              "video_url": "https://www.youtube.com/watch?v=vnoyNOlan6Y",
               "width": "100%",
               "alignment": "center"
             }
@@ -906,7 +915,7 @@
             "type": "text",
             "settings": {
               "title": "Talk about your brand",
-              "text": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.<\/p>",
+              "text": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>",
               "width": "50%",
               "alignment": "center",
               "align_text": "left"
@@ -1034,7 +1043,7 @@
               "video_url": "",
               "product_description_video": "",
               "product_youtube_video": "Gj1e4lV8yME",
-              "cover_image": "shopify:\/\/shop_images\/5_6af499d4-1ac3-444a-a327-58980ceed7af.jpg"
+              "cover_image": "shopify://shop_images/5_6af499d4-1ac3-444a-a327-58980ceed7af.jpg"
             }
           },
           "481063f9-5309-492d-b81c-fab8adcd669e": {
@@ -1110,7 +1119,7 @@
               "video_url": "",
               "product_description_video": "",
               "product_youtube_video": "1xRqQg9obhU",
-              "cover_image": "shopify:\/\/shop_images\/image00004_copy.jpg"
+              "cover_image": "shopify://shop_images/image00004_copy.jpg"
             }
           },
           "9c142101-051d-4f4b-99da-448c8397201a": {
@@ -1179,25 +1188,25 @@
           "31305dae-e59b-41e1-99e2-a0bf28dcadd5": {
             "type": "image",
             "settings": {
-              "fb_image": "shopify:\/\/shop_images\/fb1.webp"
+              "fb_image": "shopify://shop_images/fb1.webp"
             }
           },
           "0aca61c4-3df7-4cae-ae5c-10e922530509": {
             "type": "image",
             "settings": {
-              "fb_image": "shopify:\/\/shop_images\/MyBlushbees_Comment-01_6bbcb63f-cb62-4913-b3e1-80dc2056bbbe.webp"
+              "fb_image": "shopify://shop_images/MyBlushbees_Comment-01_6bbcb63f-cb62-4913-b3e1-80dc2056bbbe.webp"
             }
           },
           "41d3a688-c31f-4724-a72f-59a3108d0876": {
             "type": "image",
             "settings": {
-              "fb_image": "shopify:\/\/shop_images\/MyBlushbees_Comment-01.webp"
+              "fb_image": "shopify://shop_images/MyBlushbees_Comment-01.webp"
             }
           },
           "1422ae77-7c4d-4bff-b6aa-0824165819e3": {
             "type": "image",
             "settings": {
-              "fb_image": "shopify:\/\/shop_images\/MyBlushbees_Comment-02.webp"
+              "fb_image": "shopify://shop_images/MyBlushbees_Comment-02.webp"
             }
           }
         },
@@ -1379,12 +1388,12 @@
     ],
     "blocks": {
       "16156609502398088594": {
-        "type": "shopify:\/\/apps\/omega-multi-facebook-pixels\/blocks\/app-embed-block\/ecdcc423-3dbd-480c-85e8-fdb9789cf058",
+        "type": "shopify://apps/omega-multi-facebook-pixels/blocks/app-embed-block/ecdcc423-3dbd-480c-85e8-fdb9789cf058",
         "disabled": false,
         "settings": {}
       },
       "12608439564960700138": {
-        "type": "shopify:\/\/apps\/sezzle-widget\/blocks\/widget-embed\/f3a53793-e118-4764-a86b-a79bfedb0d5f",
+        "type": "shopify://apps/sezzle-widget/blocks/widget-embed/f3a53793-e118-4764-a86b-a79bfedb0d5f",
         "disabled": false,
         "settings": {
           "heading": "Sezzle Widget",
@@ -1393,12 +1402,12 @@
         }
       },
       "855628211100114053": {
-        "type": "shopify:\/\/apps\/klaviyo-email-marketing-sms\/blocks\/klaviyo-onsite-embed\/2632fe16-c075-4321-a88b-50b567f42507",
+        "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/klaviyo-onsite-embed/2632fe16-c075-4321-a88b-50b567f42507",
         "disabled": false,
         "settings": {}
       },
       "11468047240823483236": {
-        "type": "shopify:\/\/apps\/sezzle-widget\/blocks\/checkout-embed\/f3a53793-e118-4764-a86b-a79bfedb0d5f",
+        "type": "shopify://apps/sezzle-widget/blocks/checkout-embed/f3a53793-e118-4764-a86b-a79bfedb0d5f",
         "disabled": true,
         "settings": {
           "heading": "Sezzle Checkout Button",
@@ -1407,13 +1416,13 @@
         }
       },
       "5397159629896517023": {
-        "type": "shopify:\/\/apps\/proveway-uptrack\/blocks\/tracking_page\/86b784e2-0c26-411d-9523-069d0cae121f",
+        "type": "shopify://apps/proveway-uptrack/blocks/tracking_page/86b784e2-0c26-411d-9523-069d0cae121f",
         "disabled": false,
         "settings": {
           "form_imgHead1": "30 Days Money Back Guarantee",
           "form_imgSub1": "30-day refund policy: Return within 30 days for a full refund, no questions asked. Contact customer service for return process.",
           "form_imgHead2": "Customer Support",
-          "form_imgSub2": "24\/7 Customer Support: Our dedicated customer support team is here to assist you anytime, day or night. Contact us 24 hours a day, 7 days a week for any questions or concerns. We're always here to help.",
+          "form_imgSub2": "24/7 Customer Support: Our dedicated customer support team is here to assist you anytime, day or night. Contact us 24 hours a day, 7 days a week for any questions or concerns. We're always here to help.",
           "form_btnText": "Track",
           "icons_color": "#000000",
           "form_title_color": "#000000",
@@ -1434,7 +1443,7 @@
         }
       },
       "13070091535480640111": {
-        "type": "shopify:\/\/apps\/attrac\/blocks\/app-embed\/b783956d-47a9-4434-91ad-4ec960bd74b0",
+        "type": "shopify://apps/attrac/blocks/app-embed/b783956d-47a9-4434-91ad-4ec960bd74b0",
         "disabled": false,
         "settings": {}
       }
