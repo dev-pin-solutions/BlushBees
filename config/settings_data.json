@@ -1415,35 +1415,13 @@
           "mode": "light"
         }
       },
-      "5397159629896517023": {
-        "type": "shopify://apps/proveway-uptrack/blocks/tracking_page/86b784e2-0c26-411d-9523-069d0cae121f",
-        "disabled": false,
-        "settings": {
-          "form_imgHead1": "30 Days Money Back Guarantee",
-          "form_imgSub1": "30-day refund policy: Return within 30 days for a full refund, no questions asked. Contact customer service for return process.",
-          "form_imgHead2": "Customer Support",
-          "form_imgSub2": "24/7 Customer Support: Our dedicated customer support team is here to assist you anytime, day or night. Contact us 24 hours a day, 7 days a week for any questions or concerns. We're always here to help.",
-          "form_btnText": "Track",
-          "icons_color": "#000000",
-          "form_title_color": "#000000",
-          "form_heading_color": "#000000",
-          "form_subHeading_color": "#000000",
-          "form_button_text_color": "#ffffff",
-          "form_button_bg_color": "#02AF5B",
-          "progress_bar_color": "#3C5460",
-          "shipping_updates_bg_color": "#F5F9FA",
-          "form_hide_right_block": false,
-          "trackingPage_hide_courier": false,
-          "trackingPage_hide_address": false,
-          "trackingPage_hide_translation": false,
-          "themeFont": "1",
-          "dateFormat": "4",
-          "timeFormat": "1",
-          "sizes": "en"
-        }
-      },
       "13070091535480640111": {
         "type": "shopify://apps/attrac/blocks/app-embed/b783956d-47a9-4434-91ad-4ec960bd74b0",
+        "disabled": false,
+        "settings": {}
+      },
+      "1656560654682496077": {
+        "type": "shopify://apps/instant/blocks/instant_core/927e19d9-4e68-41db-99c7-d8debdc1f80d",
         "disabled": false,
         "settings": {}
       }
