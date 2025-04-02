@@ -25,7 +25,7 @@
   {%- endstyle -%}
   <!--  -->
   {{ 'instant-1Zfxg2nCMdV0zoEQ.css' | asset_url | stylesheet_tag -}}
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500&amp;display=swap" rel="stylesheet"
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500&amp;family=Inter:wght@400&amp;family=Sora:wght@400;600&amp;display=swap" rel="stylesheet"
   ><div data-instant-type="root" class="iQuRUd0yNCUxAFauk">
     {%- liquid
       assign loading = 'eager'
@@ -64,6 +64,148 @@
             ><div data-instant-type="text" class="instant-rich-text iZiXlrf1KcxOFpnxy"
               ><div>{{ section.settings.text_ZiXlrf1KcxOFpnxy }}</div></div
             ></a
+          ></div
+        ></div
+      ></div
+    >
+    {%- liquid
+      assign loading = 'eager'
+      assign fetchpriority = 'auto'
+      if section.location == 'footer'
+        assign loading = 'lazy'
+      elsif section.location == 'header'
+        assign fetchpriority = 'high'
+      elsif section.location == 'template'
+        if section.index == 1
+          assign fetchpriority = 'high'
+        elsif section.index > 2
+          assign loading = 'lazy'
+        endif
+      endif
+    -%}
+    <div class="ioHZjkQhgvV3nMpq5" data-instant-type="container" id="ioHZjkQhgvV3nMpq5"
+      ><div class="icctkteEp2mb8WwuX" data-instant-type="container"
+        ><div class="iwxTMnpt9JHTI9Tos" data-instant-type="container"
+          ><div class="i4Rm7cSB8e69GZLjp" data-instant-type="container"
+            ><div class="instant-slider-container iReV60N0nXlp2UNfA" data-instant-type="slider-container">
+              <script type="application/json" id="instant-slider-wG9pPwOZGe7mlkB7-params">
+                { "breakpoints": { "0": { "autoplay": { "disableOnInteraction": false, "enabled": true, "delay": 5000, "pauseOnMouseEnter": true }, "speed": 300, "direction": "horizontal", "autoHeight": false, "slidesPerView": 1, "freeMode": false, "centeredSlides": true, "spaceBetween": 0 }, "1025": { "autoplay": { "disableOnInteraction": false, "enabled": true, "delay": 5000, "pauseOnMouseEnter": true }, "speed": 300, "direction": "horizontal", "autoHeight": false, "slidesPerView": 1, "freeMode": false, "centeredSlides": true, "spaceBetween": 0 } }, "navigation": false, "watchOverflow": true, "loop": true, "loopAddBlankSlides": true, "loopAdditionalSlides": 1, "a11y": { "enabled": true, "notificationClass": "instant-slider-notification" }, "containerModifierClass": "instant-slider-", "noSwipingClass": "instant-slider-no-swiping", "slideClass": "instant-slider-slide", "slideBlankClass": "instant-slider-slide-blank", "slideActiveClass": "instant-slider-slide-active", "slideVisibleClass": "instant-slider-slide-visible", "slideFullyVisibleClass": "instant-slider-slide-fully-visible", "slideNextClass": "instant-slider-slide-next", "slidePrevClass": "instant-slider-slide-prev", "wrapperClass": "instant-slider-wrapper", "lazyPreloaderClass": "instant-slider-lazy-preloader", "on": {} }
+              </script>
+              <div class="instant-slider iwG9pPwOZGe7mlkB7" data-instant-slider-id="wG9pPwOZGe7mlkB7" id="wG9pPwOZGe7mlkB7" data-instant-type="slider"
+                ><div class="instant-slider-wrapper"
+                  ><div class="instant-slider-slide ijy5W3oV9N85kA5B8" data-instant-type="slider-slide"
+                    ><div data-instant-type="image" class="ifNcCGOSUKQUvIFxX">
+                      {%- if section.settings.image_fNcCGOSUKQUvIFxX and section.settings.image_fNcCGOSUKQUvIFxX != blank -%}
+                        {{ section.settings.image_fNcCGOSUKQUvIFxX | image_url: width: 1280 | image_tag: class: 'instant-image instant-image__main', alt: section.settings.image_fNcCGOSUKQUvIFxX.alt, fetchpriority: fetchpriority, loading: loading, decoding: 'async' }}
+                      {%- else -%}
+                        <img alt="" sizes="(max-width: 1280px) 100vw, 1280px" srcSet="https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/3OZuuveCU846mXT4/ass.webp?width=1080 1080w, https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/3OZuuveCU846mXT4/ass.webp?width=828 828w, https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/3OZuuveCU846mXT4/ass.webp?width=750 750w, https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/3OZuuveCU846mXT4/ass.webp?width=640 640w, https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/3OZuuveCU846mXT4/ass.webp?width=360 360w, https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/3OZuuveCU846mXT4/ass.webp?width=1280 1280w" src="https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/3OZuuveCU846mXT4/ass.webp?width=1280" width="360" height="450" decoding="async" fetchpriority="{{ fetchpriority }}" loading="{{ loading }}" class="instant-image instant-image__main">
+                      {%- endif -%}</div></div
+                  ><div class="instant-slider-slide iCKWdcNatNV0H1ZHa" data-instant-type="slider-slide"
+                    ><div data-instant-type="image" class="idPpXWOiPFTBQv1SH">
+                      {%- if section.settings.image_dPpXWOiPFTBQv1SH and section.settings.image_dPpXWOiPFTBQv1SH != blank -%}
+                        {{ section.settings.image_dPpXWOiPFTBQv1SH | image_url: width: 1280 | image_tag: class: 'instant-image instant-image__main', alt: section.settings.image_dPpXWOiPFTBQv1SH.alt, fetchpriority: fetchpriority, loading: loading, decoding: 'async' }}
+                      {%- else -%}
+                        <img alt="" sizes="(max-width: 1280px) 100vw, 1280px" srcSet="https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/jODOaYFdHfGm479U/as3.webp?width=1080 1080w, https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/jODOaYFdHfGm479U/as3.webp?width=828 828w, https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/jODOaYFdHfGm479U/as3.webp?width=750 750w, https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/jODOaYFdHfGm479U/as3.webp?width=640 640w, https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/jODOaYFdHfGm479U/as3.webp?width=360 360w, https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/jODOaYFdHfGm479U/as3.webp?width=1280 1280w" src="https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/jODOaYFdHfGm479U/as3.webp?width=1280" width="360" height="450" decoding="async" fetchpriority="{{ fetchpriority }}" loading="{{ loading }}" class="instant-image instant-image__main">
+                      {%- endif -%}</div></div></div></div></div></div
+          ><div class="iHBMTJGBR29lZlpnY" data-instant-type="container"
+            ><div data-instant-type="text" class="instant-rich-text ifi2ngvZTaraEnpZI"
+              ><div>{{ section.settings.text_fi2ngvZTaraEnpZI }}</div></div
+            ><div data-instant-type="text" class="instant-rich-text iYTvVPS1mJUmQmcMk"
+              ><div>{{ section.settings.text_YTvVPS1mJUmQmcMk }}</div></div
+            ><a class="iPrVh20LkH83sziPA" data-instant-type="container" href="{{ section.settings.url_PrVh20LkH83sziPA | default: '' }}" rel="noopener noreferrer"
+              ><div data-instant-type="text" class="instant-rich-text iWwsMKIjdidAvictQ"
+                ><div>{{ section.settings.text_WwsMKIjdidAvictQ }}</div></div
+              ></a
+            ></div
+          ></div
+        ></div
+      ></div
+    >
+    {%- liquid
+      assign loading = 'eager'
+      assign fetchpriority = 'auto'
+      if section.location == 'footer'
+        assign loading = 'lazy'
+      elsif section.location == 'header'
+        assign fetchpriority = 'high'
+      elsif section.location == 'template'
+        if section.index == 1
+          assign fetchpriority = 'high'
+        elsif section.index > 2
+          assign loading = 'lazy'
+        endif
+      endif
+    -%}
+    <div data-instant-type="grid" id="ifrguB7J7brhQ9JBA" class="ifrguB7J7brhQ9JBA"
+      ><div data-instant-type="text" class="instant-rich-text ijkom6EqfOvtWwyjc"
+        ><div>{{ section.settings.text_jkom6EqfOvtWwyjc }}</div></div
+      ><div data-instant-type="text" class="instant-rich-text ifH9lzPnCRd6XGTIg"
+        ><div>{{ section.settings.text_fH9lzPnCRd6XGTIg }}</div></div
+      ><div class="instant-slider-container iPUWCgCmjXLR6pNzG" data-instant-type="slider-container"
+        ><div class="iHoW6E7aPcsuUNDBe" data-instant-type="container"
+          ><div class="iAVXg7jdBfx2d9DFf" data-instant-type="container"
+            ><button class="instant-slider-button instant-slider-button-prev instant-slider-164ygkuxV6Zr6mo6-button-prev ifJudgL913JzcFQZz" data-instant-type="slider-button-prev" type="button"
+              ><div data-instant-type="icon" class="iDGiqnASNS3kBn3yB">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256" class="instant-icon">
+                  <title>caret-left</title><path d="M165.66,202.34a8,8,0,0,1-11.32,11.32l-80-80a8,8,0,0,1,0-11.32l80-80a8,8,0,0,1,11.32,11.32L91.31,128Z"></path>
+                </svg></div></button
+            ><button class="instant-slider-button instant-slider-button-next instant-slider-164ygkuxV6Zr6mo6-button-next igTa5jsegxxGUZZqZ" data-instant-type="slider-button-next" type="button"
+              ><div data-instant-type="icon" class="iFQDWM1ThrHk0CQs1">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 256 256" class="instant-icon">
+                  <title>caret-right</title><path d="M181.66,133.66l-80,80a8,8,0,0,1-11.32-11.32L164.69,128,90.34,53.66a8,8,0,0,1,11.32-11.32l80,80A8,8,0,0,1,181.66,133.66Z"></path>
+                </svg></div></button></div
+          ><div class="i2XdLVoiKRSCBeQub" data-instant-type="container"></div
+        ></div>
+        <script type="application/json" id="instant-slider-164ygkuxV6Zr6mo6-params">
+          { "breakpoints": { "0": { "speed": 300, "direction": "horizontal", "autoHeight": false, "slidesPerView": "auto", "freeMode": { "enabled": true }, "centeredSlides": false, "centerInsufficientSlides": false, "spaceBetween": 24 }, "576": { "speed": 300, "direction": "horizontal", "autoHeight": false, "slidesPerView": 3, "freeMode": { "enabled": true }, "centeredSlides": false, "centerInsufficientSlides": false, "spaceBetween": 24 }, "769": { "speed": 300, "direction": "horizontal", "autoHeight": false, "slidesPerView": 3, "freeMode": { "enabled": true }, "centeredSlides": false, "centerInsufficientSlides": false, "spaceBetween": 24 } }, "navigation": { "nextEl": ".instant-slider-164ygkuxV6Zr6mo6-button-next", "prevEl": ".instant-slider-164ygkuxV6Zr6mo6-button-prev", "disabledClass": "instant-slider-button-disabled", "hiddenClass": "instant-slider-button-hidden", "lockClass": "instant-slider-button-lock", "navigationDisabledClass": "instant-slider-navigation-disabled" }, "watchOverflow": true, "a11y": { "enabled": true, "notificationClass": "instant-slider-notification" }, "containerModifierClass": "instant-slider-", "noSwipingClass": "instant-slider-no-swiping", "slideClass": "instant-slider-slide", "slideBlankClass": "instant-slider-slide-blank", "slideActiveClass": "instant-slider-slide-active", "slideVisibleClass": "instant-slider-slide-visible", "slideFullyVisibleClass": "instant-slider-slide-fully-visible", "slideNextClass": "instant-slider-slide-next", "slidePrevClass": "instant-slider-slide-prev", "wrapperClass": "instant-slider-wrapper", "lazyPreloaderClass": "instant-slider-lazy-preloader", "on": {} }
+        </script>
+        <div class="instant-slider i164ygkuxV6Zr6mo6" data-instant-slider-id="164ygkuxV6Zr6mo6" id="164ygkuxV6Zr6mo6" data-instant-type="slider"
+          ><div class="instant-slider-wrapper"
+            ><a class="instant-slider-slide iSVzvtElL4oVsXlJb" data-instant-type="slider-slide" href="{{ section.settings.url_SVzvtElL4oVsXlJb | default: 'null' }}" rel="noopener noreferrer"
+              ><div class="i2iuXsQPeMQRK5XRf" data-instant-type="container"
+                ><div data-instant-type="image" class="iZ7emClAFv9F9RJPh">
+                  {%- if section.settings.image_Z7emClAFv9F9RJPh and section.settings.image_Z7emClAFv9F9RJPh != blank -%}
+                    {{ section.settings.image_Z7emClAFv9F9RJPh | image_url: width: 1280 | image_tag: class: 'instant-image instant-image__main', alt: section.settings.image_Z7emClAFv9F9RJPh.alt, fetchpriority: fetchpriority, loading: loading, decoding: 'async' }}
+                  {%- else -%}
+                    <img alt="" sizes="(max-width: 1280px) 100vw, 1280px" srcSet="https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/NXtUn6rf4VwjEkPu-frame-58916-3.png?width=1080 1080w, https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/NXtUn6rf4VwjEkPu-frame-58916-3.png?width=828 828w, https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/NXtUn6rf4VwjEkPu-frame-58916-3.png?width=750 750w, https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/NXtUn6rf4VwjEkPu-frame-58916-3.png?width=640 640w, https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/NXtUn6rf4VwjEkPu-frame-58916-3.png?width=360 360w, https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/NXtUn6rf4VwjEkPu-frame-58916-3.png?width=1280 1280w" src="https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/NXtUn6rf4VwjEkPu-frame-58916-3.png?width=1280" decoding="async" fetchpriority="{{ fetchpriority }}" loading="{{ loading }}" class="instant-image instant-image__main">
+                  {%- endif -%}</div></div
+              ><div data-instant-type="text" class="instant-rich-text iWZ5yBsHLETFaQes6"
+                ><div>{{ section.settings.text_WZ5yBsHLETFaQes6 }}</div></div
+              ></a
+            ><a class="instant-slider-slide i1e1jliU5tYS50REY" data-instant-type="slider-slide" href="{{ section.settings.url_1e1jliU5tYS50REY | default: 'null' }}" rel="noopener noreferrer"
+              ><div class="iczi7JwWsNk7tfcoc" data-instant-type="container"
+                ><div data-instant-type="image" class="iVK6pe78icWijzrNv">
+                  {%- if section.settings.image_VK6pe78icWijzrNv and section.settings.image_VK6pe78icWijzrNv != blank -%}
+                    {{ section.settings.image_VK6pe78icWijzrNv | image_url: width: 1280 | image_tag: class: 'instant-image instant-image__main', alt: section.settings.image_VK6pe78icWijzrNv.alt, fetchpriority: fetchpriority, loading: loading, decoding: 'async' }}
+                  {%- else -%}
+                    <img alt="" sizes="(max-width: 1280px) 100vw, 1280px" srcSet="https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/YVHkQ8KPGiiuLr9B-frame-58916-2.png?width=1080 1080w, https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/YVHkQ8KPGiiuLr9B-frame-58916-2.png?width=828 828w, https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/YVHkQ8KPGiiuLr9B-frame-58916-2.png?width=750 750w, https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/YVHkQ8KPGiiuLr9B-frame-58916-2.png?width=640 640w, https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/YVHkQ8KPGiiuLr9B-frame-58916-2.png?width=360 360w, https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/YVHkQ8KPGiiuLr9B-frame-58916-2.png?width=1280 1280w" src="https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/YVHkQ8KPGiiuLr9B-frame-58916-2.png?width=1280" decoding="async" fetchpriority="{{ fetchpriority }}" loading="{{ loading }}" class="instant-image instant-image__main">
+                  {%- endif -%}</div></div
+              ><div data-instant-type="text" class="instant-rich-text iQp5shnArVc0gHWwH"
+                ><div>{{ section.settings.text_Qp5shnArVc0gHWwH }}</div></div
+              ></a
+            ><a class="instant-slider-slide iqC4CvRhULdEcihgX" data-instant-type="slider-slide" href="{{ section.settings.url_qC4CvRhULdEcihgX | default: 'null' }}" rel="noopener noreferrer"
+              ><div class="ihsDnMw5TzRhQyFK1" data-instant-type="container"
+                ><div data-instant-type="image" class="iIVao2ns5uPOXbxht">
+                  {%- if section.settings.image_IVao2ns5uPOXbxht and section.settings.image_IVao2ns5uPOXbxht != blank -%}
+                    {{ section.settings.image_IVao2ns5uPOXbxht | image_url: width: 1280 | image_tag: class: 'instant-image instant-image__main', alt: section.settings.image_IVao2ns5uPOXbxht.alt, fetchpriority: fetchpriority, loading: loading, decoding: 'async' }}
+                  {%- else -%}
+                    <img alt="" sizes="(max-width: 1280px) 100vw, 1280px" srcSet="https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/gNMY16sKkz580ZUU-frame-58916-1.png?width=1080 1080w, https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/gNMY16sKkz580ZUU-frame-58916-1.png?width=828 828w, https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/gNMY16sKkz580ZUU-frame-58916-1.png?width=750 750w, https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/gNMY16sKkz580ZUU-frame-58916-1.png?width=640 640w, https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/gNMY16sKkz580ZUU-frame-58916-1.png?width=360 360w, https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/gNMY16sKkz580ZUU-frame-58916-1.png?width=1280 1280w" src="https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/gNMY16sKkz580ZUU-frame-58916-1.png?width=1280" decoding="async" fetchpriority="{{ fetchpriority }}" loading="{{ loading }}" class="instant-image instant-image__main">
+                  {%- endif -%}</div></div
+              ><div data-instant-type="text" class="instant-rich-text iOuMY135NwDaL4uff"
+                ><div>{{ section.settings.text_OuMY135NwDaL4uff }}</div></div
+              ></a
+            ><a class="instant-slider-slide iYmn9TPVCb0nDN0qZ" data-instant-type="slider-slide" href="{{ section.settings.url_Ymn9TPVCb0nDN0qZ | default: 'null' }}" rel="noopener noreferrer"
+              ><div class="ixiCOscBOGOyAxawn" data-instant-type="container"
+                ><div data-instant-type="image" class="itMKjCC9yjduGgRZj">
+                  {%- if section.settings.image_tMKjCC9yjduGgRZj and section.settings.image_tMKjCC9yjduGgRZj != blank -%}
+                    {{ section.settings.image_tMKjCC9yjduGgRZj | image_url: width: 1280 | image_tag: class: 'instant-image instant-image__main', alt: section.settings.image_tMKjCC9yjduGgRZj.alt, fetchpriority: fetchpriority, loading: loading, decoding: 'async' }}
+                  {%- else -%}
+                    <img alt="" sizes="(max-width: 1280px) 100vw, 1280px" srcSet="https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/Q2365YKpRk3ualr5-frame-58916.png?width=1080 1080w, https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/Q2365YKpRk3ualr5-frame-58916.png?width=828 828w, https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/Q2365YKpRk3ualr5-frame-58916.png?width=750 750w, https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/Q2365YKpRk3ualr5-frame-58916.png?width=640 640w, https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/Q2365YKpRk3ualr5-frame-58916.png?width=360 360w, https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/Q2365YKpRk3ualr5-frame-58916.png?width=1280 1280w" src="https://cdn.instant.so/static/collection/ZLpvBSkfIzSKBmH6/Q2365YKpRk3ualr5-frame-58916.png?width=1280" decoding="async" fetchpriority="{{ fetchpriority }}" loading="{{ loading }}" class="instant-image instant-image__main">
+                  {%- endif -%}</div></div
+              ><div data-instant-type="text" class="instant-rich-text iQ9vO6jimU9D6tKy5"
+                ><div>{{ section.settings.text_Q9vO6jimU9D6tKy5 }}</div></div
+              ></a
+            ></div
           ></div
         ></div
       ></div
@@ -116,6 +258,115 @@
       "default": "<p>Shop now</p>"
     },
     {
+      "type": "image_picker",
+      "id": "image_fNcCGOSUKQUvIFxX",
+      "label": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_dPpXWOiPFTBQv1SH",
+      "label": "Image"
+    },
+    {
+      "type": "richtext",
+      "id": "text_fi2ngvZTaraEnpZI",
+      "label": "Text",
+      "default": "<h3><strong>BLUSHBEES® LIVING BOXES</strong></h3>"
+    },
+    {
+      "type": "richtext",
+      "id": "text_YTvVPS1mJUmQmcMk",
+      "label": "Text",
+      "default": "<p>The Ultimate Solution For Storage!</p><p>BlushBees storage boxes are the perfect way to store your clothing and household items. These storage boxes help you put your clothes, quilts, blankets, garments, pillows, bed linens or other household objects tidily for long periods of time without acquiring dust and moisture.</p>"
+    },
+    {
+      "type": "url",
+      "id": "url_PrVh20LkH83sziPA",
+      "label": "Button URL"
+    },
+    {
+      "type": "richtext",
+      "id": "text_WwsMKIjdidAvictQ",
+      "label": "Text",
+      "default": "<p>Learn more</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "text_jkom6EqfOvtWwyjc",
+      "label": "Text",
+      "default": "<p>Summit offers rugged wear for any climate &amp; any environment.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "text_fH9lzPnCRd6XGTIg",
+      "label": "Text",
+      "default": "<p>Your next expedition</p>"
+    },
+    {
+      "type": "url",
+      "id": "url_SVzvtElL4oVsXlJb",
+      "label": "Slide 1 URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_Z7emClAFv9F9RJPh",
+      "label": "Image"
+    },
+    {
+      "type": "richtext",
+      "id": "text_WZ5yBsHLETFaQes6",
+      "label": "Text",
+      "default": "<p>Antarctica &amp; Southpole</p>"
+    },
+    {
+      "type": "url",
+      "id": "url_1e1jliU5tYS50REY",
+      "label": "Slide 1 URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_VK6pe78icWijzrNv",
+      "label": "Image"
+    },
+    {
+      "type": "richtext",
+      "id": "text_Qp5shnArVc0gHWwH",
+      "label": "Text",
+      "default": "<p>The Nordics</p>"
+    },
+    {
+      "type": "url",
+      "id": "url_qC4CvRhULdEcihgX",
+      "label": "Slide 1 URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_IVao2ns5uPOXbxht",
+      "label": "Image"
+    },
+    {
+      "type": "richtext",
+      "id": "text_OuMY135NwDaL4uff",
+      "label": "Text",
+      "default": "<p>Africa &amp; Central Asia</p>"
+    },
+    {
+      "type": "url",
+      "id": "url_Ymn9TPVCb0nDN0qZ",
+      "label": "Slide 1 URL"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_tMKjCC9yjduGgRZj",
+      "label": "Image"
+    },
+    {
+      "type": "richtext",
+      "id": "text_Q9vO6jimU9D6tKy5",
+      "label": "Text",
+      "default": "<p>South America &amp; South East Asia</p>"
+    },
+    {
       "type": "header",
       "content": "Section padding"
     },
@@ -146,7 +397,16 @@
       "settings": {
         "text_R26ceoHFTozciVTN": "<h3>Declutter in Style — Storage That’s Strong, Smart, and Stunning</h3>",
         "text_qPuyDafbIyCaE2Ek": "<p>Say goodbye to sagging bins and flimsy boxes. BlushBees cloth storage brings durability, beauty, and peace of mind to your space.</p>",
-        "text_ZiXlrf1KcxOFpnxy": "<p>Shop now</p>"
+        "text_ZiXlrf1KcxOFpnxy": "<p>Shop now</p>",
+        "text_fi2ngvZTaraEnpZI": "<h3><strong>BLUSHBEES® LIVING BOXES</strong></h3>",
+        "text_YTvVPS1mJUmQmcMk": "<p>The Ultimate Solution For Storage!</p><p>BlushBees storage boxes are the perfect way to store your clothing and household items. These storage boxes help you put your clothes, quilts, blankets, garments, pillows, bed linens or other household objects tidily for long periods of time without acquiring dust and moisture.</p>",
+        "text_WwsMKIjdidAvictQ": "<p>Learn more</p>",
+        "text_jkom6EqfOvtWwyjc": "<p>Summit offers rugged wear for any climate &amp; any environment.</p>",
+        "text_fH9lzPnCRd6XGTIg": "<p>Your next expedition</p>",
+        "text_WZ5yBsHLETFaQes6": "<p>Antarctica &amp; Southpole</p>",
+        "text_Qp5shnArVc0gHWwH": "<p>The Nordics</p>",
+        "text_OuMY135NwDaL4uff": "<p>Africa &amp; Central Asia</p>",
+        "text_Q9vO6jimU9D6tKy5": "<p>South America &amp; South East Asia</p>"
       }
     }
   ]
