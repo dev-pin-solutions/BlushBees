@@ -21,11 +21,14 @@
     --instant-font-family__title_font_family: {{ settings.title_font_family.family }}, {{ settings.title_font_family.fallback_families }};
     --instant-font-style__title_font_family: {{ settings.title_font_family.style }};
     --instant-font-weight__title_font_family: {{ settings.title_font_family.weight }};
+    --instant-font-family__button_font_family: {{ settings.button_font_family.family }}, {{ settings.button_font_family.fallback_families }};
+    --instant-font-style__button_font_family: {{ settings.button_font_family.style }};
+    --instant-font-weight__button_font_family: {{ settings.button_font_family.weight }};
     			}
   {%- endstyle -%}
   <!--  -->
   {{ 'instant-1Zfxg2nCMdV0zoEQ.css' | asset_url | stylesheet_tag -}}
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500&amp;family=Inter:wght@400&amp;family=Sora:wght@400;600&amp;display=swap" rel="stylesheet"
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500&amp;family=Inter:wght@400&amp;family=Sora:wght@600&amp;display=swap" rel="stylesheet"
   ><div data-instant-type="root" class="iQuRUd0yNCUxAFauk">
     {%- liquid
       assign loading = 'eager'
@@ -139,8 +142,6 @@
     <div data-instant-type="grid" id="ifrguB7J7brhQ9JBA" class="ifrguB7J7brhQ9JBA"
       ><div data-instant-type="text" class="instant-rich-text ijkom6EqfOvtWwyjc"
         ><div>{{ section.settings.text_jkom6EqfOvtWwyjc }}</div></div
-      ><div data-instant-type="text" class="instant-rich-text ifH9lzPnCRd6XGTIg"
-        ><div>{{ section.settings.text_fH9lzPnCRd6XGTIg }}</div></div
       ><div class="instant-slider-container iPUWCgCmjXLR6pNzG" data-instant-type="slider-container"
         ><div class="iHoW6E7aPcsuUNDBe" data-instant-type="container"
           ><div class="iAVXg7jdBfx2d9DFf" data-instant-type="container"
@@ -294,13 +295,7 @@
       "type": "richtext",
       "id": "text_jkom6EqfOvtWwyjc",
       "label": "Text",
-      "default": "<p>Summit offers rugged wear for any climate &amp; any environment.</p>"
-    },
-    {
-      "type": "richtext",
-      "id": "text_fH9lzPnCRd6XGTIg",
-      "label": "Text",
-      "default": "<p>Your next expedition</p>"
+      "default": "<p>Featured Collection</p>"
     },
     {
       "type": "url",
@@ -401,8 +396,7 @@
         "text_fi2ngvZTaraEnpZI": "<h3><strong>BLUSHBEES® LIVING BOXES</strong></h3>",
         "text_YTvVPS1mJUmQmcMk": "<p>The Ultimate Solution For Storage!</p><p>BlushBees storage boxes are the perfect way to store your clothing and household items. These storage boxes help you put your clothes, quilts, blankets, garments, pillows, bed linens or other household objects tidily for long periods of time without acquiring dust and moisture.</p>",
         "text_WwsMKIjdidAvictQ": "<p>Learn more</p>",
-        "text_jkom6EqfOvtWwyjc": "<p>Summit offers rugged wear for any climate &amp; any environment.</p>",
-        "text_fH9lzPnCRd6XGTIg": "<p>Your next expedition</p>",
+        "text_jkom6EqfOvtWwyjc": "<p>Featured Collection</p>",
         "text_WZ5yBsHLETFaQes6": "<p>Antarctica &amp; Southpole</p>",
         "text_Qp5shnArVc0gHWwH": "<p>The Nordics</p>",
         "text_OuMY135NwDaL4uff": "<p>Africa &amp; Central Asia</p>",
