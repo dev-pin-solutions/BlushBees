@@ -226,16 +226,48 @@
         endif
       endif
     -%}
-    <div class="iLnBOgX0LsDQiFHld" data-instant-type="container" id="iLnBOgX0LsDQiFHld"
-      ><div class="iEM4bzEFpYYfc8orn" data-instant-type="container"
-        ><div class="ianqvvm0xUbcp6Cud" data-instant-type="container"
-          ><div class="ixBPvYYgfcaTPIGWq" data-instant-type="container"
-            ><div data-instant-type="image" class="iWdI2ZBdQ8kUcCBLT">
-              {%- if section.settings.image_WdI2ZBdQ8kUcCBLT and section.settings.image_WdI2ZBdQ8kUcCBLT != blank -%}
-                {{ section.settings.image_WdI2ZBdQ8kUcCBLT | image_url: width: 1280 | image_tag: class: 'instant-image instant-image__main', alt: section.settings.image_WdI2ZBdQ8kUcCBLT.alt, fetchpriority: fetchpriority, loading: loading, decoding: 'async' }}
+    <div class="inWpZ78MTXwfDiCln" data-instant-type="container" id="inWpZ78MTXwfDiCln"
+      ><div class="iZnMobJyUxijk3Adp" data-instant-type="container"
+        ><div class="i5ThLBLd6CeSzl4SX" data-instant-type="container"
+          ><div class="itWwN2gWj1keSXaqe" data-instant-type="container"
+            ><div data-instant-type="image" class="i0UWpB9IuAYc524oA">
+              {%- if section.settings.image_0UWpB9IuAYc524oA and section.settings.image_0UWpB9IuAYc524oA != blank -%}
+                {{ section.settings.image_0UWpB9IuAYc524oA | image_url: width: 1280 | image_tag: class: 'instant-image instant-image__main', alt: section.settings.image_0UWpB9IuAYc524oA.alt, fetchpriority: fetchpriority, loading: loading, decoding: 'async' }}
               {%- else -%}
                 <img alt="" sizes="(max-width: 1280px) 100vw, 1280px" srcSet="https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/3OZuuveCU846mXT4/ass.webp?width=1080 1080w, https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/3OZuuveCU846mXT4/ass.webp?width=828 828w, https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/3OZuuveCU846mXT4/ass.webp?width=750 750w, https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/3OZuuveCU846mXT4/ass.webp?width=640 640w, https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/3OZuuveCU846mXT4/ass.webp?width=360 360w, https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/3OZuuveCU846mXT4/ass.webp?width=1280 1280w" src="https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/3OZuuveCU846mXT4/ass.webp?width=1280" width="360" height="450" decoding="async" fetchpriority="{{ fetchpriority }}" loading="{{ loading }}" class="instant-image instant-image__main">
               {%- endif -%}</div></div
+          ><div class="iQk7GH8dpkmP3zHzM" data-instant-type="container"
+            ><div data-instant-type="text" class="instant-rich-text iNl0W9aVo8R5GAnsn"
+              ><div>{{ section.settings.text_Nl0W9aVo8R5GAnsn }}</div></div
+            ><div data-instant-type="text" class="instant-rich-text iEXTyB4LbZe6CzMtI"
+              ><div>{{ section.settings.text_EXTyB4LbZe6CzMtI }}</div></div
+            ><a class="iLuLzshWuACgaNhz0" data-instant-type="container" href="{{ section.settings.url_LuLzshWuACgaNhz0 | default: '' }}" rel="noopener noreferrer"
+              ><div data-instant-type="text" class="instant-rich-text ilEUuf7jGXi0f0BZh"
+                ><div>{{ section.settings.text_lEUuf7jGXi0f0BZh }}</div></div
+              ></a
+            ></div
+          ></div
+        ></div
+      ></div
+    >
+    {%- liquid
+      assign loading = 'eager'
+      assign fetchpriority = 'auto'
+      if section.location == 'footer'
+        assign loading = 'lazy'
+      elsif section.location == 'header'
+        assign fetchpriority = 'high'
+      elsif section.location == 'template'
+        if section.index == 1
+          assign fetchpriority = 'high'
+        elsif section.index > 2
+          assign loading = 'lazy'
+        endif
+      endif
+    -%}
+    <div class="iLnBOgX0LsDQiFHld" data-instant-type="container" id="iLnBOgX0LsDQiFHld"
+      ><div class="iEM4bzEFpYYfc8orn" data-instant-type="container"
+        ><div class="ianqvvm0xUbcp6Cud" data-instant-type="container"
           ><div class="iu2JKcQ0z0gzAZdsK" data-instant-type="container"
             ><div data-instant-type="text" class="instant-rich-text inzE72XZjztvnseOj"
               ><div>{{ section.settings.text_nzE72XZjztvnseOj }}</div></div
@@ -246,11 +278,14 @@
                 ><div>{{ section.settings.text_O50UFcEd5TOGj2Hh }}</div></div
               ></a
             ></div
-          ></div
-        ></div
-      ></div
-    ></div
-  >
+          ><div class="ixBPvYYgfcaTPIGWq" data-instant-type="container"
+            ><div data-instant-type="image" class="iWdI2ZBdQ8kUcCBLT">
+              {%- if section.settings.image_WdI2ZBdQ8kUcCBLT and section.settings.image_WdI2ZBdQ8kUcCBLT != blank -%}
+                {{ section.settings.image_WdI2ZBdQ8kUcCBLT | image_url: width: 1280 | image_tag: class: 'instant-image instant-image__main', alt: section.settings.image_WdI2ZBdQ8kUcCBLT.alt, fetchpriority: fetchpriority, loading: loading, decoding: 'async' }}
+              {%- else -%}
+                <img alt="" sizes="(max-width: 1280px) 100vw, 1280px" srcSet="https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/3OZuuveCU846mXT4/ass.webp?width=1080 1080w, https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/3OZuuveCU846mXT4/ass.webp?width=828 828w, https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/3OZuuveCU846mXT4/ass.webp?width=750 750w, https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/3OZuuveCU846mXT4/ass.webp?width=640 640w, https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/3OZuuveCU846mXT4/ass.webp?width=360 360w, https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/3OZuuveCU846mXT4/ass.webp?width=1280 1280w" src="https://cdn.instant.so/sites/gSuqNRoFRcnO52JH/assets/3OZuuveCU846mXT4/ass.webp?width=1280" width="360" height="450" decoding="async" fetchpriority="{{ fetchpriority }}" loading="{{ loading }}" class="instant-image instant-image__main">
+              {%- endif -%}</div></div></div></div></div
+  ></div>
   <!-- prettier-ignore -->
   <script>(()=>{let t=window.Instant||{};if(!t.initializedAppEmbed&&!window.__instant_loading_core){window.__instant_loading_core=!0,t.initializedVersion="3.5.5",t.initialized=!0;let i=()=>{let i=(t,i)=>t.split(".").map(Number).reduce((t,e,n)=>t||e-i.split(".")[n],0),e=[...document.querySelectorAll(".__instant")].map(t=>t.getAttribute("data-instant-version")||"1.0.0").sort(i).pop()||"1.0.0",n=document.createElement("script");n.src="https://client.instant.so/scripts/instant-core.min.js?version="+e,document.body.appendChild(n),t.initializedVersion=e};"loading"!==document.readyState?i():document.addEventListener("DOMContentLoaded",i)}})();</script>
 </div>
@@ -402,8 +437,31 @@
     },
     {
       "type": "image_picker",
-      "id": "image_WdI2ZBdQ8kUcCBLT",
+      "id": "image_0UWpB9IuAYc524oA",
       "label": "Image"
+    },
+    {
+      "type": "richtext",
+      "id": "text_Nl0W9aVo8R5GAnsn",
+      "label": "Text",
+      "default": "<h3><strong>Meet the BlushBees Cloth Box</strong></h3>"
+    },
+    {
+      "type": "richtext",
+      "id": "text_EXTyB4LbZe6CzMtI",
+      "label": "Text",
+      "default": "<p>Our bodies today work harder than ever before, which means they need more nutrients. Because the perfect diet doesn’t exist, Foundational Nutrition is a science-driven approach that delivers the nutritional support our bodies need to thrive. This comprehensive approach supports your daily performance and builds a strong foundation for continued health.</p>"
+    },
+    {
+      "type": "url",
+      "id": "url_LuLzshWuACgaNhz0",
+      "label": "Button URL"
+    },
+    {
+      "type": "richtext",
+      "id": "text_lEUuf7jGXi0f0BZh",
+      "label": "Text",
+      "default": "<p>Learn more</p>"
     },
     {
       "type": "richtext",
@@ -427,6 +485,11 @@
       "id": "text_O50UFcEd5TOGj2Hh",
       "label": "Text",
       "default": "<p>Learn more</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_WdI2ZBdQ8kUcCBLT",
+      "label": "Image"
     },
     {
       "type": "header",
@@ -468,6 +531,9 @@
         "text_Qp5shnArVc0gHWwH": "<p>The Nordics</p>",
         "text_OuMY135NwDaL4uff": "<p>Africa &amp; Central Asia</p>",
         "text_Q9vO6jimU9D6tKy5": "<p>South America &amp; South East Asia</p>",
+        "text_Nl0W9aVo8R5GAnsn": "<h3><strong>Meet the BlushBees Cloth Box</strong></h3>",
+        "text_EXTyB4LbZe6CzMtI": "<p>Our bodies today work harder than ever before, which means they need more nutrients. Because the perfect diet doesn’t exist, Foundational Nutrition is a science-driven approach that delivers the nutritional support our bodies need to thrive. This comprehensive approach supports your daily performance and builds a strong foundation for continued health.</p>",
+        "text_lEUuf7jGXi0f0BZh": "<p>Learn more</p>",
         "text_nzE72XZjztvnseOj": "<h3><strong>Meet the BlushBees Cloth Box</strong></h3>",
         "text_jVzRVVX8hnd5Oll7": "<p>Our bodies today work harder than ever before, which means they need more nutrients. Because the perfect diet doesn’t exist, Foundational Nutrition is a science-driven approach that delivers the nutritional support our bodies need to thrive. This comprehensive approach supports your daily performance and builds a strong foundation for continued health.</p>",
         "text_O50UFcEd5TOGj2Hh": "<p>Learn more</p>"
