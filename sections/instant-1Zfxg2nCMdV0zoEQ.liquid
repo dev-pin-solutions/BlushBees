@@ -63,7 +63,12 @@
             ><div>{{ section.settings.text_R26ceoHFTozciVTN }}</div></div
           ><div data-instant-type="text" class="instant-rich-text iqPuyDafbIyCaE2Ek"
             ><div>{{ section.settings.text_qPuyDafbIyCaE2Ek }}</div></div
-          ><a class="i0wAxhRstI4v4kF1S" data-instant-type="container" href="{{ section.settings.url_0wAxhRstI4v4kF1S | default: '' }}" rel="noopener noreferrer"
+          >
+          {%- liquid
+            assign collection_0wAxhRstI4v4kF1S_handle = 'all'
+            assign collection_0wAxhRstI4v4kF1S = section.settings.collection_0wAxhRstI4v4kF1S | default: collections[collection_0wAxhRstI4v4kF1S_handle]
+          -%}
+          <a class="i0wAxhRstI4v4kF1S" data-instant-type="container" href="{{ section.settings.url_0wAxhRstI4v4kF1S | default: '' }}" rel="noopener noreferrer"
             ><div data-instant-type="text" class="instant-rich-text iZiXlrf1KcxOFpnxy"
               ><div>{{ section.settings.text_ZiXlrf1KcxOFpnxy }}</div></div
             ></a
@@ -669,6 +674,11 @@
       "default": "<p>Say goodbye to sagging bins and flimsy boxes. BlushBees cloth storage brings durability, beauty, and peace of mind to your space.</p>"
     },
     {
+      "type": "collection",
+      "id": "collection_0wAxhRstI4v4kF1S",
+      "label": "Button"
+    },
+    {
       "type": "url",
       "id": "url_0wAxhRstI4v4kF1S",
       "label": "Button URL"
@@ -1218,6 +1228,7 @@
       "settings": {
         "text_R26ceoHFTozciVTN": "<h3>Declutter in Style</h3><h3> Storage That’s Strong, Smart, and Stunning</h3>",
         "text_qPuyDafbIyCaE2Ek": "<p>Say goodbye to sagging bins and flimsy boxes. BlushBees cloth storage brings durability, beauty, and peace of mind to your space.</p>",
+        "collection_0wAxhRstI4v4kF1S": "all",
         "text_ZiXlrf1KcxOFpnxy": "<p>Shop now</p>",
         "text_fi2ngvZTaraEnpZI": "<h3><strong>BLUSHBEES® LIVING BOXES</strong></h3>",
         "text_YTvVPS1mJUmQmcMk": "<p>The Ultimate Solution For Storage!</p><p>BlushBees storage boxes are the perfect way to store your clothing and household items. These storage boxes help you put your clothes, quilts, blankets, garments, pillows, bed linens or other household objects tidily for long periods of time without acquiring dust and moisture.</p>",
